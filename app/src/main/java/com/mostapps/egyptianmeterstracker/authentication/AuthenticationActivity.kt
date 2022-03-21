@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.mostapps.egyptianmeterstracker.MainActivity
+import com.mostapps.egyptianmeterstracker.HomeActivity
 import com.mostapps.egyptianmeterstracker.R
 
 class AuthenticationActivity : AppCompatActivity() {
@@ -31,7 +31,7 @@ class AuthenticationActivity : AppCompatActivity() {
         viewModel.authenticationState.observe(this) { authenticationState ->
             when (authenticationState) {
                 AuthenticationViewModel.AuthenticationState.AUTHENTICATED -> {
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, HomeActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }
