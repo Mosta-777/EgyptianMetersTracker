@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/metersListFragment"
-        android:name="com.mostapps.egyptianmeterstracker.meterslist.MetersListFragment"
+        android:name="com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListFragment"
         android:label="MetersListFragment" />
 </navigation>

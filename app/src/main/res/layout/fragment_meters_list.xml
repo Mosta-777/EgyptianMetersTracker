@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.mostapps.egyptianmeterstracker.meterslist.MetersListViewModel" />
+            type="com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".meterslist.MetersListFragment">
+        tools:context=".screens.home.meterslist.MetersListFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

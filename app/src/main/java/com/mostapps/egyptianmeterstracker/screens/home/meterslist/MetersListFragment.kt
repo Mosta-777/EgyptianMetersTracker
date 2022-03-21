@@ -1,12 +1,10 @@
-package com.mostapps.egyptianmeterstracker.meterslist
+package com.mostapps.egyptianmeterstracker.screens.home.meterslist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
-import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMetersListBinding
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setTitle

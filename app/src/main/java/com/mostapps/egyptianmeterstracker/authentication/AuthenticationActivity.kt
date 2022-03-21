@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.mostapps.egyptianmeterstracker.HomeActivity
+import com.mostapps.egyptianmeterstracker.screens.home.HomeActivity
 import com.mostapps.egyptianmeterstracker.R
 
 class AuthenticationActivity : AppCompatActivity() {

@@ -1,10 +1,11 @@
-package com.mostapps.egyptianmeterstracker.meterslist
+package com.mostapps.egyptianmeterstracker.screens.home.meterslist
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mostapps.egyptianmeterstracker.base.BaseViewModel
 import com.mostapps.egyptianmeterstracker.data.MetersDataSource
+import com.mostapps.egyptianmeterstracker.models.MeterDataListItem
 import kotlinx.coroutines.launch
 
 class MetersListViewModel(

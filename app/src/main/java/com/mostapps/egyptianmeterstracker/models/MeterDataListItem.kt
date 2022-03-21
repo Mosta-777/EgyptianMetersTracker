@@ -1,4 +1,4 @@
-package com.mostapps.egyptianmeterstracker.meterslist
+package com.mostapps.egyptianmeterstracker.models
 
 import java.io.Serializable
 
