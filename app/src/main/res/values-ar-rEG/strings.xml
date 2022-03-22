@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">مــتابع العدادات المصري</string>
-    <string name="hello_world">كسم حياتي</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="arabic">عــربي</string>
+    <string name="english">English</string>
 </resources>

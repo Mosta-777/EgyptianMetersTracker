@@ -6,12 +6,14 @@ import com.mostapps.egyptianmeterstracker.data.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.local.LocalDB
 import com.mostapps.egyptianmeterstracker.data.local.MetersLocalRepository
 import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListViewModel
+import com.mostapps.egyptianmeterstracker.utils.SharedPreferencesUtils
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 class MyApp : Application() {
+
 
     override fun onCreate() {
         super.onCreate()
@@ -24,6 +26,7 @@ class MyApp : Application() {
                     get() as MetersDataSource
                 )
             }
+            single { SharedPreferencesUtils(androidContext()) }
             single { MetersLocalRepository(get()) as MetersDataSource }
             single { LocalDB.createMetersDao(this@MyApp) }
         }
@@ -33,14 +36,5 @@ class MyApp : Application() {
             modules(listOf(myModule))
         }
     }
-
-
-    companion object {
-        const val LANGUAGE_ENGLISH = "en"
-        const val LANGUAGE_ENGLISH_COUNTRY = "US"
-        const val LANGUAGE_ARABIC = "ar"
-        const val LANGUAGE_ARABIC_COUNTRY = "EG"
-    }
-
 
 }
