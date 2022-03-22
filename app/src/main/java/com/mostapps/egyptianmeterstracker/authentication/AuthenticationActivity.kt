@@ -8,8 +8,9 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.mostapps.egyptianmeterstracker.screens.home.HomeActivity
 import com.mostapps.egyptianmeterstracker.R
+import com.mostapps.egyptianmeterstracker.base.BaseActivity
 
-class AuthenticationActivity : AppCompatActivity() {
+class AuthenticationActivity : BaseActivity() {
 
     private val viewModel by viewModels<AuthenticationViewModel>()
     private val signInLauncher = registerForActivityResult(

@@ -11,11 +11,12 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
-
 class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+
         val myModule = module {
             viewModel {
                 MetersListViewModel(
@@ -32,4 +33,14 @@ class MyApp : Application() {
             modules(listOf(myModule))
         }
     }
+
+
+    companion object {
+        const val LANGUAGE_ENGLISH = "en"
+        const val LANGUAGE_ENGLISH_COUNTRY = "US"
+        const val LANGUAGE_ARABIC = "ar"
+        const val LANGUAGE_ARABIC_COUNTRY = "EG"
+    }
+
+
 }
