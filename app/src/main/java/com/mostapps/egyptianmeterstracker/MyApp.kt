@@ -3,6 +3,7 @@ package com.mostapps.egyptianmeterstracker
 
 import android.app.Application
 import com.mostapps.egyptianmeterstracker.data.MetersDataSource
+import com.mostapps.egyptianmeterstracker.data.local.LocalDB
 import com.mostapps.egyptianmeterstracker.data.local.MetersLocalRepository
 import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListViewModel
 import org.koin.android.ext.koin.androidContext
@@ -23,7 +24,7 @@ class MyApp : Application() {
                 )
             }
             single { MetersLocalRepository(get()) as MetersDataSource }
-            //single { LocalDB.createRemindersDao(this@MyApp) }
+            single { LocalDB.createMetersDao(this@MyApp) }
         }
 
         startKoin {

@@ -36,4 +36,5 @@ ext{
     cardVersion = '1.0.0'
     lifecycle_version = '2.4.1'
     arch_version = "2.1.0"
+    room_version = "2.4.2"
 }
