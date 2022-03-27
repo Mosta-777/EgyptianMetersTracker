@@ -8,6 +8,7 @@ import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMetersListBinding
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setTitle
+import com.mostapps.egyptianmeterstracker.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MetersListFragment : BaseFragment() {
@@ -62,12 +63,10 @@ class MetersListFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        /*val adapter = RemindersListAdapter {
-
-        }
+        val adapter = MetersListAdapter {}
 
 //        setup the recycler view using the extension function
-        binding.reminderssRecyclerView.setup(adapter)*/
+        binding.reminderssRecyclerView.setup(adapter)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

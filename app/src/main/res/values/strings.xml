@@ -3,4 +3,6 @@
     <string name="login">Login</string>
     <string name="arabic">عــربي</string>
     <string name="english">English</string>
+    <string name="meterTypeIconDescription">Image indicating the meter type</string>
+    <string name="no_meter_data">No Meters Data</string>
 </resources>

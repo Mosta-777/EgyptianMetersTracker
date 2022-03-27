@@ -16,14 +16,17 @@ interface MetersDao {
     @Query("SELECT * FROM meters where meterId = :meterId")
     suspend fun getMeterById(meterId: String): MeterDTO?
 
+    @Update
+    suspend fun updateMeter(meter: MeterDTO)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveMeter(meter: MeterDTO)
+
     @Query("SELECT * FROM meterReadings")
     suspend fun getMeterReadings(): List<MeterReadingDTO>
 
     @Query("SELECT * FROM meterReadings where meterReadingId = :meterReadingId")
     suspend fun getMeterReadingById(meterReadingId: String): MeterReadingDTO?
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMeter(meter: MeterDTO)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeterReading(meterReadingDTO: MeterReadingDTO)

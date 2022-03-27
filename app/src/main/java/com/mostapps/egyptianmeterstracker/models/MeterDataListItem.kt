@@ -7,6 +7,7 @@ import java.io.Serializable
  */
 data class MeterDataListItem(
     var name: String?,
-    var lastRecordedReading: String?
+    var lastRecordedReadingDate: String?,
+    var meterType: Int?
 
 ) : Serializable

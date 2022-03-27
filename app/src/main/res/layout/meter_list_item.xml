@@ -22,6 +22,18 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_medium">
 
+
+            <ImageView
+                android:id="@+id/meter_type_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                app:meterTypeIcon="@{item.meterType}"
+                app:srcCompat="@drawable/ic_electricity_64"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/meterTypeIconDescription" />
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -30,19 +42,19 @@
                 android:text="@{item.name}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/meter_type_icon"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Title" />
+                tools:text="Meter Name" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{item.lastRecordedReading}"
+                android:text="@{item.lastRecordedReadingDate}"
                 android:textSize="@dimen/text_size_small"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                tools:text="Description" />
+                tools:text="Last Reading date" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

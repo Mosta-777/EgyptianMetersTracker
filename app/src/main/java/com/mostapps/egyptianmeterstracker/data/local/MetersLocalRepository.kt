@@ -39,9 +39,12 @@ class MetersLocalRepository(
             }
         }
 
-    override suspend fun saveMeter(meter: MeterDTO) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun saveMeter(reminder: MeterDTO) =
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                metersDao.saveMeter(reminder)
+            }
+        }
 
     override suspend fun getMeterWithMeterReadings(id: String): kotlin.Result<MeterWithMeterReadings> {
         TODO("Not yet implemented")

@@ -10,6 +10,6 @@ import java.util.*
 data class MeterDTO(
     @PrimaryKey @ColumnInfo(name = "meterId") val meterId: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "meterName") var meterName: String?,
-    @ColumnInfo(name = "meterFirstReading") var meterFirstReading: Int?,
-    @ColumnInfo(name = "meterType") val meterType: Int?
+    @ColumnInfo(name = "meterType") val meterType: Int?,
+    @ColumnInfo(name = "lastReadingDate") var lastReadingDate: Date?
 )
