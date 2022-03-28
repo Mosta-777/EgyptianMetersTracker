@@ -1,4 +1,4 @@
-package com.mostapps.egyptianmeterstracker.data.dto
+package com.mostapps.egyptianmeterstracker.utils
 
 /**
  * A sealed class that encapsulates successful outcome with a value of type [T]

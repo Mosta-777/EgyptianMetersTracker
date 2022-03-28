@@ -5,6 +5,7 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
+import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMetersListBinding
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setTitle
@@ -12,8 +13,8 @@ import com.mostapps.egyptianmeterstracker.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MetersListFragment : BaseFragment() {
-    //use Koin to retrieve the ViewModel instance
-    override val viewModel: MetersListViewModel by viewModel()
+
+    override val _viewModel: MetersListViewModel by viewModel()
 
     private lateinit var binding: FragmentMetersListBinding
 
@@ -27,13 +28,13 @@ class MetersListFragment : BaseFragment() {
                 inflater,
                 R.layout.fragment_meters_list, container, false
             )
-        binding.viewModel = viewModel
+        binding.viewModel = _viewModel
 
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(false)
         setTitle(getString(R.string.app_name))
 
-        binding.refreshLayout.setOnRefreshListener { viewModel.loadMeters() }
+        binding.refreshLayout.setOnRefreshListener { _viewModel.loadMeters() }
 
         return binding.root
     }
@@ -43,23 +44,23 @@ class MetersListFragment : BaseFragment() {
         binding.lifecycleOwner = this
         setupRecyclerView()
         binding.addReminderFAB.setOnClickListener {
-            navigateToAddReminder()
+            navigateToAddMeter()
         }
     }
 
     override fun onResume() {
         super.onResume()
         //load the reminders list on the ui
-        viewModel.loadMeters()
+        _viewModel.loadMeters()
     }
 
-    private fun navigateToAddReminder() {
+    private fun navigateToAddMeter() {
         //use the navigationCommand live data to navigate between the fragments
-        /*_viewModel.navigationCommand.postValue(
+        _viewModel.navigationCommand.postValue(
             NavigationCommand.To(
-                ReminderListFragmentDirections.toSaveReminder()
+                MetersListFragmentDirections.actionMetersListFragmentToCreateMeterFragment()
             )
-        )*/
+        )
     }
 
     private fun setupRecyclerView() {

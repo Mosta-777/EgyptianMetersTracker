@@ -25,36 +25,40 @@
 
             <ImageView
                 android:id="@+id/meter_type_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/meter_type_icon_description"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_marginStart="8dp"
                 app:meterTypeIcon="@{item.meterType}"
-                app:srcCompat="@drawable/ic_electricity_64"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/meterTypeIconDescription" />
+                app:srcCompat="@drawable/ic_electricity_64" />
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_small"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@{item.name}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal"
                 app:layout_constraintStart_toEndOf="@id/meter_type_icon"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Meter Name" />
+                tools:text="@string/meter_name" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="@{item.lastRecordedReadingDate}"
                 android:textSize="@dimen/text_size_small"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                tools:text="Last Reading date" />
+                tools:text="@string/collector_last_arrived_date" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

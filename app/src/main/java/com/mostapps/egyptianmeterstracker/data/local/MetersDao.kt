@@ -20,7 +20,7 @@ interface MetersDao {
     suspend fun updateMeter(meter: MeterDTO)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveMeter(meter: MeterDTO)
+    suspend fun insertMeter(meter: MeterDTO)
 
     @Query("SELECT * FROM meterReadings")
     suspend fun getMeterReadings(): List<MeterReadingDTO>
@@ -34,5 +34,17 @@ interface MetersDao {
     @Transaction
     @Query("SELECT * FROM meters WHERE meterId = :meterId")
     suspend fun getMeterWithMeterReadings(meterId: String): List<MeterWithMeterReadings>
+
+
+    @Transaction
+    suspend fun saveMeter(
+        meter: MeterDTO,
+        firstMeterReading: MeterReadingDTO,
+        currentMeterReading: MeterReadingDTO
+    ) {
+        insertMeter(meter)
+        insertMeterReading(firstMeterReading)
+        insertMeterReading(currentMeterReading)
+    }
 
 }

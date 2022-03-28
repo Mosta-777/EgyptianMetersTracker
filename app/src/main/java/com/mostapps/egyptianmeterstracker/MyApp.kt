@@ -5,6 +5,7 @@ import android.app.Application
 import com.mostapps.egyptianmeterstracker.data.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.local.LocalDB
 import com.mostapps.egyptianmeterstracker.data.local.MetersLocalRepository
+import com.mostapps.egyptianmeterstracker.screens.home.createmeter.CreateMeterViewModel
 import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListViewModel
 import com.mostapps.egyptianmeterstracker.utils.SharedPreferencesUtils
 import org.koin.android.ext.koin.androidContext
@@ -22,6 +23,12 @@ class MyApp : Application() {
         val myModule = module {
             viewModel {
                 MetersListViewModel(
+                    get(),
+                    get() as MetersDataSource
+                )
+            }
+            viewModel {
+                CreateMeterViewModel(
                     get(),
                     get() as MetersDataSource
                 )

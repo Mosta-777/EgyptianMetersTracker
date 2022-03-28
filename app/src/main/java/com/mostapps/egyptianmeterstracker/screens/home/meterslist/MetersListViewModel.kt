@@ -7,7 +7,7 @@ import com.mostapps.egyptianmeterstracker.base.BaseViewModel
 import com.mostapps.egyptianmeterstracker.data.MetersDataSource
 import com.mostapps.egyptianmeterstracker.models.MeterDataListItem
 import kotlinx.coroutines.launch
-import com.mostapps.egyptianmeterstracker.data.dto.Result
+import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterDTO
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 

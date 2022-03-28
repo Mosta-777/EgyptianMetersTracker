@@ -4,7 +4,8 @@ import com.mostapps.egyptianmeterstracker.data.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterDTO
 import com.mostapps.egyptianmeterstracker.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.*
-import com.mostapps.egyptianmeterstracker.data.dto.Result
+import com.mostapps.egyptianmeterstracker.utils.Result
+import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterReadingDTO
 import com.mostapps.egyptianmeterstracker.data.dto.entities.relations.MeterWithMeterReadings
 
 
@@ -39,14 +40,18 @@ class MetersLocalRepository(
             }
         }
 
-    override suspend fun saveMeter(reminder: MeterDTO) =
+    override suspend fun saveMeter(
+        meter: MeterDTO,
+        firstMeterReading: MeterReadingDTO,
+        currentMeterReading: MeterReadingDTO
+    ) =
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                metersDao.saveMeter(reminder)
+                metersDao.saveMeter(meter, firstMeterReading, currentMeterReading)
             }
         }
 
-    override suspend fun getMeterWithMeterReadings(id: String): kotlin.Result<MeterWithMeterReadings> {
+    override suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings> {
         TODO("Not yet implemented")
     }
 

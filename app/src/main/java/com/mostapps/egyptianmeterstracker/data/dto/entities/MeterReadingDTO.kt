@@ -11,5 +11,6 @@ data class MeterReadingDTO(
     @PrimaryKey @ColumnInfo(name = "meterReadingId") val meterReadingId: String = UUID.randomUUID()
         .toString(),
     @ColumnInfo(name = "parentMeterId") var parentMeterId: String?,
+    @ColumnInfo(name = "meterReading") var meterReading: Int?,
     @ColumnInfo(name = "readingDate") var readingDate: Date?
 )

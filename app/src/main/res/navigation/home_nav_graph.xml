@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/metersListFragment"
         android:name="com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListFragment"
-        android:label="MetersListFragment" />
+        android:label="MetersListFragment">
+        <action
+            android:id="@+id/action_metersListFragment_to_createMeterFragment"
+            app:destination="@id/createMeterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createMeterFragment"
+        android:name="com.mostapps.egyptianmeterstracker.screens.home.createmeter.CreateMeterFragment"
+        android:label="CreateMeterFragment" />
 </navigation>

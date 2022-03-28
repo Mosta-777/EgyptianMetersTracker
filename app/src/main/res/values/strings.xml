@@ -3,6 +3,22 @@
     <string name="login">Login</string>
     <string name="arabic">عــربي</string>
     <string name="english">English</string>
-    <string name="meterTypeIconDescription">Image indicating the meter type</string>
+    <string name="meter_type_icon_description">Image indicating the meter type</string>
     <string name="no_meter_data">No Meters Data</string>
+    <string name="meter_name">Meter Name</string>
+    <string name="meter_reading_when_collector_last_visited">Meter Reading when collector last visited</string>
+    <string name="collector_last_arrived_date">Collector last arrived date</string>
+    <string name="current_reading">Current Reading</string>
+    <string name="current_meter_reading_date">Current Meter Reading Date</string>
+    <string name="create_new_meter">CREATE NEW METER</string>
+    <string name="meter_type">Meter Type</string>
+    <string name="electricity">Electricity</string>
+    <string name="water">Water</string>
+    <string name="gas">Gas</string>
+    <string name="meter_saved">Meter Saved</string>
+    <string-array name="meter_types">
+        <item>@string/electricity</item>
+        <item>@string/water</item>
+        <item>@string/gas</item>
+    </string-array>
 </resources>

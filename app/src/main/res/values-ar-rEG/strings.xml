@@ -4,6 +4,22 @@
     <string name="login">تسجيل الدخول</string>
     <string name="arabic">عــربي</string>
     <string name="english">English</string>
-    <string name="meterTypeIconDescription">Image indicating the meter type</string>
-    <string name="no_meter_data">No Meters Data</string>
+    <string name="meter_type_icon_description">صورة تعبر عن نوع العداد</string>
+    <string name="no_meter_data">لا يوجد عدادات</string>
+    <string name="meter_name">اسم العداد</string>
+    <string name="meter_reading_when_collector_last_visited">قراءة العداد اخر مرة حضر فيها المحصل</string>
+    <string name="collector_last_arrived_date">تاريخ اخر مرة حضر فيها المحصل</string>
+    <string name="current_reading">قراءة العداد الحالية</string>
+    <string name="current_meter_reading_date">تاريخ قراءة العداد الحالية</string>
+    <string name="create_new_meter">انشاء عداد جديد</string>
+    <string name="meter_type">نوع العداد</string>
+    <string name="electricity">كــهرباء</string>
+    <string name="water">مــياة</string>
+    <string name="gas">غـــاز</string>
+    <string name="meter_saved">Meter Saved</string>
+    <string-array name="meter_types">
+        <item>@string/electricity</item>
+        <item>@string/water</item>
+        <item>@string/gas</item>
+    </string-array>
 </resources>

@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity(tableName = "meters")
 data class MeterDTO(
-    @PrimaryKey @ColumnInfo(name = "meterId") val meterId: String = UUID.randomUUID().toString(),
+    @PrimaryKey @ColumnInfo(name = "meterId") val meterId: String,
     @ColumnInfo(name = "meterName") var meterName: String?,
     @ColumnInfo(name = "meterType") val meterType: Int?,
     @ColumnInfo(name = "lastReadingDate") var lastReadingDate: Date?
