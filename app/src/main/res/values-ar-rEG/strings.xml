@@ -16,10 +16,8 @@
     <string name="electricity">كــهرباء</string>
     <string name="water">مــياة</string>
     <string name="gas">غـــاز</string>
-    <string name="meter_saved">Meter Saved</string>
-    <string-array name="meter_types">
-        <item>@string/electricity</item>
-        <item>@string/water</item>
-        <item>@string/gas</item>
-    </string-array>
+    <string name="meter_saved">تم حفظ العداد</string>
+    <string name="home_use">اســتخدام منزلي</string>
+    <string name="commercial_use">اســتخدام تجاري</string>
+
 </resources>

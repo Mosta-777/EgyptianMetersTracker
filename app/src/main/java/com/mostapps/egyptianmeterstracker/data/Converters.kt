@@ -12,7 +12,7 @@ class Converters {
         return dateStringValue?.let {
             DateUtils.formatDate(
                 dateStringValue,
-                DateUtils.DEFAULT_FORMAT_DATE
+                DateUtils.DEFAULT_DATE_FORMAT
             )
         }
     }
@@ -22,7 +22,7 @@ class Converters {
         return date?.let {
             DateUtils.formatDate(
                 date,
-                DateUtils.DEFAULT_FORMAT_DATE
+                DateUtils.DEFAULT_DATE_FORMAT
             )
         }
     }

@@ -30,6 +30,16 @@ class CreateMeterFragment() : BaseFragment() {
                 R.layout.fragment_add_meter, container, false
             )
 
+        setupSpinners()
+        _binding.viewModel = _viewModel
+
+
+        setDisplayHomeAsUpEnabled(false)
+        setTitle(getString(R.string.create_new_meter))
+        return _binding.root
+    }
+
+    private fun setupSpinners() {
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.meter_types,
@@ -38,12 +48,16 @@ class CreateMeterFragment() : BaseFragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             _binding.spinnerMeterType.adapter = adapter
         }
-        _binding.viewModel = _viewModel
 
 
-        setDisplayHomeAsUpEnabled(false)
-        setTitle(getString(R.string.create_new_meter))
-        return _binding.root
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.electricity_meter_types,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            _binding.spinnerMeterSubType.adapter = adapter
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

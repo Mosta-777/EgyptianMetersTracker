@@ -1,10 +1,9 @@
-package com.mostapps.egyptianmeterstracker.data.dto.entities.relations
+package com.mostapps.egyptianmeterstracker.data.entites.relations
 
 import androidx.room.Embedded
-import androidx.room.Entity
 import androidx.room.Relation
-import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
 
 
 data class MeterWithMeterReadings(

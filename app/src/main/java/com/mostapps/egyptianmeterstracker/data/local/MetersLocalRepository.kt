@@ -1,12 +1,13 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
 import com.mostapps.egyptianmeterstracker.data.MetersDataSource
-import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
 import com.mostapps.egyptianmeterstracker.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.*
 import com.mostapps.egyptianmeterstracker.utils.Result
-import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.dto.entities.relations.MeterWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.entites.relations.MeterWithMeterReadings
 
 
 class MetersLocalRepository(
@@ -17,7 +18,7 @@ class MetersLocalRepository(
     override suspend fun getMeters(): Result<List<MeterDTO>> = withContext(ioDispatcher) {
         wrapEspressoIdlingResource {
             return@withContext try {
-                Result.Success(metersDao.getMeters())
+                Result.Success(metersDao.getAllMeters())
             } catch (ex: Exception) {
                 Result.Error(ex.localizedMessage)
             }
@@ -42,12 +43,18 @@ class MetersLocalRepository(
 
     override suspend fun saveMeter(
         meter: MeterDTO,
+        meterReadingsCollection: MeterReadingsCollectionDTO,
         firstMeterReading: MeterReadingDTO,
         currentMeterReading: MeterReadingDTO
     ) =
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                metersDao.saveMeter(meter, firstMeterReading, currentMeterReading)
+                metersDao.saveMeter(
+                    meter,
+                    meterReadingsCollection,
+                    firstMeterReading,
+                    currentMeterReading
+                )
             }
         }
 

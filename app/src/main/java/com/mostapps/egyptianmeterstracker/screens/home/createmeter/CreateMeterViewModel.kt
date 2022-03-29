@@ -7,8 +7,9 @@ import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseViewModel
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.data.MetersDataSource
-import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import kotlinx.coroutines.launch
 import java.util.*
@@ -24,7 +25,7 @@ class CreateMeterViewModel(
     val firstMeterReadingDate = MutableLiveData<String>()
     val currentMeterReading = MutableLiveData<String>()
     val meterType = MutableLiveData<Int>()
-
+    val meterSubType = MutableLiveData<Int>()
 
     fun validateAndCreateMeter() {
         when (val result = validateMeterData()) {
@@ -53,25 +54,39 @@ class CreateMeterViewModel(
 
             val meterID: String = UUID.randomUUID()
                 .toString()
+            val meterReadingsCollectionID = UUID.randomUUID()
+                .toString()
+
+            val now = DateUtils.now()
+
             dataSource.saveMeter(
                 meter = MeterDTO(
                     meterId = meterID,
                     meterName = meterName.value,
                     meterType = meterType.value,
-                    lastReadingDate = DateUtils.now()
+                    meterSubType = meterSubType.value,
+                    lastReadingDate = now
+                ),
+                meterReadingsCollection = MeterReadingsCollectionDTO(
+                    meterReadingsCollectionId = meterReadingsCollectionID,
+                    parentMeterId = meterID,
+                    collectionStartDate = now,
+                    collectionCurrentSlice = 1
                 ),
                 firstMeterReading = MeterReadingDTO(
                     parentMeterId = meterID,
                     meterReading = Integer.parseInt(firstMeterReading.value!!),
                     readingDate = DateUtils.formatDate(
                         firstMeterReadingDate.value,
-                        DateUtils.DEFAULT_FORMAT_DATE
-                    )
+                        DateUtils.DEFAULT_DATE_FORMAT
+                    ),
+                    parentMeterCollectionId = meterReadingsCollectionID
                 ),
                 currentMeterReading = MeterReadingDTO(
                     parentMeterId = meterID,
                     meterReading = Integer.parseInt(currentMeterReading.value!!),
-                    readingDate = DateUtils.now()
+                    readingDate = now,
+                    parentMeterCollectionId = meterReadingsCollectionID
                 )
 
             )

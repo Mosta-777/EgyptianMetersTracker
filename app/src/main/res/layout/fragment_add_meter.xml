@@ -43,7 +43,24 @@
             android:selectedItemPosition="@={viewModel.meterType}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextMeterName" />
+            app:layout_constraintTop_toBottomOf="@id/editTextMeterName" />
+
+        <Spinner
+            android:id="@+id/spinnerMeterSubType"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fadeVisible="@{viewModel.meterType == 0}"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/meter_type"
+            android:minHeight="48dp"
+            android:padding="16dp"
+            android:selectedItemPosition="@={viewModel.meterSubType}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerMeterType" />
+
 
         <EditText
             android:id="@+id/editTextFirstMeterReading"
@@ -59,7 +76,7 @@
             android:text="@={viewModel.firstMeterReading}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerMeterType" />
+            app:layout_constraintTop_toBottomOf="@id/spinnerMeterSubType" />
 
         <EditText
             android:id="@+id/editTextFirstReadingDate"

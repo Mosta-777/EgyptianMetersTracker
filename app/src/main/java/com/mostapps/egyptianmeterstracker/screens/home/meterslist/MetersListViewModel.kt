@@ -8,7 +8,7 @@ import com.mostapps.egyptianmeterstracker.data.MetersDataSource
 import com.mostapps.egyptianmeterstracker.models.MeterDataListItem
 import kotlinx.coroutines.launch
 import com.mostapps.egyptianmeterstracker.utils.Result
-import com.mostapps.egyptianmeterstracker.data.dto.entities.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 
 
@@ -39,7 +39,7 @@ class MetersListViewModel(
                             name = meter.meterName,
                             lastRecordedReadingDate = DateUtils.formatDate(
                                 meter.lastReadingDate,
-                                DateUtils.DEFAULT_FORMAT_DATE
+                                DateUtils.DEFAULT_DATE_FORMAT
                             ),
                             meterType = meter.meterType
                         )
