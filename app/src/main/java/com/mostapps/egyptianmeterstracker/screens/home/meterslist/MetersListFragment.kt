@@ -1,9 +1,12 @@
 package com.mostapps.egyptianmeterstracker.screens.home.meterslist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import com.firebase.ui.auth.AuthUI
 import com.mostapps.egyptianmeterstracker.R
+import com.mostapps.egyptianmeterstracker.authentication.AuthenticationActivity
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMetersListBinding
@@ -72,7 +75,13 @@ class MetersListFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
+            R.id.logout -> {
+                AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener {
+                    val intent = Intent(requireActivity(), AuthenticationActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    requireActivity().startActivity(intent)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
 

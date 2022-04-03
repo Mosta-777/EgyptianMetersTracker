@@ -1,23 +1,8 @@
 package com.mostapps.egyptianmeterstracker.authentication
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
-
+import org.koin.java.KoinJavaComponent.inject
 
 class AuthenticationViewModel : ViewModel() {
-
-    enum class AuthenticationState {
-        AUTHENTICATED, UNAUTHENTICATED
-    }
-
-
-    val authenticationState = FirebaseUserLiveData().map { user ->
-        if (user != null) {
-            AuthenticationState.AUTHENTICATED
-        } else {
-            AuthenticationState.UNAUTHENTICATED
-        }
-
-    }
 
 }

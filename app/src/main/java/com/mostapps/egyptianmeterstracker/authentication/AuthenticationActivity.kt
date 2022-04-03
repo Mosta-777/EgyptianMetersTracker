@@ -15,6 +15,7 @@ import org.koin.android.ext.android.inject
 class AuthenticationActivity : BaseActivity() {
 
     private val sharedPreferences: SharedPreferencesUtils by inject()
+    private val authenticationManager: FirebaseAuthenticationManager by inject()
     private val viewModel by viewModels<AuthenticationViewModel>()
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -50,11 +51,11 @@ class AuthenticationActivity : BaseActivity() {
 
     private fun observeAuthenticationState() {
 
-        viewModel.authenticationState.observe(this) { authenticationState ->
+        authenticationManager.getUserAuthenticationState().observe(this) { authenticationState ->
             when (authenticationState) {
-                AuthenticationViewModel.AuthenticationState.AUTHENTICATED -> {
-                        val intent = Intent(this, HomeActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                AuthenticationState.AUTHENTICATED -> {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }
                 else -> {
@@ -68,8 +69,8 @@ class AuthenticationActivity : BaseActivity() {
 
     private fun startSigningInOrRegistering() {
         val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+            AuthUI.IdpConfig.EmailBuilder().build()
         )
 
         val signInIntent = AuthUI.getInstance()

@@ -2,6 +2,9 @@ package com.mostapps.egyptianmeterstracker
 
 
 import android.app.Application
+import com.google.firebase.auth.FirebaseAuth
+import com.mostapps.egyptianmeterstracker.authentication.FirebaseAuthenticationInterface
+import com.mostapps.egyptianmeterstracker.authentication.FirebaseAuthenticationManager
 import com.mostapps.egyptianmeterstracker.data.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.local.LocalDB
 import com.mostapps.egyptianmeterstracker.data.local.MetersLocalRepository
@@ -33,6 +36,10 @@ class MyApp : Application() {
                     get() as MetersDataSource
                 )
             }
+
+            single { FirebaseAuth.getInstance() }
+            single { FirebaseAuthenticationManager(get()) }
+
             single { SharedPreferencesUtils(androidContext()) }
             single { MetersLocalRepository(get()) as MetersDataSource }
             single { LocalDB.createMetersDao(this@MyApp) }
