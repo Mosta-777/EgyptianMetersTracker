@@ -4,13 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mostapps.egyptianmeterstracker.data.Converters
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 
 
 @Database(
-    entities = [MeterDTO::class, MeterReadingsCollectionDTO::class, MeterReadingDTO::class],
+    entities = [DatabaseMeter::class, DatabaseMeterReadingsCollection::class, DatabaseMeterReading::class],
     version = 1,
     exportSchema = false
 )

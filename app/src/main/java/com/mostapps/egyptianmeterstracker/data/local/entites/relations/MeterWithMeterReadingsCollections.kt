@@ -2,14 +2,14 @@ package com.mostapps.egyptianmeterstracker.data.local.entites.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 
 class MeterWithMeterReadingsCollections(
-    @Embedded val meter: MeterDTO,
+    @Embedded val databaseMeter: DatabaseMeter,
     @Relation(
         parentColumn = "meterId",
         entityColumn = "parentMeterId"
     )
-    val meterCollections: List<MeterReadingsCollectionDTO>
+    val meterCollections: List<DatabaseMeterReadingsCollection>
 )

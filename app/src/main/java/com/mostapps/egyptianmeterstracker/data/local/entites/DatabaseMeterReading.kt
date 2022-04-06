@@ -7,7 +7,7 @@ import java.util.*
 
 
 @Entity(tableName = "meterReadings")
-data class MeterReadingDTO(
+data class DatabaseMeterReading(
     @PrimaryKey @ColumnInfo(name = "meterReadingId") val meterReadingId: String = UUID.randomUUID()
         .toString(),
     @ColumnInfo(name = "parentMeterId") val parentMeterId: String?,

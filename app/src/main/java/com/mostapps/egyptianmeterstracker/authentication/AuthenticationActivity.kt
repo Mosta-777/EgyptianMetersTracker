@@ -6,16 +6,16 @@ import android.widget.Button
 import androidx.activity.viewModels
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseActivity
 import com.mostapps.egyptianmeterstracker.screens.home.HomeActivity
+import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.utils.SharedPreferencesUtils
 import org.koin.android.ext.android.inject
 
 class AuthenticationActivity : BaseActivity() {
 
-    private val sharedPreferences: SharedPreferencesUtils by inject()
-    private val authenticationManager: FirebaseAuthenticationManager by inject()
     private val viewModel by viewModels<AuthenticationViewModel>()
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -41,7 +41,7 @@ class AuthenticationActivity : BaseActivity() {
     }
 
     private fun changeLanguage(isToEnglish: Boolean) {
-        sharedPreferences.storeAppLanguage(isToEnglish)
+        viewModel.changeAppLanguage(isToEnglish)
         val i = Intent(this, AuthenticationActivity::class.java)
         finish()
         overridePendingTransition(0, 0)
@@ -51,9 +51,10 @@ class AuthenticationActivity : BaseActivity() {
 
     private fun observeAuthenticationState() {
 
-        authenticationManager.getUserAuthenticationState().observe(this) { authenticationState ->
+        viewModel.authenticationState.observe(this) { authenticationState ->
             when (authenticationState) {
-                AuthenticationState.AUTHENTICATED -> {
+                is Result.Success<FirebaseUser> -> {
+                    viewModel.storeUserData(authenticationState.data)
                     val intent = Intent(this, HomeActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)

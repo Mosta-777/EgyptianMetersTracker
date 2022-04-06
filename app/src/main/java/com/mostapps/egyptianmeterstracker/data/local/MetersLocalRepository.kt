@@ -1,11 +1,11 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.*
 import com.mostapps.egyptianmeterstracker.utils.Result
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 
 
@@ -14,7 +14,7 @@ class MetersLocalRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MetersLocalDataSource {
 
-    override suspend fun getMeters(): Result<List<MeterDTO>> = withContext(ioDispatcher) {
+    override suspend fun getMeters(): Result<List<DatabaseMeter>> = withContext(ioDispatcher) {
         wrapEspressoIdlingResource {
             return@withContext try {
                 Result.Success(metersDao.getAllMeters())
@@ -24,7 +24,7 @@ class MetersLocalRepository(
         }
     }
 
-    override suspend fun getMeter(id: String): Result<MeterDTO> =
+    override suspend fun getMeter(id: String): Result<DatabaseMeter> =
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 try {
@@ -41,18 +41,18 @@ class MetersLocalRepository(
         }
 
     override suspend fun saveMeter(
-        meter: MeterDTO,
-        meterReadingsCollection: MeterReadingsCollectionDTO,
-        firstMeterReading: MeterReadingDTO,
-        currentMeterReading: MeterReadingDTO
+        databaseMeter: DatabaseMeter,
+        meterReadingsCollection: DatabaseMeterReadingsCollection,
+        firstDatabaseMeterReading: DatabaseMeterReading,
+        currentDatabaseMeterReading: DatabaseMeterReading
     ) =
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 metersDao.saveMeter(
-                    meter,
+                    databaseMeter,
                     meterReadingsCollection,
-                    firstMeterReading,
-                    currentMeterReading
+                    firstDatabaseMeterReading,
+                    currentDatabaseMeterReading
                 )
             }
         }

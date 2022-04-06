@@ -8,7 +8,7 @@ import com.mostapps.egyptianmeterstracker.data.local.MetersLocalDataSource
 import com.mostapps.egyptianmeterstracker.models.MeterDataListItem
 import kotlinx.coroutines.launch
 import com.mostapps.egyptianmeterstracker.utils.Result
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 
 
@@ -33,7 +33,7 @@ class MetersListViewModel(
             when (result) {
                 is Result.Success<*> -> {
                     val dataList = ArrayList<MeterDataListItem>()
-                    dataList.addAll((result.data as List<MeterDTO>).map { meter ->
+                    dataList.addAll((result.data as List<DatabaseMeter>).map { meter ->
                         //map the meter data from the DB to the be ready to be displayed on the UI
                         MeterDataListItem(
                             name = meter.meterName,

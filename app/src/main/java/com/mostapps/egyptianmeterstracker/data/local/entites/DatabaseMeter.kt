@@ -7,7 +7,7 @@ import java.util.*
 
 
 @Entity(tableName = "meters")
-data class MeterDTO(
+data class DatabaseMeter(
     @PrimaryKey @ColumnInfo(name = "meterId") val meterId: String,
     @ColumnInfo(name = "meterName") var meterName: String?,
     @ColumnInfo(name = "meterType") val meterType: Int?,

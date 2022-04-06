@@ -1,9 +1,9 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
 import androidx.room.*
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
@@ -15,45 +15,45 @@ interface MetersDao {
 
     //Meters specific queries
     @Query("SELECT * FROM meters")
-    suspend fun getAllMeters(): List<MeterDTO>
+    suspend fun getAllMeters(): List<DatabaseMeter>
 
     @Query("SELECT * FROM meters where meterId = :meterId")
-    suspend fun getMeterById(meterId: String): MeterDTO?
+    suspend fun getMeterById(meterId: String): DatabaseMeter?
 
     @Update
-    suspend fun updateMeter(meter: MeterDTO)
+    suspend fun updateMeter(databaseMeter: DatabaseMeter)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMeter(meter: MeterDTO)
+    suspend fun insertMeter(databaseMeter: DatabaseMeter)
 
     //////////////////////////////////////////////////////////////////////////////////
 
     //Meter Readings specific queries
     @Query("SELECT * FROM meterReadings")
-    suspend fun getAllMeterReadings(): List<MeterReadingDTO>
+    suspend fun getAllMeterReadings(): List<DatabaseMeterReading>
 
     @Query("SELECT * FROM meterReadings where meterReadingId = :meterReadingId")
-    suspend fun getMeterReadingById(meterReadingId: String): MeterReadingDTO?
+    suspend fun getMeterReadingById(meterReadingId: String): DatabaseMeterReading?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMeterReading(meterReadingDTO: MeterReadingDTO)
+    suspend fun insertMeterReading(databaseMeterReading: DatabaseMeterReading)
 
 
     //////////////////////////////////////////////////////////////////////////////////
 
     //Meter Readings Collections specific queries
     @Query("SELECT * FROM meterReadingsCollection")
-    suspend fun getAllMeterReadingsCollections(): List<MeterReadingsCollectionDTO>
+    suspend fun getAllMeterReadingsCollections(): List<DatabaseMeterReadingsCollection>
 
     @Query("SELECT * FROM meterReadingsCollection WHERE isFinished")
-    suspend fun getFinishedMeterReadingsCollections(): List<MeterReadingsCollectionDTO>
+    suspend fun getFinishedMeterReadingsCollections(): List<DatabaseMeterReadingsCollection>
 
 
     @Query("SELECT * FROM meterReadingsCollection where meterReadingsCollectionId = :meterReadingsCollectionId")
-    suspend fun getMeterReadingsCollectionById(meterReadingsCollectionId: String): MeterReadingsCollectionDTO?
+    suspend fun getMeterReadingsCollectionById(meterReadingsCollectionId: String): DatabaseMeterReadingsCollection?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMeterReadingsCollection(meterReadingsCollectionDTO: MeterReadingsCollectionDTO)
+    suspend fun insertMeterReadingsCollection(meterReadingsCollectionDTO: DatabaseMeterReadingsCollection)
 
     /////////////////////////////////////////////////////////////////////////////////
     //Relations queries
@@ -74,15 +74,15 @@ interface MetersDao {
 
     @Transaction
     suspend fun saveMeter(
-        meter: MeterDTO,
-        meterReadingsCollection: MeterReadingsCollectionDTO,
-        firstMeterReading: MeterReadingDTO,
-        currentMeterReading: MeterReadingDTO
+        databaseMeter: DatabaseMeter,
+        meterReadingsCollection: DatabaseMeterReadingsCollection,
+        firstDatabaseMeterReading: DatabaseMeterReading,
+        currentDatabaseMeterReading: DatabaseMeterReading
     ) {
-        insertMeter(meter)
+        insertMeter(databaseMeter)
         insertMeterReadingsCollection(meterReadingsCollection)
-        insertMeterReading(firstMeterReading)
-        insertMeterReading(currentMeterReading)
+        insertMeterReading(firstDatabaseMeterReading)
+        insertMeterReading(currentDatabaseMeterReading)
     }
 
 }

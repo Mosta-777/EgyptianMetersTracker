@@ -7,7 +7,7 @@ import java.util.*
 
 
 @Entity(tableName = "meterReadingsCollection")
-class MeterReadingsCollectionDTO(
+class DatabaseMeterReadingsCollection(
     @PrimaryKey @ColumnInfo(name = "meterReadingsCollectionId") val meterReadingsCollectionId: String,
     @ColumnInfo(name = "parentMeterId") val parentMeterId: String?,
     @ColumnInfo(name = "collectionStartDate") val collectionStartDate: Date?,
