@@ -4,9 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mostapps.egyptianmeterstracker.data.Converters
-import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
 
 
 @Database(

@@ -1,19 +1,18 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
-import com.mostapps.egyptianmeterstracker.data.MetersDataSource
-import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
 import com.mostapps.egyptianmeterstracker.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.*
 import com.mostapps.egyptianmeterstracker.utils.Result
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
-import com.mostapps.egyptianmeterstracker.data.entites.relations.MeterWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 
 
 class MetersLocalRepository(
     private val metersDao: MetersDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : MetersDataSource {
+) : MetersLocalDataSource {
 
     override suspend fun getMeters(): Result<List<MeterDTO>> = withContext(ioDispatcher) {
         wrapEspressoIdlingResource {

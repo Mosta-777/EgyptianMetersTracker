@@ -4,17 +4,17 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mostapps.egyptianmeterstracker.base.BaseViewModel
-import com.mostapps.egyptianmeterstracker.data.MetersDataSource
+import com.mostapps.egyptianmeterstracker.data.local.MetersLocalDataSource
 import com.mostapps.egyptianmeterstracker.models.MeterDataListItem
 import kotlinx.coroutines.launch
 import com.mostapps.egyptianmeterstracker.utils.Result
-import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 
 
 class MetersListViewModel(
     app: Application,
-    private val dataSource: MetersDataSource
+    private val localDataSource: MetersLocalDataSource
 ) : BaseViewModel(app) {
 
     val metersList = MutableLiveData<List<MeterDataListItem>>()
@@ -28,7 +28,7 @@ class MetersListViewModel(
         showLoading.value = true
         viewModelScope.launch {
             //interacting with the dataSource has to be through a coroutine
-            val result = dataSource.getMeters()
+            val result = localDataSource.getMeters()
             showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {

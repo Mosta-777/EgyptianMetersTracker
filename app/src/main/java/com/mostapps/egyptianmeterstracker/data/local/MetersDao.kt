@@ -1,12 +1,12 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
 import androidx.room.*
-import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
-import com.mostapps.egyptianmeterstracker.data.entites.relations.MeterReadingsCollectionWithMeterReadings
-import com.mostapps.egyptianmeterstracker.data.entites.relations.MeterWithMeterReadings
-import com.mostapps.egyptianmeterstracker.data.entites.relations.MeterWithMeterReadingsCollections
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
 
 
 @Dao

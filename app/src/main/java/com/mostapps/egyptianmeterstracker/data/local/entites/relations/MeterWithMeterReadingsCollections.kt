@@ -1,9 +1,9 @@
-package com.mostapps.egyptianmeterstracker.data.entites.relations
+package com.mostapps.egyptianmeterstracker.data.local.entites.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
 
 class MeterWithMeterReadingsCollections(
     @Embedded val meter: MeterDTO,

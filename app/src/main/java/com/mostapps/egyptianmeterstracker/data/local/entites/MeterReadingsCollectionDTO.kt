@@ -1,4 +1,4 @@
-package com.mostapps.egyptianmeterstracker.data.entites
+package com.mostapps.egyptianmeterstracker.data.local.entites
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

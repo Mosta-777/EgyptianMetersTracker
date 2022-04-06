@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseViewModel
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
-import com.mostapps.egyptianmeterstracker.data.MetersDataSource
-import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.MetersLocalDataSource
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import kotlinx.coroutines.launch
 import java.util.*
@@ -17,7 +17,7 @@ import com.mostapps.egyptianmeterstracker.utils.Result
 
 class CreateMeterViewModel(
     val app: Application,
-    private val dataSource: MetersDataSource
+    private val localDataSource: MetersLocalDataSource
 ) : BaseViewModel(app) {
 
     val meterName = MutableLiveData<String>()
@@ -59,7 +59,7 @@ class CreateMeterViewModel(
 
             val now = DateUtils.now()
 
-            dataSource.saveMeter(
+            localDataSource.saveMeter(
                 meter = MeterDTO(
                     meterId = meterID,
                     meterName = meterName.value,

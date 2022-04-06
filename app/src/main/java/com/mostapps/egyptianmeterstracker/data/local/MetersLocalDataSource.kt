@@ -1,12 +1,12 @@
-package com.mostapps.egyptianmeterstracker.data
+package com.mostapps.egyptianmeterstracker.data.local
 
-import com.mostapps.egyptianmeterstracker.data.entites.MeterDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingDTO
-import com.mostapps.egyptianmeterstracker.data.entites.MeterReadingsCollectionDTO
-import com.mostapps.egyptianmeterstracker.data.entites.relations.MeterWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.MeterReadingsCollectionDTO
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.utils.Result
 
-interface MetersDataSource {
+interface MetersLocalDataSource {
 
     suspend fun getMeters(): Result<List<MeterDTO>>
     suspend fun saveMeter(
