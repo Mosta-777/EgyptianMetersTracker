@@ -16,6 +16,8 @@ interface MetersLocalDataSource {
         currentDatabaseMeterReading: DatabaseMeterReading
     )
 
+    suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter)
+
     suspend fun getMeter(id: String): Result<DatabaseMeter>
     suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings>
 }

@@ -51,7 +51,7 @@ class AuthenticationActivity : BaseActivity() {
 
     private fun observeAuthenticationState() {
 
-        viewModel.authenticationState.observe(this) { authenticationState ->
+        viewModel.authenticationState.observe(this) { authenticationState: Result<FirebaseUser> ->
             when (authenticationState) {
                 is Result.Success<FirebaseUser> -> {
                     viewModel.storeUserData(authenticationState.data)

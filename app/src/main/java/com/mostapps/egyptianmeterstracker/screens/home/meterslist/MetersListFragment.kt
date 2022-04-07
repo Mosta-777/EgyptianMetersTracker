@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.authentication.AuthenticationActivity
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMetersListBinding
+import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setTitle
 import com.mostapps.egyptianmeterstracker.utils.setup
@@ -25,7 +27,7 @@ class MetersListFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding =
             DataBindingUtil.inflate(
                 inflater,
@@ -53,12 +55,10 @@ class MetersListFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        //load the reminders list on the ui
         _viewModel.loadMeters()
     }
 
     private fun navigateToAddMeter() {
-        //use the navigationCommand live data to navigate between the fragments
         _viewModel.navigationCommand.postValue(
             NavigationCommand.To(
                 MetersListFragmentDirections.actionMetersListFragmentToCreateMeterFragment()
@@ -68,8 +68,6 @@ class MetersListFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         val adapter = MetersListAdapter {}
-
-//        setup the recycler view using the extension function
         binding.reminderssRecyclerView.setup(adapter)
     }
 
@@ -82,6 +80,19 @@ class MetersListFragment : BaseFragment() {
                     requireActivity().startActivity(intent)
                 }
             }
+            R.id.sync -> {
+                _viewModel.authenticationState.observe(this) { authenticationState: Result<FirebaseUser> ->
+                    when (authenticationState) {
+                        is Result.Success<FirebaseUser> -> {
+                            _viewModel.startDataSyncing(authenticationState.data.uid)
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+
+            }
         }
         return super.onOptionsItemSelected(item)
 
@@ -89,7 +100,6 @@ class MetersListFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-//        display logout as menu item
         inflater.inflate(R.menu.home_menu, menu)
     }
 

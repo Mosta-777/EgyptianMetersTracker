@@ -1,11 +1,14 @@
 package com.mostapps.egyptianmeterstracker.data.remote
 
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
-import com.mostapps.egyptianmeterstracker.models.User
+import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeter
+import com.mostapps.egyptianmeterstracker.data.remote.models.User
 import com.mostapps.egyptianmeterstracker.utils.Result
+import kotlinx.coroutines.tasks.await
 
 
 private const val USERS_KEY = "users"
@@ -20,26 +23,24 @@ class FirebaseDatabaseManager(private val database: FirebaseDatabase) : Firebase
         database.reference.child(USERS_KEY).child(userId).setValue(user)
     }
 
-    override fun getMetersByUserId(
-        userId: String,
-        onResult: (Result<List<DatabaseMeter>>) -> Unit
-    ) {
-        database.reference.child(METERS_KEY).child(userId).get().addOnSuccessListener { data ->
-            data?.run {
-                val metersData: List<DatabaseMeter> =
-                    children.mapNotNull { getValue(DatabaseMeter::class.java) }
-                onResult(Result.Success(metersData))
+    override suspend fun getMetersByUserId(
+        userId: String
+    ): Result<List<RemoteMeter>> {
+        val data = database.reference.child(METERS_KEY).child(userId).get().await()
+        if (data.exists() && data.hasChildren())
+            return data.run {
+                val metersData: List<RemoteMeter> =
+                    children.mapNotNull { remoteMeter -> remoteMeter.getValue(RemoteMeter::class.java) }
+                Result.Success(metersData)
             }
-        }.addOnFailureListener {
-            onResult(Result.Error(it.localizedMessage))
-        }
+        return Result.Error("Error")
+
     }
 
-    override fun getMeterCollectionsByUserId(
-        userId: String,
-        onResult: (Result<List<DatabaseMeterReadingsCollection>>) -> Unit
-    ) {
-        database.reference.child(METER_COLLECTIONS_KEY).child(userId)
+    override suspend fun getMeterCollectionsByUserId(
+        userId: String
+    ): Result<List<DatabaseMeterReadingsCollection>> {
+        /*database.reference.child(METER_COLLECTIONS_KEY).child(userId)
             .get().addOnSuccessListener { data ->
                 data?.run {
                     val meterCollectionsData: List<DatabaseMeterReadingsCollection> =
@@ -48,7 +49,8 @@ class FirebaseDatabaseManager(private val database: FirebaseDatabase) : Firebase
                 }
             }.addOnFailureListener {
                 onResult(Result.Error(it.localizedMessage))
-            }
+            }*/
+        return Result.Error("")
     }
 
     override fun getMeterReadingsByUserIdAndMeterCollectionId(

@@ -57,6 +57,14 @@ class MetersLocalRepository(
             }
         }
 
+    override suspend fun bulkInsertMetersData(vararg databaseMeters: DatabaseMeter) {
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                metersDao.insertAllMeters(databaseMeters = databaseMeters)
+            }
+        }
+    }
+
     override suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings> {
         TODO("Not yet implemented")
     }

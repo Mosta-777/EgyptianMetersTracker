@@ -19,5 +19,7 @@
     <string name="meter_saved">تم حفظ العداد</string>
     <string name="home_use">اســتخدام منزلي</string>
     <string name="commercial_use">اســتخدام تجاري</string>
+    <string name="sync">Sync</string>
+    <string name="logout">Logout</string>
 
 </resources>

@@ -23,6 +23,8 @@
     </string-array>
     <string name="home_use">Home Use</string>
     <string name="commercial_use">Commercial Use</string>
+    <string name="sync">Sync</string>
+    <string name="logout">Logout</string>
     <string-array name="electricity_meter_types">
         <item>@string/home_use</item>
         <item>@string/commercial_use</item>

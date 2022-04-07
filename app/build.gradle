@@ -83,8 +83,7 @@ dependencies {
 
     //Coroutine dependency
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
-
-
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.3-native-mt")
 
 
     //Firebase dependencies

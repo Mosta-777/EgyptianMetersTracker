@@ -23,8 +23,15 @@ interface MetersDao {
     @Update
     suspend fun updateMeter(databaseMeter: DatabaseMeter)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMeter(databaseMeter: DatabaseMeter)
+
+    //On conflict with remote database don't replace data, The local database has the priority
+    //and will overwrite the data on the server
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAllMeters(vararg databaseMeters: DatabaseMeter)
+
 
     //////////////////////////////////////////////////////////////////////////////////
 
