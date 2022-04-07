@@ -8,6 +8,7 @@ import com.mostapps.egyptianmeterstracker.utils.Result
 
 class FirebaseAuthenticationManager(private val authentication: FirebaseAuth = FirebaseAuth.getInstance()) :
     FirebaseAuthenticationInterface {
+    override fun getCurrentUser(): FirebaseUser? = authentication.currentUser
 
     override fun getUserAuthenticationState(): LiveData<Result<FirebaseUser>> {
         return FirebaseUserLiveData(authentication).map { user ->

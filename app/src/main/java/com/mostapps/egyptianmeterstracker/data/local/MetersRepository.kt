@@ -1,5 +1,6 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
+import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.*
@@ -7,12 +8,26 @@ import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseInterface
+import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseManager
+import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeter
+import com.mostapps.egyptianmeterstracker.data.remote.models.User
+import com.mostapps.egyptianmeterstracker.data.remote.models.asDatabaseMeter
 
 
-class MetersLocalRepository(
+class MetersRepository(
     private val metersDao: MetersDao,
+    private val firebaseDatabaseManager: FirebaseDatabaseInterface,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : MetersLocalDataSource {
+) : MetersDataSource {
+
+
+    override suspend fun storeUserData(user: FirebaseUser) {
+        firebaseDatabaseManager.saveUser(
+            user.run { User(username = displayName, email = email) },
+            user.uid
+        )
+    }
 
     override suspend fun getMeters(): Result<List<DatabaseMeter>> = withContext(ioDispatcher) {
         wrapEspressoIdlingResource {
@@ -57,16 +72,26 @@ class MetersLocalRepository(
             }
         }
 
-    override suspend fun bulkInsertMetersData(vararg databaseMeters: DatabaseMeter) {
+    override suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                metersDao.insertAllMeters(databaseMeters = databaseMeters)
+                metersDao.insertAllMeters(databaseMeters = databaseMeter)
             }
         }
     }
 
     override suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings> {
         TODO("Not yet implemented")
+    }
+
+
+    override suspend fun syncAllData(uid: String) {
+        var remoteMeters: List<RemoteMeter> = emptyList()
+        val remoteResult = firebaseDatabaseManager.getMetersByUserId(userId = uid)
+        if (remoteResult is Result.Success<List<RemoteMeter>>) remoteMeters = remoteResult.data
+        val databaseMeters = remoteMeters.asDatabaseMeter()
+        bulkInsertMetersData(*(databaseMeters).toTypedArray())
+        print("Inserted Meters")
     }
 
 

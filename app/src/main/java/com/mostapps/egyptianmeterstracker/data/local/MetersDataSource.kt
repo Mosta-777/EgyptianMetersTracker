@@ -1,13 +1,17 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
+import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.utils.Result
 
-interface MetersLocalDataSource {
+interface MetersDataSource {
 
+
+    suspend fun storeUserData(user: FirebaseUser)
+    suspend fun syncAllData(uid: String)
     suspend fun getMeters(): Result<List<DatabaseMeter>>
     suspend fun saveMeter(
         databaseMeter: DatabaseMeter,

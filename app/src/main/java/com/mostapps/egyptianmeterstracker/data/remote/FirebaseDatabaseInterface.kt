@@ -11,7 +11,7 @@ import com.mostapps.egyptianmeterstracker.utils.Result
 interface FirebaseDatabaseInterface {
 
 
-    fun saveUser(user: User, userId: String)
+    suspend fun saveUser(user: User, userId: String)
 
     suspend fun getMetersByUserId(
         userId: String

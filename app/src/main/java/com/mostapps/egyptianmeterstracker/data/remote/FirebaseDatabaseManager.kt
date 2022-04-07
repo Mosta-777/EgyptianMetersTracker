@@ -19,8 +19,8 @@ private const val METER_READINGS_KEY = "meter_readings"
 class FirebaseDatabaseManager(private val database: FirebaseDatabase) : FirebaseDatabaseInterface {
 
 
-    override fun saveUser(user: User, userId: String) {
-        database.reference.child(USERS_KEY).child(userId).setValue(user)
+    override suspend fun saveUser(user: User, userId: String) {
+        database.reference.child(USERS_KEY).child(userId).setValue(user).await()
     }
 
     override suspend fun getMetersByUserId(

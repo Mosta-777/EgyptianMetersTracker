@@ -4,10 +4,12 @@ package com.mostapps.egyptianmeterstracker
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.mostapps.egyptianmeterstracker.authentication.AuthenticationViewModel
 import com.mostapps.egyptianmeterstracker.authentication.FirebaseAuthenticationManager
-import com.mostapps.egyptianmeterstracker.data.local.MetersLocalDataSource
+import com.mostapps.egyptianmeterstracker.data.local.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.local.LocalDB
-import com.mostapps.egyptianmeterstracker.data.local.MetersLocalRepository
+import com.mostapps.egyptianmeterstracker.data.local.MetersRepository
+import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseInterface
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseManager
 import com.mostapps.egyptianmeterstracker.screens.home.createmeter.CreateMeterViewModel
 import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListViewModel
@@ -25,25 +27,38 @@ class MyApp : Application() {
 
 
         val myModule = module {
+
+            viewModel {
+                AuthenticationViewModel(
+                    get(),
+                    get() as MetersDataSource
+                )
+            }
+
             viewModel {
                 MetersListViewModel(
                     get(),
-                    get() as MetersLocalDataSource
+                    get() as MetersDataSource
                 )
             }
             viewModel {
                 CreateMeterViewModel(
                     get(),
-                    get() as MetersLocalDataSource
+                    get() as MetersDataSource
                 )
             }
 
             single { FirebaseAuth.getInstance() }
             single { FirebaseDatabase.getInstance() }
             single { FirebaseAuthenticationManager(get()) }
-            single { FirebaseDatabaseManager(get()) }
+            single { FirebaseDatabaseManager(get()) as FirebaseDatabaseInterface }
             single { SharedPreferencesUtils(androidContext()) }
-            single { MetersLocalRepository(get()) as MetersLocalDataSource }
+            single {
+                MetersRepository(
+                    get(),
+                    get() as FirebaseDatabaseInterface
+                ) as MetersDataSource
+            }
             single { LocalDB.createMetersDao(this@MyApp) }
         }
 

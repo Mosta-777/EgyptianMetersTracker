@@ -10,13 +10,15 @@ import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseActivity
 import com.mostapps.egyptianmeterstracker.screens.home.HomeActivity
+import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListViewModel
 import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.utils.SharedPreferencesUtils
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthenticationActivity : BaseActivity() {
 
-    private val viewModel by viewModels<AuthenticationViewModel>()
+    val viewModel: AuthenticationViewModel by viewModel()
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) {}

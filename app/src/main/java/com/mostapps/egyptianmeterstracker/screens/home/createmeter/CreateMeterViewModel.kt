@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseViewModel
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
-import com.mostapps.egyptianmeterstracker.data.local.MetersLocalDataSource
+import com.mostapps.egyptianmeterstracker.data.local.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
@@ -17,7 +17,7 @@ import com.mostapps.egyptianmeterstracker.utils.Result
 
 class CreateMeterViewModel(
     val app: Application,
-    private val localDataSource: MetersLocalDataSource
+    private val dataSource: MetersDataSource
 ) : BaseViewModel(app) {
 
     val meterName = MutableLiveData<String>()
@@ -59,7 +59,7 @@ class CreateMeterViewModel(
 
             val now = DateUtils.now()
 
-            localDataSource.saveMeter(
+            dataSource.saveMeter(
                 databaseMeter = DatabaseMeter(
                     meterId = meterID,
                     meterName = meterName.value,

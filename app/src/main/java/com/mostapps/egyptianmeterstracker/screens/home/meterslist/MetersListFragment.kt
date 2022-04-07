@@ -81,17 +81,14 @@ class MetersListFragment : BaseFragment() {
                 }
             }
             R.id.sync -> {
-                _viewModel.authenticationState.observe(this) { authenticationState: Result<FirebaseUser> ->
-                    when (authenticationState) {
-                        is Result.Success<FirebaseUser> -> {
-                            _viewModel.startDataSyncing(authenticationState.data.uid)
-                        }
-                        else -> {
 
-                        }
-                    }
+                val authenticatedUser = _viewModel.authenticatedUser
+
+                if (authenticatedUser != null) {
+                    _viewModel.startDataSyncing(authenticatedUser.uid)
+                } else {
+                    //TODO ask them to login to continue syncing the data
                 }
-
             }
         }
         return super.onOptionsItemSelected(item)

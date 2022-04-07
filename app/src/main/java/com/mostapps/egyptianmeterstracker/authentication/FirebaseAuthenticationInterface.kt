@@ -7,6 +7,7 @@ import com.mostapps.egyptianmeterstracker.utils.Result
 interface FirebaseAuthenticationInterface {
 
 
+    fun getCurrentUser(): FirebaseUser?
     fun getUserAuthenticationState(): LiveData<Result<FirebaseUser>>
 
 
