@@ -32,6 +32,8 @@ interface MetersDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllMeters(vararg databaseMeters: DatabaseMeter)
 
+    @Query("DELETE from meters WHERE meterId = :meterId")
+    suspend fun deleteMeter(meterId: String)
 
     //////////////////////////////////////////////////////////////////////////////////
 

@@ -1,11 +1,10 @@
 package com.mostapps.egyptianmeterstracker.data.remote
 
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeter
+import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.remote.models.User
 import com.mostapps.egyptianmeterstracker.utils.Result
 import kotlinx.coroutines.tasks.await
@@ -23,7 +22,7 @@ class FirebaseDatabaseManager(private val database: FirebaseDatabase) : Firebase
         database.reference.child(USERS_KEY).child(userId).setValue(user).await()
     }
 
-    override suspend fun getMetersByUserId(
+    override suspend fun downloadMetersOfUserId(
         userId: String
     ): Result<List<RemoteMeter>> {
         val data = database.reference.child(METERS_KEY).child(userId).get().await()
@@ -34,6 +33,27 @@ class FirebaseDatabaseManager(private val database: FirebaseDatabase) : Firebase
                 Result.Success(metersData)
             }
         return Result.Error("Error")
+
+    }
+
+    override suspend fun uploadMetersOfUserId(userId: String, metersToUpload: List<RemoteMeter>) {
+        database.reference.child(METERS_KEY).child(userId).setValue(metersToUpload).await()
+    }
+
+
+    override suspend fun downloadMeterCollectionsOfUser(userId: String): Result<List<RemoteMeterReadingsCollection>> {
+        val data = database.reference.child(METER_COLLECTIONS_KEY).child(userId).get().await()
+        if (data.exists() && data.hasChildren())
+            return data.run {
+                val meterReadingsCollections: List<RemoteMeterReadingsCollection> =
+                    children.mapNotNull { remoteMeter ->
+                        remoteMeter.getValue(
+                            RemoteMeterReadingsCollection::class.java
+                        )
+                    }
+                Result.Success(meterReadingsCollections)
+            }
+        return Result.Error("Errot")
 
     }
 
