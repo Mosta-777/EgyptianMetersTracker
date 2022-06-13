@@ -44,8 +44,11 @@ interface MetersDao {
     @Query("SELECT * FROM meterReadings where meterReadingId = :meterReadingId")
     suspend fun getMeterReadingById(meterReadingId: String): DatabaseMeterReading?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMeterReading(databaseMeterReading: DatabaseMeterReading)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun bulkInsertMeterReading(vararg databaseMeterReadings: DatabaseMeterReading)
 
 
     //////////////////////////////////////////////////////////////////////////////////
@@ -61,8 +64,13 @@ interface MetersDao {
     @Query("SELECT * FROM meterReadingsCollection where meterReadingsCollectionId = :meterReadingsCollectionId")
     suspend fun getMeterReadingsCollectionById(meterReadingsCollectionId: String): DatabaseMeterReadingsCollection?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMeterReadingsCollection(meterReadingsCollectionDTO: DatabaseMeterReadingsCollection)
+
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun bulkInsertMeterReadingsCollections(vararg meterReadingsCollections: DatabaseMeterReadingsCollection)
 
     /////////////////////////////////////////////////////////////////////////////////
     //Relations queries

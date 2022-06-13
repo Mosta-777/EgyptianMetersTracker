@@ -73,18 +73,11 @@ class MetersRepository(
             }
         }
 
-    override suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter) {
-        wrapEspressoIdlingResource {
-            withContext(ioDispatcher) {
-                metersDao.insertAllMeters(databaseMeters = databaseMeter)
-            }
-        }
-    }
 
     override suspend fun bulkInsertMeterReadingsCollections(vararg databaseMeterReadingsCollection: DatabaseMeterReadingsCollection) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                metersDao.insertAllMeterReadingsCollection(databaseMeterReadingsCollection)
+                metersDao.bulkInsertMeterReadingsCollections(meterReadingsCollections = databaseMeterReadingsCollection)
             }
         }
     }
@@ -93,7 +86,7 @@ class MetersRepository(
     override suspend fun bulkInsertMeterReadings(vararg meterReadings: DatabaseMeterReading) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                metersDao.insertAllMEterReadings(meterReadings)
+                metersDao.bulkInsertMeterReading(databaseMeterReadings = meterReadings)
             }
         }
     }
@@ -174,6 +167,7 @@ class MetersRepository(
         val distinctiveInLocal =
             finishedLocalCollections.filter { it.meterReadingsCollectionId !in finishedRemoteCollections.map { item -> item.meterReadingsCollectionId } }
         //Download and upload the distinctive finished ones with their corresponding readings
+
 
     }
 
