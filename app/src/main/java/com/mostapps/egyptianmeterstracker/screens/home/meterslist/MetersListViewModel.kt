@@ -38,7 +38,7 @@ class MetersListViewModel(
                             name = meter.meterName,
                             lastRecordedReadingDate = DateUtils.formatDate(
                                 meter.lastReadingDate,
-                                DateUtils.DEFAULT_DATE_FORMAT
+                                DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
                             ),
                             meterType = meter.meterType
                         )

@@ -35,7 +35,7 @@ class CreateMeterViewModel(
     }
 
 
-    fun validateMeterData(): Result<Boolean> {
+    private fun validateMeterData(): Result<Boolean> {
 
         //TODO add any needed validation code in here
         //Validations i am thinking of right now:
@@ -71,6 +71,7 @@ class CreateMeterViewModel(
                     meterReadingsCollectionId = meterReadingsCollectionID,
                     parentMeterId = meterID,
                     collectionStartDate = now,
+                    //TODO look into the collection slice
                     collectionCurrentSlice = 1
                 ),
                 firstDatabaseMeterReading = DatabaseMeterReading(
@@ -78,7 +79,7 @@ class CreateMeterViewModel(
                     meterReading = Integer.parseInt(firstMeterReading.value!!),
                     readingDate = DateUtils.formatDate(
                         firstMeterReadingDate.value,
-                        DateUtils.DEFAULT_DATE_FORMAT
+                        DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
                     ),
                     parentMeterCollectionId = meterReadingsCollectionID
                 ),
@@ -91,8 +92,8 @@ class CreateMeterViewModel(
 
             )
             showLoading.postValue(false)
-            showToast.value = app.getString(R.string.meter_saved)
-            navigationCommand.value = NavigationCommand.Back
+            showToast.postValue(app.getString(R.string.meter_saved))
+            navigationCommand.postValue(NavigationCommand.Back)
         }
     }
 

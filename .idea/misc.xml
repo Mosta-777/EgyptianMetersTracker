@@ -10,10 +10,12 @@
         <entry key="..\:/Android Apps/EgyptianMetersTracker/app/src/main/res/layout/fragment_meters_list.xml" value="0.14492753623188406" />
         <entry key="..\:/Android Apps/EgyptianMetersTracker/app/src/main/res/layout/meter_list_item.xml" value="0.25" />
         <entry key="..\:/Android Apps/EgyptianMetersTracker/app/src/main/res/menu/home_menu.xml" value="0.1796875" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16210739614994935" />
+        <entry key="app/src/main/res/layout/fragment_add_meter.xml" value="0.16210739614994935" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
