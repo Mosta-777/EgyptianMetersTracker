@@ -11,9 +11,16 @@
         <action
             android:id="@+id/action_metersListFragment_to_createMeterFragment"
             app:destination="@id/createMeterFragment" />
+        <action
+            android:id="@+id/action_metersListFragment_to_addMeterReadingFragment"
+            app:destination="@id/addMeterReadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/createMeterFragment"
         android:name="com.mostapps.egyptianmeterstracker.screens.home.createmeter.CreateMeterFragment"
         android:label="CreateMeterFragment" />
+    <fragment
+        android:id="@+id/addMeterReadingFragment"
+        android:name="com.mostapps.egyptianmeterstracker.screens.home.add.meter.reading.AddMeterReadingFragment"
+        android:label="AddMeterReadingFragment" />
 </navigation>

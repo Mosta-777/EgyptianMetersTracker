@@ -76,17 +76,17 @@ interface MetersDao {
     //Relations queries
     @Transaction
     @Query("SELECT * FROM meters WHERE meterId = :meterId")
-    suspend fun getMeterWithMeterReadings(meterId: String): List<MeterWithMeterReadings>
+    suspend fun getMeterWithMeterReadings(meterId: String): MeterWithMeterReadings
 
 
     @Transaction
     @Query("SELECT * FROM meters WHERE meterId = :meterId")
-    suspend fun getMeterWithMeterReadingsCollections(meterId: String): List<MeterWithMeterReadingsCollections>
+    suspend fun getMeterWithMeterReadingsCollections(meterId: String): MeterWithMeterReadingsCollections
 
 
     @Transaction
     @Query("SELECT * FROM meterReadingsCollection WHERE meterReadingsCollectionId = :meterReadingsCollectionId")
-    suspend fun getMeterReadingsCollectionWithMeterReadings(meterReadingsCollectionId: String): List<MeterReadingsCollectionWithMeterReadings>
+    suspend fun getMeterReadingsCollectionWithMeterReadings(meterReadingsCollectionId: String): MeterReadingsCollectionWithMeterReadings
 
 
     @Transaction

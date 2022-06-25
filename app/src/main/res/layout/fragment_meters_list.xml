@@ -11,7 +11,7 @@
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".screens.home.meterslist.MetersListFragment">
@@ -22,7 +22,7 @@
             android:background="@color/white">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reminderssRecyclerView"
+                android:id="@+id/meters_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:liveData="@{viewModel.metersList}"
@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/noDataTextView"
+                android:id="@+id/no_data_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_no_data"
@@ -46,7 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
@@ -57,16 +57,62 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/addReminderFAB"
+                android:id="@+id/add_meter_or_meter_reading_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
                 android:src="@drawable/ic_add"
                 app:fabSize="normal"
-                app:layout_anchor="@id/reminderssRecyclerView"
+                android:layout_gravity="end"
+                android:text="@string/add"
+                app:layout_anchor="@id/meters_recycler_view"
                 app:layout_anchorGravity="bottom|right|end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+
+            <!-- TODO Change the icons and the colors of the buttons -->
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_meter_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:src="@drawable/ic_add"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/add_meter_or_meter_reading_fab"
+                app:layout_constraintEnd_toEndOf="@+id/add_meter_or_meter_reading_fab" />
+
+            <TextView
+                android:id="@+id/add_meter_fab_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/create_new_meter"
+                app:layout_constraintBottom_toBottomOf="@+id/add_meter_fab"
+                app:layout_constraintEnd_toStartOf="@+id/add_meter_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_meter_fab" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_meter_reading_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_add"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/add_meter_fab"
+                app:layout_constraintEnd_toEndOf="@id/add_meter_fab"/>
+            <TextView
+                android:id="@+id/add_meter_reading_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/add_new_meter_reading"
+                app:layout_constraintBottom_toBottomOf="@+id/add_meter_reading_fab"
+                app:layout_constraintEnd_toStartOf="@+id/add_meter_reading_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_meter_reading_fab" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

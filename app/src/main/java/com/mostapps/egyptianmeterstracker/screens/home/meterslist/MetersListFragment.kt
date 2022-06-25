@@ -3,26 +3,26 @@ package com.mostapps.egyptianmeterstracker.screens.home.meterslist
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.authentication.AuthenticationActivity
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMetersListBinding
-import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setTitle
 import com.mostapps.egyptianmeterstracker.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MetersListFragment : BaseFragment() {
 
     override val _viewModel: MetersListViewModel by viewModel()
 
     private lateinit var binding: FragmentMetersListBinding
-
+    var isAllFabsVisible: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +41,8 @@ class MetersListFragment : BaseFragment() {
 
         binding.refreshLayout.setOnRefreshListener { _viewModel.loadMeters() }
 
+
+
         return binding.root
     }
 
@@ -48,9 +50,64 @@ class MetersListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         setupRecyclerView()
-        binding.addReminderFAB.setOnClickListener {
-            navigateToAddMeter()
+        binding.addMeterOrMeterReadingFab.setOnClickListener {
+            navigateToAddMeterScreen()
         }
+
+
+        binding.addMeterFab.visibility = View.GONE
+        binding.addMeterReadingFab.visibility = View.GONE
+        binding.addMeterFabText.visibility = View.GONE
+        binding.addMeterReadingText.visibility = View.GONE
+
+
+
+
+        binding.addMeterOrMeterReadingFab.setOnClickListener {
+            if (!isAllFabsVisible) {
+                binding.addMeterOrMeterReadingFab.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        context,
+                        R.anim.rotate_forward
+                    )
+                )
+                binding.addMeterFab.show()
+                binding.addMeterReadingFab.show()
+                binding.addMeterFabText.visibility = View.VISIBLE
+                binding.addMeterReadingText.visibility = View.VISIBLE
+                isAllFabsVisible = true
+            } else {
+                binding.addMeterOrMeterReadingFab.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        context,
+                        R.anim.rotate_backward
+                    )
+                )
+                binding.addMeterFab.hide()
+                binding.addMeterReadingFab.hide()
+                binding.addMeterFabText.visibility = View.GONE
+                binding.addMeterReadingText.visibility = View.GONE
+                isAllFabsVisible = false
+            }
+        }
+
+        binding.addMeterReadingFab.setOnClickListener {
+            navigateToAddMeterReadingScreen()
+        }
+
+        binding.addMeterFab.setOnClickListener {
+            navigateToAddMeterScreen()
+        }
+
+
+    }
+
+    private fun navigateToAddMeterReadingScreen() {
+        _viewModel.navigationCommand.postValue(
+            NavigationCommand.To(
+                MetersListFragmentDirections.actionMetersListFragmentToAddMeterReadingFragment()
+            )
+        )
     }
 
     override fun onResume() {
@@ -58,7 +115,7 @@ class MetersListFragment : BaseFragment() {
         _viewModel.loadMeters()
     }
 
-    private fun navigateToAddMeter() {
+    private fun navigateToAddMeterScreen() {
         _viewModel.navigationCommand.postValue(
             NavigationCommand.To(
                 MetersListFragmentDirections.actionMetersListFragmentToCreateMeterFragment()
@@ -68,7 +125,7 @@ class MetersListFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         val adapter = MetersListAdapter {}
-        binding.reminderssRecyclerView.setup(adapter)
+        binding.metersRecyclerView.setup(adapter)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -31,4 +31,9 @@
     </string-array>
 
 
+    <string name="add_new_meter_reading">ADD NEW METER READING</string>
+    <string name="meter_reading_saved">Meter Reading Saved</string>
+    <string name="error_general">Error, please try again later</string>
+    <string name="register">Register</string>
+    <string name="add">ADD</string>
 </resources>

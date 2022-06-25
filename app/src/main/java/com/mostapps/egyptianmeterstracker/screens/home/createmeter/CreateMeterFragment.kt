@@ -34,7 +34,7 @@ class CreateMeterFragment() : BaseFragment() {
         _binding.viewModel = _viewModel
 
 
-        setDisplayHomeAsUpEnabled(false)
+        setDisplayHomeAsUpEnabled(true)
         setTitle(getString(R.string.create_new_meter))
         return _binding.root
     }

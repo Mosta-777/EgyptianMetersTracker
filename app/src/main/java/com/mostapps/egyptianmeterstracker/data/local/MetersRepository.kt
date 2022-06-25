@@ -9,6 +9,7 @@ import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadin
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.local.entites.asRemoteModel
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseInterface
 import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeter
 import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeterReadingsCollection
@@ -99,6 +100,18 @@ class MetersRepository(
         }
     }
 
+    override suspend fun saveMeterReading(meterReading: DatabaseMeterReading) {
+        withContext(ioDispatcher) {
+            wrapEspressoIdlingResource {
+                return@withContext try {
+                    Result.Success(metersDao.insertMeterReading(meterReading))
+                } catch (ex: Exception) {
+                    Result.Error(ex.localizedMessage)
+                }
+            }
+        }
+    }
+
 
     override suspend fun getMeterReadingsCollections(): Result<List<DatabaseMeterReadingsCollection>> =
         withContext(ioDispatcher) {
@@ -115,6 +128,17 @@ class MetersRepository(
     override suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getMeterReadingsCollectionsOfMeter(meterId: String): Result<MeterWithMeterReadingsCollections> =
+        withContext(ioDispatcher) {
+            wrapEspressoIdlingResource {
+                return@withContext try {
+                    Result.Success(metersDao.getMeterWithMeterReadingsCollections(meterId))
+                } catch (ex: Exception) {
+                    Result.Error(ex.localizedMessage)
+                }
+            }
+        }
 
 
     override suspend fun syncAllData(uid: String) {

@@ -11,6 +11,7 @@ import com.mostapps.egyptianmeterstracker.data.local.LocalDB
 import com.mostapps.egyptianmeterstracker.data.local.MetersRepository
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseInterface
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseManager
+import com.mostapps.egyptianmeterstracker.screens.home.add.meter.reading.AddMeterReadingViewModel
 import com.mostapps.egyptianmeterstracker.screens.home.createmeter.CreateMeterViewModel
 import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListViewModel
 import com.mostapps.egyptianmeterstracker.utils.SharedPreferencesUtils
@@ -47,6 +48,14 @@ class MyApp : Application() {
                     get() as MetersDataSource
                 )
             }
+
+            viewModel {
+                AddMeterReadingViewModel(
+                    get(),
+                    get() as MetersDataSource
+                )
+            }
+
 
             single { FirebaseAuth.getInstance() }
             single { FirebaseDatabase.getInstance() }
