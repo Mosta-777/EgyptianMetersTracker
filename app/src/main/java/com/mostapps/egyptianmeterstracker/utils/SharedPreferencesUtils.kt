@@ -9,7 +9,7 @@ class SharedPreferencesUtils(val context: Context) {
     private val languageKey: String = "lang_key"
     private val arabicLanguageCode: String = "ar"
     private val englishLanguageCode: String = "en"
-    private val defaultLanguage: String = arabicLanguageCode
+    private val defaultLanguage: String = englishLanguageCode
 
     private val pref: SharedPreferences =
         context.getSharedPreferences("MetersAppPreferences", Context.MODE_PRIVATE)

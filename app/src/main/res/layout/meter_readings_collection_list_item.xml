@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.mostapps.egyptianmeterstracker.models.MeterDataListItem" />
+            type="com.mostapps.egyptianmeterstracker.models.MeterReadingsCollectionListItem" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -23,42 +23,30 @@
             android:padding="@dimen/padding_medium">
 
 
-            <ImageView
-                android:id="@+id/meter_type_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:contentDescription="@string/meter_type_icon_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:meterTypeIcon="@{item.meterType}"
-                app:srcCompat="@drawable/ic_electricity_64" />
-
             <TextView
                 android:id="@+id/startDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@{item.name}"
+                android:text="@{item.startDate}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal"
-                app:layout_constraintStart_toEndOf="@id/meter_type_icon"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/meter_name" />
+                tools:text="Start Date" />
 
             <TextView
                 android:id="@+id/endDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="@{item.lastRecordedReadingDate}"
+                android:text="@{item.endDate}"
                 android:textSize="@dimen/text_size_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/startDate"
                 app:layout_constraintTop_toBottomOf="@id/startDate"
-                tools:text="@string/collector_last_arrived_date" />
+                tools:text="End Date" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeter
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
+import java.io.Serializable
 import java.util.*
 
 
@@ -15,7 +16,7 @@ data class DatabaseMeter(
     @ColumnInfo(name = "meterType") val meterType: Int?,
     @ColumnInfo(name = "meterSubType") val meterSubType: Int?,
     @ColumnInfo(name = "lastReadingDate") var lastReadingDate: Date?
-)
+) : Serializable
 
 fun List<DatabaseMeter>.asRemoteModel(): List<RemoteMeter> {
     return map {

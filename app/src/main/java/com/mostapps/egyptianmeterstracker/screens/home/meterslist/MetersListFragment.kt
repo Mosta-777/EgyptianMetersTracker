@@ -1,5 +1,6 @@
 package com.mostapps.egyptianmeterstracker.screens.home.meterslist
 
+import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MetersDetailsActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -11,6 +12,7 @@ import com.mostapps.egyptianmeterstracker.authentication.AuthenticationActivity
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMetersListBinding
+import com.mostapps.egyptianmeterstracker.models.MeterDataListItem
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setTitle
 import com.mostapps.egyptianmeterstracker.utils.setup
@@ -18,6 +20,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MetersListFragment : BaseFragment() {
+
+
+    companion object {
+        const val SELECTED_METER_KEY = "selectedMeterKey"
+    }
+
 
     override val _viewModel: MetersListViewModel by viewModel()
 
@@ -124,7 +132,13 @@ class MetersListFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        val adapter = MetersListAdapter {}
+        val adapter = MetersListAdapter { _: MeterDataListItem, position: Int ->
+            activity?.let {
+                val intent = Intent(it, MetersDetailsActivity::class.java)
+                intent.putExtra(SELECTED_METER_KEY, _viewModel.metersList[position])
+                it.startActivity(intent)
+            }
+        }
         binding.metersRecyclerView.setup(adapter)
     }
 

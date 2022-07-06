@@ -26,6 +26,12 @@
         <activity
             android:name=".screens.home.HomeActivity"
             android:exported="false" />
+
+
+        <activity
+            android:name=".screens.details.meterdetails.MetersDetailsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

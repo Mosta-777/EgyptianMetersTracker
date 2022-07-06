@@ -20,7 +20,9 @@ class MetersListViewModel(
     private val dataSource: MetersDataSource
 ) : BaseViewModel(app) {
 
-    val metersList = MutableLiveData<List<MeterDataListItem>>()
+
+    var metersList = emptyList<DatabaseMeter>()
+    val metersListItems = MutableLiveData<List<MeterDataListItem>>()
 
     private val firebaseAuthenticationManager: FirebaseAuthenticationManager
             by KoinJavaComponent.inject(FirebaseAuthenticationManager::class.java)
@@ -32,8 +34,9 @@ class MetersListViewModel(
             showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {
+                    metersList = result.data as List<DatabaseMeter>
                     val dataList = ArrayList<MeterDataListItem>()
-                    dataList.addAll((result.data as List<DatabaseMeter>).map { meter ->
+                    dataList.addAll((metersList).map { meter ->
                         MeterDataListItem(
                             name = meter.meterName,
                             lastRecordedReadingDate = DateUtils.formatDate(
@@ -43,7 +46,7 @@ class MetersListViewModel(
                             meterType = meter.meterType
                         )
                     })
-                    metersList.value = dataList
+                    metersListItems.value = dataList
                 }
                 is Result.Error ->
                     showSnackBar.value = result.message
@@ -54,7 +57,7 @@ class MetersListViewModel(
     }
 
     private fun invalidateShowNoData() {
-        showNoData.value = metersList.value == null || metersList.value!!.isEmpty()
+        showNoData.value = metersListItems.value == null || metersListItems.value!!.isEmpty()
     }
 
 
