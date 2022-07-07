@@ -8,6 +8,7 @@ import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.data.local.entites.asRemoteModel
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseInterface
@@ -91,6 +92,21 @@ class MetersRepository(
             }
         }
     }
+
+    override suspend fun getMeterReadingsOfMeterReadingsCollection(meterReadingsCollectionId: String): Result<MeterReadingsCollectionWithMeterReadings> =
+        withContext(ioDispatcher) {
+            wrapEspressoIdlingResource {
+                return@withContext try {
+                    Result.Success(
+                        metersDao.getMeterReadingsCollectionWithMeterReadings(
+                            meterReadingsCollectionId
+                        )
+                    )
+                } catch (ex: Exception) {
+                    Result.Error(ex.localizedMessage)
+                }
+            }
+        }
 
     override suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter) {
         wrapEspressoIdlingResource {

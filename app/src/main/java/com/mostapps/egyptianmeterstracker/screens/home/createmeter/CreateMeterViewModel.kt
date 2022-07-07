@@ -62,9 +62,9 @@ class CreateMeterViewModel(
             dataSource.saveMeter(
                 databaseMeter = DatabaseMeter(
                     meterId = meterID,
-                    meterName = meterName.value,
-                    meterType = meterType.value,
-                    meterSubType = meterSubType.value,
+                    meterName = meterName.value!!,
+                    meterType = meterType.value!!,
+                    meterSubType = meterSubType.value!!,
                     lastReadingDate = now
                 ),
                 meterReadingsCollection = DatabaseMeterReadingsCollection(

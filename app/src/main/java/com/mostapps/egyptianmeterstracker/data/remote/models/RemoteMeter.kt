@@ -18,9 +18,9 @@ fun List<RemoteMeter>.asDatabaseMeter(): List<DatabaseMeter> {
     return map {
         DatabaseMeter(
             meterId = it.meterId!!,
-            meterName = it.meterName,
-            meterType = it.meterType,
-            meterSubType = it.meterSubType,
+            meterName = it.meterName!!,
+            meterType = it.meterType!!,
+            meterSubType = it.meterSubType!!,
             lastReadingDate = DateUtils.formatDate(
                 it.lastReadingDate,
                 DateUtils.DEFAULT_DATE_FORMAT

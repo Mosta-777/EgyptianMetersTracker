@@ -12,10 +12,10 @@ import java.util.*
 @Entity(tableName = "meters")
 data class DatabaseMeter(
     @PrimaryKey @ColumnInfo(name = "meterId") val meterId: String,
-    @ColumnInfo(name = "meterName") var meterName: String?,
-    @ColumnInfo(name = "meterType") val meterType: Int?,
-    @ColumnInfo(name = "meterSubType") val meterSubType: Int?,
-    @ColumnInfo(name = "lastReadingDate") var lastReadingDate: Date?
+    @ColumnInfo(name = "meterName") var meterName: String,
+    @ColumnInfo(name = "meterType") val meterType: Int,
+    @ColumnInfo(name = "meterSubType") val meterSubType: Int,
+    @ColumnInfo(name = "lastReadingDate") var lastReadingDate: Date
 ) : Serializable
 
 fun List<DatabaseMeter>.asRemoteModel(): List<RemoteMeter> {

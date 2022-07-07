@@ -1,7 +1,7 @@
 package com.mostapps.egyptianmeterstracker.utils
 
 
-object MeterTariffUtils {
+object MeterTariffConstants {
 
     const val HOME_ELECTRICITY_FIRST_SLICE_KWH_LIMIT = 50
     const val HOME_ELECTRICITY_FIRST_SLICE_MULTIPLIER = 0.48

@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
 import com.mostapps.egyptianmeterstracker.utils.Result
@@ -16,8 +17,8 @@ interface MetersDataSource {
     suspend fun syncAllData(uid: String)
 
 
-
     //Meter specific functions
+    suspend fun getMeter(id: String): Result<DatabaseMeter>
     suspend fun getMeters(): Result<List<DatabaseMeter>>
     suspend fun saveMeter(
         databaseMeter: DatabaseMeter,
@@ -25,15 +26,24 @@ interface MetersDataSource {
         firstDatabaseMeterReading: DatabaseMeterReading,
         currentDatabaseMeterReading: DatabaseMeterReading
     )
+
     suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter)
+
+
+    //Meter Readings Collections specific functions
+    suspend fun bulkInsertMeterReadingsCollections(vararg databaseMeterReadingsCollection: DatabaseMeterReadingsCollection)
+    suspend fun getMeterReadingsCollections(): Result<List<DatabaseMeterReadingsCollection>>
 
 
     //Meter Readings specific functions
     suspend fun saveMeterReading(meterReading: DatabaseMeterReading)
     suspend fun bulkInsertMeterReadings(vararg meterReadings: DatabaseMeterReading)
-    suspend fun bulkInsertMeterReadingsCollections(vararg databaseMeterReadingsCollection: DatabaseMeterReadingsCollection)
-    suspend fun getMeter(id: String): Result<DatabaseMeter>
-    suspend fun getMeterReadingsCollections(): Result<List<DatabaseMeterReadingsCollection>>
-    suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings>
+
+
+    //Relational functions
+    suspend fun getMeterReadingsOfMeterReadingsCollection(meterReadingsCollectionId: String): Result<MeterReadingsCollectionWithMeterReadings>
     suspend fun getMeterReadingsCollectionsOfMeter(meterId: String): Result<MeterWithMeterReadingsCollections>
+    suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings>
+
+
 }

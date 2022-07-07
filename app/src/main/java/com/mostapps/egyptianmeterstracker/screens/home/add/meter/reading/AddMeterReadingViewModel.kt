@@ -86,7 +86,7 @@ class AddMeterReadingViewModel(
                                         meterReadingId = meterReadingID,
                                         parentMeterId = selectedMeter.meterId,
                                         parentMeterCollectionId = unfinishedMeterReadingsCollection.meterReadingsCollectionId,
-                                        meterReading = meterReading.value?.toInt(),
+                                        meterReading = meterReading.value?.toInt()!!,
                                         readingDate = now
                                     )
                                 )

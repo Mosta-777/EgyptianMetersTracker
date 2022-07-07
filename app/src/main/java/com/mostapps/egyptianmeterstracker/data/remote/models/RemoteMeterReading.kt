@@ -19,9 +19,9 @@ fun List<RemoteMeterReading>.asDatabaseMeterReading(): List<DatabaseMeterReading
     return map {
         DatabaseMeterReading(
             meterReadingId = it.meterReadingId!!,
-            parentMeterId = it.parentMeterId,
-            parentMeterCollectionId = it.parentMeterCollectionId,
-            meterReading = it.meterReading,
+            parentMeterId = it.parentMeterId!!,
+            parentMeterCollectionId = it.parentMeterCollectionId!!,
+            meterReading = it.meterReading!!,
             readingDate = DateUtils.formatDate(
                 it.readingDate,
                 DateUtils.DEFAULT_DATE_FORMAT

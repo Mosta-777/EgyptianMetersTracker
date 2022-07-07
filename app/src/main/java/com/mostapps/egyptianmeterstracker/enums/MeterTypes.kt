@@ -1,4 +1,4 @@
-package com.mostapps.egyptianmeterstracker
+package com.mostapps.egyptianmeterstracker.enums
 
 enum class MeterTypes(val meterValue: Int) {
     ELECTRICITY(0),

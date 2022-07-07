@@ -10,8 +10,8 @@ import java.util.*
 data class DatabaseMeterReading(
     @PrimaryKey @ColumnInfo(name = "meterReadingId") val meterReadingId: String = UUID.randomUUID()
         .toString(),
-    @ColumnInfo(name = "parentMeterId") val parentMeterId: String?,
-    @ColumnInfo(name = "parentMeterCollectionId") val parentMeterCollectionId: String?,
-    @ColumnInfo(name = "meterReading") var meterReading: Int?,
-    @ColumnInfo(name = "readingDate") var readingDate: Date?
+    @ColumnInfo(name = "parentMeterId") val parentMeterId: String,
+    @ColumnInfo(name = "parentMeterCollectionId") val parentMeterCollectionId: String,
+    @ColumnInfo(name = "meterReading") var meterReading: Int,
+    @ColumnInfo(name = "readingDate") var readingDate: Date
 )

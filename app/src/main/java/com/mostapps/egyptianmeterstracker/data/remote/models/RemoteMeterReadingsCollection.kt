@@ -18,7 +18,7 @@ fun List<RemoteMeterReadingsCollection>.asDatabaseMeter(): List<DatabaseMeterRea
     return map {
         DatabaseMeterReadingsCollection(
             meterReadingsCollectionId = it.meterReadingsCollectionId!!,
-            parentMeterId = it.parentMeterId,
+            parentMeterId = it.parentMeterId!!,
             collectionStartDate = DateUtils.formatDate(
                 it.collectionStartDate,
                 DateUtils.DEFAULT_DATE_FORMAT
@@ -27,7 +27,7 @@ fun List<RemoteMeterReadingsCollection>.asDatabaseMeter(): List<DatabaseMeterRea
                 it.collectionEndDate,
                 DateUtils.DEFAULT_DATE_FORMAT
             ),
-            collectionCurrentSlice = it.collectionCurrentSlice,
+            collectionCurrentSlice = it.collectionCurrentSlice!!,
             isFinished = it.isFinished
         )
     }

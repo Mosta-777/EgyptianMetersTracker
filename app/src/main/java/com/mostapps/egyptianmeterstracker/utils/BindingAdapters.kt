@@ -8,7 +8,7 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.mostapps.egyptianmeterstracker.MeterTypes
+import com.mostapps.egyptianmeterstracker.enums.MeterTypes
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseRecyclerViewAdapter
 
