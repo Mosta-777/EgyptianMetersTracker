@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.firebase.ui.auth.AuthUI
 import com.mostapps.egyptianmeterstracker.R
@@ -62,6 +63,49 @@ class MetersListFragment : BaseFragment() {
             navigateToAddMeterScreen()
         }
 
+        _viewModel.showResolveConflictDialogue.observe(viewLifecycleOwner) { noOfConflicts ->
+            if (noOfConflicts != null && noOfConflicts != 0) {
+                with(AlertDialog.Builder(requireContext()))
+                {
+                    setTitle(getString(R.string.title_conflict_dialogue))
+                    setMessage(getString(R.string.label_conflict_dialogue, noOfConflicts))
+                    setPositiveButton(
+                        getString(R.string.label_keep_local_data)
+                    ) { _, _ ->
+
+
+                        if (_viewModel.authenticatedUser?.run {
+                                _viewModel.syncConflictedData(
+                                    numberOfConflicts = noOfConflicts,
+                                    keepLocal = true,
+                                    uid = uid
+                                )
+                            } == null) {
+                            //TODO ask them to login to continue syncing the data
+
+                        }
+
+
+                    }
+                    setNegativeButton(
+                        getString(R.string.label_keep_remote_data)
+                    ) { _, _ ->
+                        if (_viewModel.authenticatedUser?.run {
+                                _viewModel.syncConflictedData(
+                                    numberOfConflicts = noOfConflicts,
+                                    keepLocal = false,
+                                    uid = uid
+                                )
+                            } == null) {
+                            //TODO ask them to login to continue syncing the data
+
+                        }
+                    }
+                    show()
+                }
+
+            }
+        }
 
         binding.addMeterFab.visibility = View.GONE
         binding.addMeterReadingFab.visibility = View.GONE
@@ -153,13 +197,14 @@ class MetersListFragment : BaseFragment() {
             }
             R.id.sync -> {
 
-                val authenticatedUser = _viewModel.authenticatedUser
 
-                if (authenticatedUser != null) {
-                    _viewModel.startDataSyncing(authenticatedUser.uid)
-                } else {
+                if (_viewModel.authenticatedUser?.run {
+                        _viewModel.startDataSyncing(uid)
+                    } == null) {
                     //TODO ask them to login to continue syncing the data
+
                 }
+
             }
         }
         return super.onOptionsItemSelected(item)

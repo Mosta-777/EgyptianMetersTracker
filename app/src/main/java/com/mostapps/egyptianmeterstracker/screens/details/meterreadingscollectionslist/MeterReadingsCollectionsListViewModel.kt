@@ -16,6 +16,8 @@ import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import com.mostapps.egyptianmeterstracker.utils.MeterTariffMachine
 import com.mostapps.egyptianmeterstracker.utils.Result
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MeterReadingsCollectionsListViewModel(
     app: Application,
@@ -57,12 +59,12 @@ class MeterReadingsCollectionsListViewModel(
                                 startDate = DateUtils.formatDate(
                                     meterReadingCollection.collectionStartDate,
                                     DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                                ),
+                                )?: "-",
                                 endDate = meterReadingCollection.collectionEndDate?.let {
                                     DateUtils.formatDate(
                                         it,
                                         DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                                    )
+                                    ) ?: "-"
                                 },
                                 currentMeterSlice = meterReadingCollection.collectionCurrentSlice
                             )
@@ -103,7 +105,7 @@ class MeterReadingsCollectionsListViewModel(
                             readingDate = DateUtils.formatDate(
                                 "11/11/2021",
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: Date(),
                             parentMeterCollectionId = "1"
                         ),
                         DatabaseMeterReading(
@@ -112,7 +114,7 @@ class MeterReadingsCollectionsListViewModel(
                             readingDate = DateUtils.formatDate(
                                 "11/11/2021",
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: Date(),
                             parentMeterCollectionId = "1"
                         ),
                         DatabaseMeterReading(
@@ -121,7 +123,7 @@ class MeterReadingsCollectionsListViewModel(
                             readingDate = DateUtils.formatDate(
                                 "11/11/2021",
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: Date(),
                             parentMeterCollectionId = "1"
                         ),
                         DatabaseMeterReading(
@@ -130,7 +132,7 @@ class MeterReadingsCollectionsListViewModel(
                             readingDate = DateUtils.formatDate(
                                 "11/11/2021",
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: Date(),
                             parentMeterCollectionId = "1"
                         ),
                         DatabaseMeterReading(
@@ -139,7 +141,7 @@ class MeterReadingsCollectionsListViewModel(
                             readingDate = DateUtils.formatDate(
                                 "11/11/2021",
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: Date(),
                             parentMeterCollectionId = "1"
                         ),
                         DatabaseMeterReading(
@@ -148,7 +150,7 @@ class MeterReadingsCollectionsListViewModel(
                             readingDate = DateUtils.formatDate(
                                 "11/11/2021",
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: Date(),
                             parentMeterCollectionId = "1"
                         ),
                         DatabaseMeterReading(
@@ -157,7 +159,7 @@ class MeterReadingsCollectionsListViewModel(
                             readingDate = DateUtils.formatDate(
                                 "11/11/2021",
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: Date(),
                             parentMeterCollectionId = "1"
                         )
                     )

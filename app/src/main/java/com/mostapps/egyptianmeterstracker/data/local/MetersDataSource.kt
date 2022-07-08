@@ -14,7 +14,6 @@ interface MetersDataSource {
 
     //User specific functions
     suspend fun storeUserData(user: FirebaseUser)
-    suspend fun syncAllData(uid: String)
 
 
     //Meter specific functions
@@ -26,6 +25,8 @@ interface MetersDataSource {
         firstDatabaseMeterReading: DatabaseMeterReading,
         currentDatabaseMeterReading: DatabaseMeterReading
     )
+    suspend fun syncNonConflictedData(uid: String): Int
+    suspend fun syncConflictedData(uid: String, keepLocalData: Boolean)
 
     suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter)
 
@@ -43,7 +44,7 @@ interface MetersDataSource {
     //Relational functions
     suspend fun getMeterReadingsOfMeterReadingsCollection(meterReadingsCollectionId: String): Result<MeterReadingsCollectionWithMeterReadings>
     suspend fun getMeterReadingsCollectionsOfMeter(meterId: String): Result<MeterWithMeterReadingsCollections>
-    suspend fun getMeterWithMeterReadings(id: String): Result<MeterWithMeterReadings>
+    suspend fun getMeterReadingsOfMeter(id: String): Result<MeterWithMeterReadings>
 
 
 }

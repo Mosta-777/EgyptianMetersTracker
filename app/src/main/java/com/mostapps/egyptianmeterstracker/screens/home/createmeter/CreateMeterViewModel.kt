@@ -80,7 +80,7 @@ class CreateMeterViewModel(
                     readingDate = DateUtils.formatDate(
                         firstMeterReadingDate.value,
                         DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                    ),
+                    ) ?: Date(),
                     parentMeterCollectionId = meterReadingsCollectionID
                 ),
                 currentDatabaseMeterReading = DatabaseMeterReading(

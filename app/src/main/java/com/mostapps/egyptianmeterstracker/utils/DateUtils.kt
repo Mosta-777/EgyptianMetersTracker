@@ -25,18 +25,18 @@ object DateUtils {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun formatDate(date: Date?, formatStr: String?): String {
+    fun formatDate(date: Date?, formatStr: String?): String? {
         return SimpleDateFormat(formatStr ?: DEFAULT_DATE_FORMAT).format(
-            date!!
+            date?: Date()
         )
     }
 
     @SuppressLint("SimpleDateFormat")
     @Throws(ParseException::class)
-    fun formatDate(dateStr: String?, formatStr: String?): Date {
+    fun formatDate(dateStr: String?, formatStr: String?): Date? {
         return SimpleDateFormat(formatStr ?: DEFAULT_DATE_FORMAT).parse(
-            dateStr!!
-        )!!
+            dateStr ?: ""
+        )
     }
 
     fun getYear(date: Date?): Int {

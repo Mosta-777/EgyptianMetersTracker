@@ -27,5 +27,11 @@
     <string name="error_general">حدث خطآ، برجاء المحاولة مره اخري لاحقا</string>
     <string name="register">ســجّل</string>
     <string name="add">ADD</string>
+    <string name="title_conflict_dialogue">تعارض في بيانات العدادات</string>
+    <string name="label_conflict_dialogue">حدث تضارب بين بيانات %1$d عدادات مخزنة علي هذا الهاتف المحمول و العدادات الاخري المخزنه علي السيرفر الخاص بالتطبيق، اختر ايا من البيانات سيتم الاحتفاظ به (هام: البيانات التي لن يتم اختيارها ستمسح نهائيا)</string>
+    <string name="label_keep_local_data">احتفظ بالبيانات المخزنه حاليا علي الهاتف</string>
+    <string name="label_keep_remote_data">احتفظ بالبيانات المخزنه علي السيرفر (البيانات الحاليه سيتم مسحها)</string>
+    <string name="non_conflicted_data_synced">تمت مزامنة العدادات الغير متضاربه</string>
+    <string name="conflicted_data_synced">تمت مزامنة العدادات متضاربه</string>
 
 </resources>

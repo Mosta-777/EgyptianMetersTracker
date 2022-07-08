@@ -36,4 +36,10 @@
     <string name="error_general">Error, please try again later</string>
     <string name="register">Register</string>
     <string name="add">ADD</string>
+    <string name="title_conflict_dialogue">Conflict in meter data</string>
+    <string name="label_conflict_dialogue">"Conflict occurred between %1$d meter(s) data stored on the device and data stored on the server, choose which data to keep? (Note: THE OTHER DATA WILL BE DELETED PERMANENTLY) "</string>
+    <string name="label_keep_local_data">KEEP LOCALLY STORED DATA</string>
+    <string name="label_keep_remote_data">KEEP REMOTELY STORED DATA ON THE SERVER</string>
+    <string name="non_conflicted_data_synced">Data with no conflict synced successfully</string>
+    <string name="conflicted_data_synced">Conflicted Data Synced Successfully</string>
 </resources>

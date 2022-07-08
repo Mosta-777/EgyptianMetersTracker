@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.authentication.FirebaseAuthenticationManager
 import com.mostapps.egyptianmeterstracker.base.BaseViewModel
 import com.mostapps.egyptianmeterstracker.data.local.MetersDataSource
@@ -16,7 +17,7 @@ import org.koin.java.KoinJavaComponent
 
 
 class MetersListViewModel(
-    app: Application,
+    val app: Application,
     private val dataSource: MetersDataSource
 ) : BaseViewModel(app) {
 
@@ -24,8 +25,16 @@ class MetersListViewModel(
     var metersList = emptyList<DatabaseMeter>()
     val metersListItems = MutableLiveData<List<MeterDataListItem>>()
 
+
+    val showResolveConflictDialogue = MutableLiveData<Int>()
+
     private val firebaseAuthenticationManager: FirebaseAuthenticationManager
             by KoinJavaComponent.inject(FirebaseAuthenticationManager::class.java)
+
+
+    val authenticatedUser: FirebaseUser? =
+        firebaseAuthenticationManager.getCurrentUser()
+
 
     fun loadMeters() {
         showLoading.value = true
@@ -42,7 +51,7 @@ class MetersListViewModel(
                             lastRecordedReadingDate = DateUtils.formatDate(
                                 meter.lastReadingDate,
                                 DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                            ),
+                            ) ?: "-",
                             meterType = meter.meterType
                         )
                     })
@@ -61,15 +70,24 @@ class MetersListViewModel(
     }
 
 
-    val authenticatedUser: FirebaseUser? =
-        firebaseAuthenticationManager.getCurrentUser()
-
     fun startDataSyncing(uid: String) {
         showLoading.value = true
         viewModelScope.launch {
-            dataSource.syncAllData(uid)
+            val noOfConflicts = dataSource.syncNonConflictedData(uid)
             showLoading.postValue(false)
             loadMeters()
+            showToast.postValue(app.getString(R.string.non_conflicted_data_synced))
+            showResolveConflictDialogue.postValue(noOfConflicts)
+        }
+    }
+
+    fun syncConflictedData(numberOfConflicts: Int, keepLocal: Boolean, uid: String) {
+        showLoading.value = true
+        viewModelScope.launch {
+            dataSource.syncConflictedData(uid = uid, keepLocalData = keepLocal)
+            showLoading.postValue(false)
+            loadMeters()
+            showToast.postValue(app.getString(R.string.conflicted_data_synced))
         }
     }
 

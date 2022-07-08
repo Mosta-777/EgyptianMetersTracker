@@ -1,20 +1,23 @@
 package com.mostapps.egyptianmeterstracker.data.remote.models
 
+import com.google.firebase.database.IgnoreExtraProperties
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
+import java.util.*
 
 
-class RemoteMeterReadingsCollection(
-    val meterReadingsCollectionId: String?,
-    val parentMeterId: String?,
-    val collectionStartDate: String?,
+@IgnoreExtraProperties
+data class RemoteMeterReadingsCollection(
+    val meterReadingsCollectionId: String? = null,
+    val parentMeterId: String? = null,
+    val collectionStartDate: String? = null,
     val collectionEndDate: String? = null,
-    var collectionCurrentSlice: Int?,
+    var collectionCurrentSlice: Int? = null,
     var isFinished: Boolean? = false
 )
 
 
-fun List<RemoteMeterReadingsCollection>.asDatabaseMeter(): List<DatabaseMeterReadingsCollection> {
+fun List<RemoteMeterReadingsCollection>.asDatabaseMeterCollection(): List<DatabaseMeterReadingsCollection> {
     return map {
         DatabaseMeterReadingsCollection(
             meterReadingsCollectionId = it.meterReadingsCollectionId!!,
@@ -22,7 +25,7 @@ fun List<RemoteMeterReadingsCollection>.asDatabaseMeter(): List<DatabaseMeterRea
             collectionStartDate = DateUtils.formatDate(
                 it.collectionStartDate,
                 DateUtils.DEFAULT_DATE_FORMAT
-            ),
+            )?: Date(),
             collectionEndDate = DateUtils.formatDate(
                 it.collectionEndDate,
                 DateUtils.DEFAULT_DATE_FORMAT

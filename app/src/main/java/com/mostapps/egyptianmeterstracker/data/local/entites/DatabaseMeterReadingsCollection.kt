@@ -3,6 +3,8 @@ package com.mostapps.egyptianmeterstracker.data.local.entites
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mostapps.egyptianmeterstracker.data.remote.models.RemoteMeterReadingsCollection
+import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import java.util.*
 
 
@@ -15,3 +17,23 @@ class DatabaseMeterReadingsCollection(
     @ColumnInfo(name = "collectionCurrentSlice") var collectionCurrentSlice: Int,
     @ColumnInfo(name = "isFinished") var isFinished: Boolean? = false
 )
+
+
+fun List<DatabaseMeterReadingsCollection>.asRemoteMeterReadingsCollection(): List<RemoteMeterReadingsCollection> {
+    return map {
+        RemoteMeterReadingsCollection(
+            meterReadingsCollectionId = it.meterReadingsCollectionId,
+            parentMeterId = it.parentMeterId,
+            collectionStartDate = DateUtils.formatDate(
+                it.collectionStartDate,
+                DateUtils.DEFAULT_DATE_FORMAT
+            ),
+            collectionEndDate = DateUtils.formatDate(
+                it.collectionEndDate,
+                DateUtils.DEFAULT_DATE_FORMAT
+            ),
+            collectionCurrentSlice = it.collectionCurrentSlice,
+            isFinished = it.isFinished
+        )
+    }
+}

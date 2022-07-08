@@ -3,10 +3,11 @@ package com.mostapps.egyptianmeterstracker.data.remote.models
 import com.google.firebase.database.IgnoreExtraProperties
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
+import java.util.*
 
 
 @IgnoreExtraProperties
-class RemoteMeterReading(
+data class RemoteMeterReading(
     val meterReadingId: String? = null,
     val parentMeterId: String? = null,
     val parentMeterCollectionId: String? = null,
@@ -25,7 +26,7 @@ fun List<RemoteMeterReading>.asDatabaseMeterReading(): List<DatabaseMeterReading
             readingDate = DateUtils.formatDate(
                 it.readingDate,
                 DateUtils.DEFAULT_DATE_FORMAT
-            )
+            )?: Date()
         )
     }
 }

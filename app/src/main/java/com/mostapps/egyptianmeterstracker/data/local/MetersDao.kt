@@ -24,12 +24,10 @@ interface MetersDao {
     suspend fun updateMeter(databaseMeter: DatabaseMeter)
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeter(databaseMeter: DatabaseMeter)
 
-    //On conflict with remote database don't replace data, The local database has the priority
-    //and will overwrite the data on the server
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllMeters(vararg databaseMeters: DatabaseMeter)
 
     @Query("DELETE from meters WHERE meterId = :meterId")
@@ -44,10 +42,10 @@ interface MetersDao {
     @Query("SELECT * FROM meterReadings where meterReadingId = :meterReadingId")
     suspend fun getMeterReadingById(meterReadingId: String): DatabaseMeterReading?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeterReading(databaseMeterReading: DatabaseMeterReading)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun bulkInsertMeterReading(vararg databaseMeterReadings: DatabaseMeterReading)
 
 
@@ -65,18 +63,18 @@ interface MetersDao {
     suspend fun getMeterReadingsCollectionById(meterReadingsCollectionId: String): DatabaseMeterReadingsCollection?
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeterReadingsCollection(meterReadingsCollectionDTO: DatabaseMeterReadingsCollection)
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun bulkInsertMeterReadingsCollections(vararg meterReadingsCollections: DatabaseMeterReadingsCollection)
 
     /////////////////////////////////////////////////////////////////////////////////
     //Relations queries
     @Transaction
     @Query("SELECT * FROM meters WHERE meterId = :meterId")
-    suspend fun getMeterWithMeterReadings(meterId: String): MeterWithMeterReadings
+    suspend fun getMeterReadingsOfMeter(meterId: String): MeterWithMeterReadings
 
 
     @Transaction

@@ -3,6 +3,7 @@ package com.mostapps.egyptianmeterstracker.data.remote.models
 import com.google.firebase.database.IgnoreExtraProperties
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
+import java.util.*
 
 @IgnoreExtraProperties
 data class RemoteMeter(
@@ -14,7 +15,7 @@ data class RemoteMeter(
 )
 
 
-fun List<RemoteMeter>.asDatabaseMeter(): List<DatabaseMeter> {
+fun List<RemoteMeter>.asDatabaseMeterCollection(): List<DatabaseMeter> {
     return map {
         DatabaseMeter(
             meterId = it.meterId!!,
@@ -24,7 +25,7 @@ fun List<RemoteMeter>.asDatabaseMeter(): List<DatabaseMeter> {
             lastReadingDate = DateUtils.formatDate(
                 it.lastReadingDate,
                 DateUtils.DEFAULT_DATE_FORMAT
-            )
+            ) ?: Date()
         )
     }
 }
