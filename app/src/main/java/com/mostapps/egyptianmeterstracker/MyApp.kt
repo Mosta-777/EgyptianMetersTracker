@@ -4,6 +4,7 @@ package com.mostapps.egyptianmeterstracker
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import com.mostapps.egyptianmeterstracker.authentication.AuthenticationViewModel
 import com.mostapps.egyptianmeterstracker.authentication.FirebaseAuthenticationManager
 import com.mostapps.egyptianmeterstracker.data.local.MetersDataSource
@@ -11,6 +12,8 @@ import com.mostapps.egyptianmeterstracker.data.local.LocalDB
 import com.mostapps.egyptianmeterstracker.data.local.MetersRepository
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseInterface
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseManager
+import com.mostapps.egyptianmeterstracker.data.remote.FirebaseStorageInterface
+import com.mostapps.egyptianmeterstracker.data.remote.FirebaseStorageManager
 import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
 import com.mostapps.egyptianmeterstracker.screens.details.meterreadingscollectionslist.MeterReadingsCollectionsListViewModel
 import com.mostapps.egyptianmeterstracker.screens.home.add.meter.reading.AddMeterReadingViewModel
@@ -30,6 +33,23 @@ class MyApp : Application() {
 
 
         val myModule = module {
+
+
+            single { FirebaseAuth.getInstance() }
+            single { FirebaseDatabase.getInstance() }
+            single { FirebaseStorage.getInstance().reference }
+            single { FirebaseAuthenticationManager(get()) }
+            single { FirebaseDatabaseManager(get()) as FirebaseDatabaseInterface }
+            single { FirebaseStorageManager(get()) as FirebaseStorageInterface }
+            single { SharedPreferencesUtils(androidContext()) }
+            single {
+                MetersRepository(
+                    get(),
+                    get() as FirebaseDatabaseInterface
+                ) as MetersDataSource
+            }
+            single { LocalDB.createMetersDao(this@MyApp) }
+
 
             viewModel {
                 AuthenticationViewModel(
@@ -62,7 +82,8 @@ class MyApp : Application() {
             viewModel {
                 MeterReadingsCollectionsListViewModel(
                     get(),
-                    get() as MetersDataSource
+                    get() as MetersDataSource,
+                    get() as FirebaseStorageInterface
                 )
             }
 
@@ -74,18 +95,6 @@ class MyApp : Application() {
             }
 
 
-            single { FirebaseAuth.getInstance() }
-            single { FirebaseDatabase.getInstance() }
-            single { FirebaseAuthenticationManager(get()) }
-            single { FirebaseDatabaseManager(get()) as FirebaseDatabaseInterface }
-            single { SharedPreferencesUtils(androidContext()) }
-            single {
-                MetersRepository(
-                    get(),
-                    get() as FirebaseDatabaseInterface
-                ) as MetersDataSource
-            }
-            single { LocalDB.createMetersDao(this@MyApp) }
         }
 
         startKoin {

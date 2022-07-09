@@ -19,6 +19,20 @@
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_meter_reading_collections_list_scene">
 
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
         <ImageView
             android:id="@+id/meterImageView"
             android:layout_width="0dp"

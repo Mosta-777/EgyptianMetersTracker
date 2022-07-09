@@ -42,4 +42,9 @@
     <string name="label_keep_remote_data">KEEP REMOTELY STORED DATA ON THE SERVER</string>
     <string name="non_conflicted_data_synced">Data with no conflict synced successfully</string>
     <string name="conflicted_data_synced">Conflicted Data Synced Successfully</string>
+    <string name="error_camera_permission_denied">Camera Permission must be granted to set meter picture</string>
+    <string name="ok">OK</string>
+    <string name="error_taking_photo">Error capturing photo</string>
+    <string name="take_meter_picture">Taking Meter Photo</string>
+    <string name="take_meter_picture_description">Taking picture for this meter</string>
 </resources>

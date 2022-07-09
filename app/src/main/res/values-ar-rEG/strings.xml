@@ -33,5 +33,10 @@
     <string name="label_keep_remote_data">احتفظ بالبيانات المخزنه علي السيرفر (البيانات الحاليه سيتم مسحها)</string>
     <string name="non_conflicted_data_synced">تمت مزامنة العدادات الغير متضاربه</string>
     <string name="conflicted_data_synced">تمت مزامنة العدادات متضاربه</string>
+    <string name="error_camera_permission_denied">يجب السماح للتطبيق بالتقاط صوره حتي يمكن وضع صوره للعداد</string>
+    <string name="ok">تم</string>
+    <string name="error_taking_photo">حدث خطأ اثناء التقاط الصورة</string>
+    <string name="take_meter_picture">التقاط صورة للعداد</string>
+    <string name="take_meter_picture_description">التقاط صورة لهذا العداد</string>
 
 </resources>
