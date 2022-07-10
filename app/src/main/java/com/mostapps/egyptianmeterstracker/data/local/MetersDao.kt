@@ -4,6 +4,7 @@ import androidx.room.*
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollectionMainDataUpdate
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
@@ -70,11 +71,17 @@ interface MetersDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun bulkInsertMeterReadingsCollections(vararg meterReadingsCollections: DatabaseMeterReadingsCollection)
 
+    @Update(entity = DatabaseMeterReadingsCollection::class)
+    suspend fun updateCollectionMainData(updatedData: DatabaseMeterReadingsCollectionMainDataUpdate)
+
+
     /////////////////////////////////////////////////////////////////////////////////
     //Relations queries
     @Transaction
     @Query("SELECT * FROM meters WHERE meterId = :meterId")
-    suspend fun getMeterReadingsOfMeter(meterId: String): MeterWithMeterReadings
+    suspend
+
+    fun getMeterReadingsOfMeter(meterId: String): MeterWithMeterReadings
 
 
     @Transaction

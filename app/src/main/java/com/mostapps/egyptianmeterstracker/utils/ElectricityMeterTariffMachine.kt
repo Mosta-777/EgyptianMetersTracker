@@ -1,6 +1,7 @@
 package com.mostapps.egyptianmeterstracker.utils
 
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
+import com.mostapps.egyptianmeterstracker.data.local.entites.sortByOldestFirst
 import com.mostapps.egyptianmeterstracker.enums.ElectricityMeterSubType
 import com.mostapps.egyptianmeterstracker.enums.MeterSlice
 import com.mostapps.egyptianmeterstracker.models.MeterReadingListItem
@@ -16,11 +17,13 @@ object ElectricityMeterTariffMachine {
     ): MeterTariffMachineOutput {
 
 
-        //Assuming the meter readings are arranged
+        //Sort the list of not sorted
+
+        val sortedMeterReadings = meterReadings.sortByOldestFirst()
         //Get Total consumption
 
         val totalConsumption =
-            meterReadings.last().meterReading - meterReadings.first().meterReading
+            sortedMeterReadings.last().meterReading - sortedMeterReadings.first().meterReading
 
         //Determine the meter slice
 
@@ -29,7 +32,7 @@ object ElectricityMeterTariffMachine {
             getReadingsListItemsGivenCurrentSlice(
                 meterSubType = meterSubType,
                 currentSlice = currentSlice,
-                meterReadings = meterReadings
+                meterReadings = sortedMeterReadings
             )
         val customerServiceFees = getCustomerServiceFeesGivenSlice(currentSlice, meterSubType)
 

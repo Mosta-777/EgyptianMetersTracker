@@ -18,6 +18,11 @@ data class DatabaseMeter(
     @ColumnInfo(name = "lastReadingDate") var lastReadingDate: Date
 ) : Serializable
 
+
+fun List<DatabaseMeter>.sortByNewestFirst(): List<DatabaseMeter> {
+    return sortedByDescending { it.lastReadingDate }
+}
+
 fun List<DatabaseMeter>.asRemoteModel(): List<RemoteMeter> {
     return map {
         RemoteMeter(

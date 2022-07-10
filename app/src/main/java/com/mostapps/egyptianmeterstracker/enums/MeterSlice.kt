@@ -1,6 +1,6 @@
 package com.mostapps.egyptianmeterstracker.enums
 
-enum class MeterSlice(meterSliceValue: Int) {
+enum class MeterSlice(val meterSliceValue: Int) {
     SLICE_ONE(1),
     SLICE_TWO(2),
     SLICE_THREE(3),

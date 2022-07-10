@@ -19,6 +19,16 @@ data class DatabaseMeterReading(
 )
 
 
+fun List<DatabaseMeterReading>.sortByNewestFirst(): List<DatabaseMeterReading> {
+    return sortedByDescending { it.readingDate }
+}
+
+
+fun List<DatabaseMeterReading>.sortByOldestFirst(): List<DatabaseMeterReading> {
+    return sortedBy { it.readingDate }
+}
+
+
 fun List<DatabaseMeterReading>.asRemoteMeterReading(): List<RemoteMeterReading> {
     return map {
         RemoteMeterReading(

@@ -1,5 +1,6 @@
 package com.mostapps.egyptianmeterstracker.data.remote.models
 
+import androidx.room.ColumnInfo
 import com.google.firebase.database.IgnoreExtraProperties
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
@@ -13,6 +14,8 @@ data class RemoteMeterReadingsCollection(
     val collectionStartDate: String? = null,
     val collectionEndDate: String? = null,
     var collectionCurrentSlice: Int? = null,
+    var totalConsumption: Int? = null,
+    var totalCost: Double? = null,
     var isFinished: Boolean? = false
 )
 
@@ -25,12 +28,14 @@ fun List<RemoteMeterReadingsCollection>.asDatabaseMeterCollection(): List<Databa
             collectionStartDate = DateUtils.formatDate(
                 it.collectionStartDate,
                 DateUtils.DEFAULT_DATE_FORMAT
-            )?: Date(),
+            ) ?: Date(),
             collectionEndDate = DateUtils.formatDate(
                 it.collectionEndDate,
                 DateUtils.DEFAULT_DATE_FORMAT
             ),
             collectionCurrentSlice = it.collectionCurrentSlice!!,
+            totalConsumption = it.totalConsumption!!,
+            totalCost = it.totalCost!!,
             isFinished = it.isFinished
         )
     }

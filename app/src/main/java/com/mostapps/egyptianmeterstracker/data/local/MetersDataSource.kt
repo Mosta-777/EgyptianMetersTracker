@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
+import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollectionMainDataUpdate
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
@@ -25,16 +26,18 @@ interface MetersDataSource {
         firstDatabaseMeterReading: DatabaseMeterReading,
         currentDatabaseMeterReading: DatabaseMeterReading
     )
-    suspend fun syncNonConflictedData(uid: String): Int
-    suspend fun syncConflictedData(uid: String, keepLocalData: Boolean)
 
     suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter)
+
+    //Synchronization related functions
+    suspend fun syncNonConflictedData(uid: String): Int
+    suspend fun syncConflictedData(uid: String, keepLocalData: Boolean)
 
 
     //Meter Readings Collections specific functions
     suspend fun bulkInsertMeterReadingsCollections(vararg databaseMeterReadingsCollection: DatabaseMeterReadingsCollection)
     suspend fun getMeterReadingsCollections(): Result<List<DatabaseMeterReadingsCollection>>
-
+    suspend fun updateCollectionMainData(collectionMainData: DatabaseMeterReadingsCollectionMainDataUpdate)
 
     //Meter Readings specific functions
     suspend fun saveMeterReading(meterReading: DatabaseMeterReading)

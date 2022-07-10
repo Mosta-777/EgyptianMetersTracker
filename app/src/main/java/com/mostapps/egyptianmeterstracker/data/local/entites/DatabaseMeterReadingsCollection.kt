@@ -15,8 +15,24 @@ class DatabaseMeterReadingsCollection(
     @ColumnInfo(name = "collectionStartDate") val collectionStartDate: Date,
     @ColumnInfo(name = "collectionEndDate") val collectionEndDate: Date? = null,
     @ColumnInfo(name = "collectionCurrentSlice") var collectionCurrentSlice: Int,
+    @ColumnInfo(name = "totalConsumption") var totalConsumption: Int,
+    @ColumnInfo(name = "totalCost") var totalCost: Double,
     @ColumnInfo(name = "isFinished") var isFinished: Boolean? = false
 )
+
+
+@Entity
+class DatabaseMeterReadingsCollectionMainDataUpdate(
+    @ColumnInfo(name = "meterReadingsCollectionId") val meterReadingsCollectionId: String,
+    @ColumnInfo(name = "collectionCurrentSlice") var collectionCurrentSlice: Int,
+    @ColumnInfo(name = "totalConsumption") var totalConsumption: Int,
+    @ColumnInfo(name = "totalCost") var totalCost: Double,
+)
+
+
+fun List<DatabaseMeterReadingsCollection>.sortByNewestFirst(): List<DatabaseMeterReadingsCollection> {
+    return sortedByDescending { it.collectionStartDate }
+}
 
 
 fun List<DatabaseMeterReadingsCollection>.asRemoteMeterReadingsCollection(): List<RemoteMeterReadingsCollection> {
@@ -33,6 +49,8 @@ fun List<DatabaseMeterReadingsCollection>.asRemoteMeterReadingsCollection(): Lis
                 DateUtils.DEFAULT_DATE_FORMAT
             ),
             collectionCurrentSlice = it.collectionCurrentSlice,
+            totalConsumption = it.totalConsumption,
+            totalCost = it.totalCost,
             isFinished = it.isFinished
         )
     }

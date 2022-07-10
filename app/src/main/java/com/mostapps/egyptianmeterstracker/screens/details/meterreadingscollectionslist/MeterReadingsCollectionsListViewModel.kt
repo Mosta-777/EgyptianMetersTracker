@@ -14,7 +14,9 @@ import com.mostapps.egyptianmeterstracker.data.local.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
+import com.mostapps.egyptianmeterstracker.data.local.entites.sortByNewestFirst
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseStorageInterface
 import com.mostapps.egyptianmeterstracker.models.MeterReadingsCollectionListItem
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
@@ -72,7 +74,7 @@ class MeterReadingsCollectionsListViewModel(
                 is Result.Success<*> -> {
                     meterReadingCollections =
                         (result.data as MeterWithMeterReadingsCollections).run {
-                            meterCollections
+                            meterCollections.sortByNewestFirst()
                         }
                     val dataList = ArrayList<MeterReadingsCollectionListItem>().apply {
                         addAll((meterReadingCollections).map { meterReadingCollection ->
@@ -113,13 +115,13 @@ class MeterReadingsCollectionsListViewModel(
             showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {
-                    /*val meterReadings =
+                    val meterReadings =
                         (result.data as MeterReadingsCollectionWithMeterReadings).run {
                             databaseMeterReadings
-                        }*/
+                        }
 
 
-                    val meterReadings = listOf<DatabaseMeterReading>(
+                    /*val meterReadings = listOf<DatabaseMeterReading>(
                         DatabaseMeterReading(
                             parentMeterId = "1",
                             meterReading = 1000,
@@ -183,13 +185,13 @@ class MeterReadingsCollectionsListViewModel(
                             ) ?: Date(),
                             parentMeterCollectionId = "1"
                         )
-                    )
+                    )*/
 
 
                     val machineOutput = MeterTariffMachine.processMeterReadings(
                         meterReadings,
                         meter.value?.meterType!!,
-                        1
+                        meter.value?.meterSubType!!
                     )
                     println(machineOutput.totalCost)
                 }

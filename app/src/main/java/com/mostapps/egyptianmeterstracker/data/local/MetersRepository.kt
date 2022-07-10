@@ -23,13 +23,17 @@ class MetersRepository(
     private var commonRemoteMeters = emptyList<RemoteMeter>()
 
 
+    //User related functions
     override suspend fun storeUserData(user: FirebaseUser) {
         firebaseDatabaseManager.saveUser(
             user.run { User(username = displayName, email = email) },
             user.uid
         )
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    //Meter related functions
     override suspend fun getMeters(): Result<List<DatabaseMeter>> = withContext(ioDispatcher) {
         wrapEspressoIdlingResource {
             return@withContext try {
@@ -74,6 +78,31 @@ class MetersRepository(
         }
 
 
+    override suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter) {
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                metersDao.insertAllMeters(databaseMeters = databaseMeter)
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //Collections related functions
+
+
+    override suspend fun getMeterReadingsCollections(): Result<List<DatabaseMeterReadingsCollection>> =
+        withContext(ioDispatcher) {
+            wrapEspressoIdlingResource {
+                return@withContext try {
+                    Result.Success(metersDao.getAllMeterReadingsCollections())
+                } catch (ex: Exception) {
+                    Result.Error(ex.localizedMessage)
+                }
+            }
+        }
+
     override suspend fun bulkInsertMeterReadingsCollections(vararg databaseMeterReadingsCollection: DatabaseMeterReadingsCollection) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
@@ -82,6 +111,18 @@ class MetersRepository(
         }
     }
 
+    override suspend fun updateCollectionMainData(collectionMainData: DatabaseMeterReadingsCollectionMainDataUpdate) {
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                metersDao.updateCollectionMainData(updatedData = collectionMainData)
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //Meter Readings related functions
 
     override suspend fun bulkInsertMeterReadings(vararg meterReadings: DatabaseMeterReading) {
         wrapEspressoIdlingResource {
@@ -106,13 +147,6 @@ class MetersRepository(
             }
         }
 
-    override suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter) {
-        wrapEspressoIdlingResource {
-            withContext(ioDispatcher) {
-                metersDao.insertAllMeters(databaseMeters = databaseMeter)
-            }
-        }
-    }
 
     override suspend fun saveMeterReading(meterReading: DatabaseMeterReading) {
         withContext(ioDispatcher) {
@@ -125,18 +159,6 @@ class MetersRepository(
             }
         }
     }
-
-
-    override suspend fun getMeterReadingsCollections(): Result<List<DatabaseMeterReadingsCollection>> =
-        withContext(ioDispatcher) {
-            wrapEspressoIdlingResource {
-                return@withContext try {
-                    Result.Success(metersDao.getAllMeterReadingsCollections())
-                } catch (ex: Exception) {
-                    Result.Error(ex.localizedMessage)
-                }
-            }
-        }
 
 
     override suspend fun getMeterReadingsOfMeter(id: String): Result<MeterWithMeterReadings> =
@@ -162,6 +184,10 @@ class MetersRepository(
             }
         }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //Synchronization and network related functions
 
     override suspend fun syncNonConflictedData(uid: String): Int {
 
@@ -273,7 +299,6 @@ class MetersRepository(
         )
 
     }
-
 
     private suspend fun startFullyUploadingMeters(
         distinctiveMetersInLocal: List<DatabaseMeter>,

@@ -12,6 +12,7 @@ import com.mostapps.egyptianmeterstracker.models.MeterDataListItem
 import kotlinx.coroutines.launch
 import com.mostapps.egyptianmeterstracker.utils.Result
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
+import com.mostapps.egyptianmeterstracker.data.local.entites.sortByNewestFirst
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import org.koin.java.KoinJavaComponent
 
@@ -43,7 +44,8 @@ class MetersListViewModel(
             showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {
-                    metersList = result.data as List<DatabaseMeter>
+
+                    metersList = (result.data as List<DatabaseMeter>).sortByNewestFirst()
                     val dataList = ArrayList<MeterDataListItem>()
                     dataList.addAll((metersList).map { meter ->
                         MeterDataListItem(

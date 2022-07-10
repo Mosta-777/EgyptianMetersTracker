@@ -6,10 +6,11 @@ import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseViewModel
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.data.local.MetersDataSource
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
+import com.mostapps.egyptianmeterstracker.data.local.entites.*
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
+import com.mostapps.egyptianmeterstracker.utils.MeterTariffMachine
 import com.mostapps.egyptianmeterstracker.utils.Result
 import kotlinx.coroutines.launch
 import java.util.*
@@ -70,7 +71,8 @@ class AddMeterReadingViewModel(
                             //Get the unfinished meter collection
 
                             val unfinishedMeterReadingsCollection =
-                                allMeterCollections.meterCollections.firstOrNull { it.isFinished == false }
+                                allMeterCollections.meterCollections.sortByNewestFirst()
+                                    .firstOrNull { it.isFinished == false }
 
                             //Insert the meter reading
 
@@ -78,21 +80,56 @@ class AddMeterReadingViewModel(
 
                                 val meterReadingID: String = UUID.randomUUID()
                                     .toString()
-
                                 val now = DateUtils.now()
-
+                                //Save the meter reading
                                 dataSource.saveMeterReading(
                                     DatabaseMeterReading(
                                         meterReadingId = meterReadingID,
                                         parentMeterId = selectedMeter.meterId,
-                                        parentMeterCollectionId = unfinishedMeterReadingsCollection.meterReadingsCollectionId,
+                                        parentMeterCollectionId =
+                                        unfinishedMeterReadingsCollection.meterReadingsCollectionId,
                                         meterReading = meterReading.value?.toInt()!!,
                                         readingDate = now
                                     )
                                 )
-                                showLoading.postValue(false)
-                                showToast.postValue(app.getString(R.string.meter_reading_saved))
-                                navigationCommand.postValue(NavigationCommand.Back)
+                                //Update the meter reading collection data
+
+                                //Get Meter Readings of the collection
+                                val result =
+                                    dataSource.getMeterReadingsOfMeterReadingsCollection(
+                                        unfinishedMeterReadingsCollection.meterReadingsCollectionId
+                                    )
+                                when (result) {
+                                    is Result.Success<*> -> {
+
+                                        val collectionReadings =
+                                            (result.data as MeterReadingsCollectionWithMeterReadings)
+                                                .databaseMeterReadings.sortByOldestFirst()
+
+                                        val machineOutput = MeterTariffMachine.processMeterReadings(
+                                            collectionReadings,
+                                            selectedMeter.meterType,
+                                            selectedMeter.meterSubType
+                                        )
+
+                                        dataSource.updateCollectionMainData(
+                                            DatabaseMeterReadingsCollectionMainDataUpdate(
+                                                meterReadingsCollectionId = unfinishedMeterReadingsCollection.meterReadingsCollectionId,
+                                                collectionCurrentSlice = machineOutput.currentSlice.meterSliceValue,
+                                                totalConsumption = machineOutput.totalConsumption,
+                                                totalCost = machineOutput.totalCost
+                                            )
+                                        )
+
+                                        showLoading.postValue(false)
+                                        showToast.postValue(app.getString(R.string.meter_reading_saved))
+                                        navigationCommand.postValue(NavigationCommand.Back)
+                                    }
+                                    is Result.Error -> {
+                                        showLoading.postValue(false)
+                                        showSnackBar.value = app.getString(R.string.error_general)
+                                    }
+                                }
                             } else {
                                 showLoading.postValue(false)
                                 showSnackBar.value = app.getString(R.string.error_general)

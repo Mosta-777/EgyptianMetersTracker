@@ -11,6 +11,7 @@ import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
 import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
+import com.mostapps.egyptianmeterstracker.utils.MeterTariffMachine
 import kotlinx.coroutines.launch
 import java.util.*
 import com.mostapps.egyptianmeterstracker.utils.Result
@@ -59,6 +60,31 @@ class CreateMeterViewModel(
 
             val now = DateUtils.now()
 
+
+            val firstDatabaseMeterReading = DatabaseMeterReading(
+                parentMeterId = meterID,
+                meterReading = Integer.parseInt(firstMeterReading.value!!),
+                readingDate = DateUtils.formatDate(
+                    firstMeterReadingDate.value,
+                    DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
+                ) ?: Date(),
+                parentMeterCollectionId = meterReadingsCollectionID
+            )
+
+            val currentDatabaseMeterReading = DatabaseMeterReading(
+                parentMeterId = meterID,
+                meterReading = Integer.parseInt(currentMeterReading.value!!),
+                readingDate = now,
+                parentMeterCollectionId = meterReadingsCollectionID
+            )
+
+
+            val machineOutput = MeterTariffMachine.processMeterReadings(
+                listOf(firstDatabaseMeterReading, currentDatabaseMeterReading),
+                meterType.value!!,
+                meterSubType.value!!
+            )
+
             dataSource.saveMeter(
                 databaseMeter = DatabaseMeter(
                     meterId = meterID,
@@ -71,24 +97,13 @@ class CreateMeterViewModel(
                     meterReadingsCollectionId = meterReadingsCollectionID,
                     parentMeterId = meterID,
                     collectionStartDate = now,
-                    //TODO look into the collection slice
-                    collectionCurrentSlice = 1
+                    collectionCurrentSlice = machineOutput.currentSlice.meterSliceValue,
+                    totalConsumption = machineOutput.totalConsumption,
+                    totalCost = machineOutput.totalCost,
+                    isFinished = false
                 ),
-                firstDatabaseMeterReading = DatabaseMeterReading(
-                    parentMeterId = meterID,
-                    meterReading = Integer.parseInt(firstMeterReading.value!!),
-                    readingDate = DateUtils.formatDate(
-                        firstMeterReadingDate.value,
-                        DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
-                    ) ?: Date(),
-                    parentMeterCollectionId = meterReadingsCollectionID
-                ),
-                currentDatabaseMeterReading = DatabaseMeterReading(
-                    parentMeterId = meterID,
-                    meterReading = Integer.parseInt(currentMeterReading.value!!),
-                    readingDate = now,
-                    parentMeterCollectionId = meterReadingsCollectionID
-                )
+                firstDatabaseMeterReading = firstDatabaseMeterReading,
+                currentDatabaseMeterReading = currentDatabaseMeterReading
 
             )
             showLoading.postValue(false)
