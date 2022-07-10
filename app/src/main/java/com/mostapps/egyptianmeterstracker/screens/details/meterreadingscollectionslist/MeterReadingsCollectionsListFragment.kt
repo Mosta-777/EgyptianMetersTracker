@@ -10,22 +10,24 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.PermissionChecker.PERMISSION_DENIED
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.mostapps.egyptianmeterstracker.GlideApp
 import com.mostapps.egyptianmeterstracker.R
+import com.mostapps.egyptianmeterstracker.authentication.AuthenticationActivity
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
+import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMeterReadingCollectionsListBinding
 import com.mostapps.egyptianmeterstracker.models.MeterReadingsCollectionListItem
 import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
+import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListFragmentDirections
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setup
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -43,6 +45,26 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
 
 
     private lateinit var binding: FragmentMeterReadingCollectionsListBinding
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.meter_collections_screen_menu, menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add_meter_reading -> {
+                _viewModel.navigationCommand.postValue(
+                    NavigationCommand.To(
+                        MeterReadingsCollectionsListFragmentDirections.actionMeterReadingsCollectionsListFragmentToAddMeterReadingFragment2()
+                    )
+                )
+            }
+        }
+        return super.onOptionsItemSelected(item)
+
+    }
 
 
     override fun onCreateView(

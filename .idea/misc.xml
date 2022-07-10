@@ -21,6 +21,7 @@
         <entry key="app/src/main/res/layout/fragment_meters_list.xml" value="0.15628166160081053" />
         <entry key="app/src/main/res/layout/meter_list_item.xml" value="0.16210739614994935" />
         <entry key="app/src/main/res/layout/meter_readings_collection_list_item.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/meter_collections_screen_menu.xml" value="0.32037037037037036" />
         <entry key="app/src/main/res/xml/rotate_backward.xml" value="0.1743659420289855" />
         <entry key="app/src/main/res/xml/rotate_forward.xml" value="0.1" />
       </map>

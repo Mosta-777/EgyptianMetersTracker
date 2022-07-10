@@ -6,21 +6,27 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.mostapps.egyptianmeterstracker.GlideApp
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentAddMeterReadingBinding
+import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import com.mostapps.egyptianmeterstracker.utils.setTitle
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddMeterReadingFragment : BaseFragment() {
 
 
     override val _viewModel: AddMeterReadingViewModel by viewModel()
+    private val parentViewModel: MeterDetailsViewModel by sharedViewModel()
 
 
     private lateinit var binding: FragmentAddMeterReadingBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,27 +55,28 @@ class AddMeterReadingFragment : BaseFragment() {
         }
 
 
+        parentViewModel.meter.observe(viewLifecycleOwner) { meter ->
+            if (meter != null) {
+                _viewModel.setSelectedMeter(meter)
+
+            }
+        }
+
+
     }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == android.R.id.home) {
-            //something to do
-            _viewModel.navigationCommand.postValue(NavigationCommand.Back)
-            true
-        } else super.onOptionsItemSelected(item)
-    }
-
-
-
-
-
-
 
 
     override fun onResume() {
         super.onResume()
         _viewModel.loadMeters()
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            _viewModel.navigationCommand.postValue(NavigationCommand.Back)
+            true
+        } else super.onOptionsItemSelected(item)
     }
 
 

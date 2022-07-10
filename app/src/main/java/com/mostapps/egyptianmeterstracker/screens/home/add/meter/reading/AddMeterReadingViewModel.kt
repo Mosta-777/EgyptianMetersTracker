@@ -27,6 +27,8 @@ class AddMeterReadingViewModel(
         Transformations.map(metersList) { it.map { meter -> meter.meterName!! } }
 
 
+    val preselectedMeter = MutableLiveData<DatabaseMeter>()
+
     val selectedMeter = MutableLiveData<String>()
     val meterReading = MutableLiveData<String>()
 
@@ -39,6 +41,10 @@ class AddMeterReadingViewModel(
                 is Result.Success<*> -> {
                     val fetchedMeters = result.data as List<DatabaseMeter>
                     metersList.postValue(fetchedMeters)
+                    if (preselectedMeter.value != null){
+                        selectedMeter.value = preselectedMeter.value!!.meterName
+                    }
+
                 }
                 is Result.Error ->
                     showSnackBar.value = result.message
@@ -160,4 +166,7 @@ class AddMeterReadingViewModel(
         return true
     }
 
+    fun setSelectedMeter(meter: DatabaseMeter) {
+        preselectedMeter.value = meter
+    }
 }
