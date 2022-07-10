@@ -1,10 +1,7 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
 import androidx.room.*
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollectionMainDataUpdate
+import com.mostapps.egyptianmeterstracker.data.local.entites.*
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
@@ -21,8 +18,8 @@ interface MetersDao {
     @Query("SELECT * FROM meters where meterId = :meterId")
     suspend fun getMeterById(meterId: String): DatabaseMeter?
 
-    @Update
-    suspend fun updateMeter(databaseMeter: DatabaseMeter)
+    @Update(entity = DatabaseMeter::class)
+    suspend fun updateMeterLastReadingDate(updatedDate: DatabaseMeterLastReadingDateUpdate)
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

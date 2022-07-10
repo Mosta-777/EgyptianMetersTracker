@@ -27,7 +27,7 @@ class AddMeterReadingViewModel(
         Transformations.map(metersList) { it.map { meter -> meter.meterName!! } }
 
 
-    val preselectedMeter = MutableLiveData<DatabaseMeter>()
+    private var preselectedMeter: DatabaseMeter? = null
 
     val selectedMeter = MutableLiveData<String>()
     val meterReading = MutableLiveData<String>()
@@ -41,8 +41,8 @@ class AddMeterReadingViewModel(
                 is Result.Success<*> -> {
                     val fetchedMeters = result.data as List<DatabaseMeter>
                     metersList.postValue(fetchedMeters)
-                    if (preselectedMeter.value != null){
-                        selectedMeter.value = preselectedMeter.value!!.meterName
+                    if (preselectedMeter != null) {
+                        selectedMeter.value = preselectedMeter!!.meterName
                     }
 
                 }
@@ -98,8 +98,17 @@ class AddMeterReadingViewModel(
                                         readingDate = now
                                     )
                                 )
-                                //Update the meter reading collection data
 
+                                //Update last meter reading date of meter
+
+                                dataSource.updateMeterLastReadingDate(
+                                    DatabaseMeterLastReadingDateUpdate(
+                                        selectedMeter.meterId,
+                                        now
+                                    )
+                                )
+
+                                //Update the meter reading collection data
                                 //Get Meter Readings of the collection
                                 val result =
                                     dataSource.getMeterReadingsOfMeterReadingsCollection(
@@ -167,6 +176,6 @@ class AddMeterReadingViewModel(
     }
 
     fun setSelectedMeter(meter: DatabaseMeter) {
-        preselectedMeter.value = meter
+        preselectedMeter = meter
     }
 }

@@ -77,6 +77,14 @@ class MetersRepository(
             }
         }
 
+    override suspend fun updateMeterLastReadingDate(updatedLastReadingDate: DatabaseMeterLastReadingDateUpdate) {
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                metersDao.updateMeterLastReadingDate(updatedDate = updatedLastReadingDate)
+            }
+        }
+    }
+
 
     override suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter) {
         wrapEspressoIdlingResource {

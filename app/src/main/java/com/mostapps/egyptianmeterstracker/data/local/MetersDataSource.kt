@@ -1,10 +1,7 @@
 package com.mostapps.egyptianmeterstracker.data.local
 
 import com.google.firebase.auth.FirebaseUser
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeter
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReading
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollection
-import com.mostapps.egyptianmeterstracker.data.local.entites.DatabaseMeterReadingsCollectionMainDataUpdate
+import com.mostapps.egyptianmeterstracker.data.local.entites.*
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
@@ -26,6 +23,7 @@ interface MetersDataSource {
         firstDatabaseMeterReading: DatabaseMeterReading,
         currentDatabaseMeterReading: DatabaseMeterReading
     )
+    suspend fun updateMeterLastReadingDate(updatedLastReadingDate: DatabaseMeterLastReadingDateUpdate)
 
     suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter)
 

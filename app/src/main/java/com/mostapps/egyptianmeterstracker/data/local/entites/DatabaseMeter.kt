@@ -19,6 +19,13 @@ data class DatabaseMeter(
 ) : Serializable
 
 
+@Entity
+class DatabaseMeterLastReadingDateUpdate(
+    @ColumnInfo(name = "meterId") val meterId: String,
+    @ColumnInfo(name = "lastReadingDate") var lastReadingDate: Date
+)
+
+
 fun List<DatabaseMeter>.sortByNewestFirst(): List<DatabaseMeter> {
     return sortedByDescending { it.lastReadingDate }
 }
