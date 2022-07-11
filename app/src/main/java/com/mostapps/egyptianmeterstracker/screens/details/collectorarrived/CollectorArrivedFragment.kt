@@ -1,5 +1,6 @@
 package com.mostapps.egyptianmeterstracker.screens.details.collectorarrived
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,12 @@ import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.databinding.FragmentCollectorArrivedBinding
 import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
+import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class CollectorArrivedFragment : BaseFragment() {
 
@@ -20,20 +24,21 @@ class CollectorArrivedFragment : BaseFragment() {
     private val parentViewModel: MeterDetailsViewModel by sharedViewModel()
 
 
-    private lateinit var binding: FragmentCollectorArrivedBinding
+    private lateinit var _binding: FragmentCollectorArrivedBinding
+    private var cal = Calendar.getInstance()
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding =
+    ): View {
+        _binding =
             DataBindingUtil.inflate(
                 inflater,
                 R.layout.fragment_collector_arrived, container, false
             )
-        binding.viewModel = _viewModel
+        _binding.viewModel = _viewModel
 
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(true)
@@ -47,18 +52,49 @@ class CollectorArrivedFragment : BaseFragment() {
         }
 
 
-        return binding.root
+        _binding.editTextFirstReadingDate.setOnClickListener {
+            val dateDialog = DatePickerDialog(
+                requireContext(), { _, year, monthOfYear, dayOfMonth ->
+                    cal.set(Calendar.YEAR, year)
+                    cal.set(Calendar.MONTH, monthOfYear)
+                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    updateDateInView()
+                },
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            )
 
+            //Collector arrival date should be at maximum today and not 31 days before today
+            dateDialog.datePicker.maxDate = DateUtils.now().time
+            dateDialog.datePicker.minDate = DateUtils.now().time - TimeUnit.DAYS.toMillis(31)
+            dateDialog.show()
+        }
+
+
+        return _binding.root
+
+    }
+
+
+    private fun updateDateInView() {
+        _binding.editTextFirstReadingDate.setText(
+            DateUtils.formatDate(
+                cal.time,
+                DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
+            )
+        )
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this
+        _binding.lifecycleOwner = this
 
 
 
-        binding.buttonStartNewMeterReadingsCollection.setOnClickListener {
+        _binding.buttonStartNewMeterReadingsCollection.setOnClickListener {
             _viewModel.closeCurrentCollectionAndStartNewOne()
         }
 

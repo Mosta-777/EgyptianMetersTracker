@@ -41,6 +41,7 @@
             android:ems="10"
             android:hint="@string/current_reading"
             android:inputType="number"
+            android:maxLength="5"
             android:minHeight="48dp"
             android:text="@={viewModel.meterReading}"
             app:layout_constraintEnd_toEndOf="parent"
