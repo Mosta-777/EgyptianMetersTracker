@@ -49,4 +49,7 @@
     <string name="take_meter_picture_description">Taking picture for this meter</string>
     <string name="new_collection_started">New meter reading collection started</string>
     <string name="collector_has_arrived">COLLECTOR ARRIVED THIS MONTH</string>
+    <string name="please_enter_all_fields">Please enter all fields</string>
+    <string name="please_enter_valid_readings">Please enter valid readings</string>
+    <string name="error_reading_difference">Current reading should be bigger or at least equals to the reading when the collector last arrived</string>
 </resources>

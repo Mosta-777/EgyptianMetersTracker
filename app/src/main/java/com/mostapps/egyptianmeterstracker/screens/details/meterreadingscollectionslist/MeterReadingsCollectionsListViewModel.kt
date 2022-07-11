@@ -193,7 +193,6 @@ class MeterReadingsCollectionsListViewModel(
                         meter.value?.meterType!!,
                         meter.value?.meterSubType!!
                     )
-                    println(machineOutput.totalCost)
                 }
                 is Result.Error ->
                     showSnackBar.value = result.message

@@ -95,6 +95,9 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
                 _viewModel.setSelectedMeter(meter)
                 val storageReference = _viewModel.getMeterImageStorageReference()
 
+
+                //TODO handle the exception the exception must not appear
+
                 storageReference?.downloadUrl?.addOnSuccessListener {
                     GlideApp.with(this)
                         .load(storageReference)

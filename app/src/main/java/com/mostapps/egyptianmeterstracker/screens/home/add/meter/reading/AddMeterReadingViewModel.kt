@@ -55,124 +55,136 @@ class AddMeterReadingViewModel(
     fun validateAndAddMeterReading() {
 
 
-        if (enteredMeterReadingIsValid()) {
+        when (val result = enteredMeterReadingIsValid()) {
 
             //Fetch the currently active meter collection of the selected meter
 
-            val selectedMeter =
-                metersList.value?.firstOrNull { it.meterName == selectedMeter.value }
+            is Result.Success<*> -> {
+                val selectedMeter =
+                    metersList.value?.firstOrNull { it.meterName == selectedMeter.value }
+                if (selectedMeter != null) {
 
-            if (selectedMeter != null) {
+                    //use the selected meter id to get unfinished meter collection
 
-                //use the selected meter id to get unfinished meter collection
+                    showLoading.value = true
+                    viewModelScope.launch {
+                        val allMeterCollectionsResult =
+                            dataSource.getMeterReadingsCollectionsOfMeter(selectedMeter.meterId)
+                        when (allMeterCollectionsResult) {
+                            is Result.Success<*> -> {
+                                val allMeterCollections =
+                                    allMeterCollectionsResult.data as MeterWithMeterReadingsCollections
+                                //Get the unfinished meter collection
 
-                showLoading.value = true
-                viewModelScope.launch {
-                    val allMeterCollectionsResult =
-                        dataSource.getMeterReadingsCollectionsOfMeter(selectedMeter.meterId)
-                    when (allMeterCollectionsResult) {
-                        is Result.Success<*> -> {
-                            val allMeterCollections =
-                                allMeterCollectionsResult.data as MeterWithMeterReadingsCollections
-                            //Get the unfinished meter collection
+                                val unfinishedMeterReadingsCollection =
+                                    allMeterCollections.meterCollections.sortByNewestFirst()
+                                        .firstOrNull { it.isFinished == false }
 
-                            val unfinishedMeterReadingsCollection =
-                                allMeterCollections.meterCollections.sortByNewestFirst()
-                                    .firstOrNull { it.isFinished == false }
+                                //Insert the meter reading
 
-                            //Insert the meter reading
+                                if (unfinishedMeterReadingsCollection != null) {
 
-                            if (unfinishedMeterReadingsCollection != null) {
-
-                                val meterReadingID: String = UUID.randomUUID()
-                                    .toString()
-                                val now = DateUtils.now()
-                                //Save the meter reading
-                                dataSource.saveMeterReading(
-                                    DatabaseMeterReading(
-                                        meterReadingId = meterReadingID,
-                                        parentMeterId = selectedMeter.meterId,
-                                        parentMeterCollectionId =
-                                        unfinishedMeterReadingsCollection.meterReadingsCollectionId,
-                                        meterReading = meterReading.value?.toInt()!!,
-                                        readingDate = now
-                                    )
-                                )
-
-                                //Update last meter reading date of meter
-
-                                dataSource.updateMeterLastReadingDate(
-                                    DatabaseMeterLastReadingDateUpdate(
-                                        selectedMeter.meterId,
-                                        now
-                                    )
-                                )
-
-                                //Update the meter reading collection data
-                                //Get Meter Readings of the collection
-                                val result =
-                                    dataSource.getMeterReadingsOfMeterReadingsCollection(
-                                        unfinishedMeterReadingsCollection.meterReadingsCollectionId
-                                    )
-                                when (result) {
-                                    is Result.Success<*> -> {
-
-                                        val collectionReadings =
-                                            (result.data as MeterReadingsCollectionWithMeterReadings)
-                                                .databaseMeterReadings.sortByOldestFirst()
-
-                                        val machineOutput = MeterTariffMachine.processMeterReadings(
-                                            collectionReadings,
-                                            selectedMeter.meterType,
-                                            selectedMeter.meterSubType
+                                    val meterReadingID: String = UUID.randomUUID()
+                                        .toString()
+                                    val now = DateUtils.now()
+                                    //Save the meter reading
+                                    dataSource.saveMeterReading(
+                                        DatabaseMeterReading(
+                                            meterReadingId = meterReadingID,
+                                            parentMeterId = selectedMeter.meterId,
+                                            parentMeterCollectionId =
+                                            unfinishedMeterReadingsCollection.meterReadingsCollectionId,
+                                            meterReading = meterReading.value?.toInt()!!,
+                                            readingDate = now
                                         )
+                                    )
 
-                                        dataSource.updateCollectionMainData(
-                                            DatabaseMeterReadingsCollectionMainDataUpdate(
-                                                meterReadingsCollectionId = unfinishedMeterReadingsCollection.meterReadingsCollectionId,
-                                                collectionCurrentSlice = machineOutput.currentSlice.meterSliceValue,
-                                                totalConsumption = machineOutput.totalConsumption,
-                                                totalCost = machineOutput.totalCost
+                                    //Update last meter reading date of meter
+
+                                    dataSource.updateMeterLastReadingDate(
+                                        DatabaseMeterLastReadingDateUpdate(
+                                            selectedMeter.meterId,
+                                            now
+                                        )
+                                    )
+
+                                    //Update the meter reading collection data
+                                    //Get Meter Readings of the collection
+                                    val result =
+                                        dataSource.getMeterReadingsOfMeterReadingsCollection(
+                                            unfinishedMeterReadingsCollection.meterReadingsCollectionId
+                                        )
+                                    when (result) {
+                                        is Result.Success<*> -> {
+
+                                            val collectionReadings =
+                                                (result.data as MeterReadingsCollectionWithMeterReadings)
+                                                    .databaseMeterReadings.sortByOldestFirst()
+
+                                            val machineOutput =
+                                                MeterTariffMachine.processMeterReadings(
+                                                    collectionReadings,
+                                                    selectedMeter.meterType,
+                                                    selectedMeter.meterSubType
+                                                )
+
+                                            dataSource.updateCollectionMainData(
+                                                DatabaseMeterReadingsCollectionMainDataUpdate(
+                                                    meterReadingsCollectionId = unfinishedMeterReadingsCollection.meterReadingsCollectionId,
+                                                    collectionCurrentSlice = machineOutput.currentSlice.meterSliceValue,
+                                                    totalConsumption = machineOutput.totalConsumption,
+                                                    totalCost = machineOutput.totalCost
+                                                )
                                             )
-                                        )
 
-                                        showLoading.postValue(false)
-                                        showToast.postValue(app.getString(R.string.meter_reading_saved))
-                                        navigationCommand.postValue(NavigationCommand.Back)
+                                            showLoading.postValue(false)
+                                            showToast.postValue(app.getString(R.string.meter_reading_saved))
+                                            navigationCommand.postValue(NavigationCommand.Back)
+                                        }
+                                        is Result.Error -> {
+                                            showLoading.postValue(false)
+                                            showSnackBar.value =
+                                                app.getString(R.string.error_general)
+                                        }
                                     }
-                                    is Result.Error -> {
-                                        showLoading.postValue(false)
-                                        showSnackBar.value = app.getString(R.string.error_general)
-                                    }
+                                } else {
+                                    showLoading.postValue(false)
+                                    showSnackBar.value = app.getString(R.string.error_general)
                                 }
-                            } else {
-                                showLoading.postValue(false)
-                                showSnackBar.value = app.getString(R.string.error_general)
-                            }
 
-                        }
-                        is Result.Error -> {
-                            showLoading.postValue(false)
-                            showSnackBar.value = allMeterCollectionsResult.message
+                            }
+                            is Result.Error -> {
+                                showLoading.postValue(false)
+                                showSnackBar.value = allMeterCollectionsResult.message
+                            }
                         }
                     }
+
+
+                    //Insert the entered meter reading
+
+
                 }
 
-
-                //Insert the entered meter reading
-
-
             }
+
+            is Result.Error -> showSnackBar.value = result.message
+
         }
 
 
     }
 
-    private fun enteredMeterReadingIsValid(): Boolean {
+    private fun enteredMeterReadingIsValid(): Result<Boolean> {
 
-        //TODO add validation, validations i can think of, meter reading should not be empty
-        //Also the meter readings should be numbers only
-        return true
+
+        if (meterReading.value.isNullOrEmpty()
+        ) return Result.Error(app.getString(R.string.please_enter_all_fields))
+
+        if (meterReading.value!!.toIntOrNull() == null)
+            return Result.Error(app.getString(R.string.please_enter_valid_readings))
+
+        return Result.Success(true)
     }
 
     fun setSelectedMeter(meter: DatabaseMeter) {

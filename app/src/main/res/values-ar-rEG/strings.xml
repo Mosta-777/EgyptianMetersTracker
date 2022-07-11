@@ -40,5 +40,8 @@
     <string name="take_meter_picture_description">التقاط صورة لهذا العداد</string>
     <string name="new_collection_started">تم بدئ مجموعة جديدة من العدادات</string>
     <string name="collector_has_arrived">اتي محصل النور هذا الشهر</string>
+    <string name="please_enter_all_fields">برجاء ادخال جميع الحقول</string>
+    <string name="please_enter_valid_readings">من فضلك ادخل قرائات عدادات سليمة</string>
+    <string name="error_reading_difference">قراءة العداد الحالية يجب انت تكون اكبر من او تساوي قراءة العداد اخر مره حضر فيها المحصل</string>
 
 </resources>

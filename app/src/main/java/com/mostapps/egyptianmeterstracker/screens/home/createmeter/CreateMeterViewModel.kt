@@ -38,11 +38,26 @@ class CreateMeterViewModel(
 
     private fun validateMeterData(): Result<Boolean> {
 
-        //TODO add any needed validation code in here
-        //Validations i am thinking of right now:
-        //1- Current reading date should be after first reading date and the difference
-        //between them shouldn't exceed 31 days max
-        //2- Difference between two readings shouldn't exceed certain limit
+        if (meterName.value.isNullOrEmpty() ||
+            firstMeterReading.value.isNullOrEmpty() ||
+            firstMeterReadingDate.value.isNullOrEmpty() ||
+            currentMeterReading.value.isNullOrEmpty()
+        ) return Result.Error(app.getString(R.string.please_enter_all_fields))
+
+
+        if (firstMeterReading.value!!.toIntOrNull() == null
+            || currentMeterReading.value!!.toIntOrNull() == null
+        )
+            return Result.Error(app.getString(R.string.please_enter_valid_readings))
+
+        val readingsDifference =
+            Integer.parseInt(currentMeterReading.value!!) - Integer.parseInt(firstMeterReading.value!!)
+
+        if (readingsDifference < 0)
+            return Result.Error(app.getString(R.string.error_reading_difference))
+
+
+        //TODO dates validations
 
         return Result.Success(true)
 
