@@ -16,7 +16,7 @@
         <entry key="app/src/main/res/layout/activity_details.xml" value="0.16210739614994935" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16210739614994935" />
         <entry key="app/src/main/res/layout/fragment_add_meter.xml" value="0.16210739614994935" />
-        <entry key="app/src/main/res/layout/fragment_add_meter_reading.xml" value="0.3591485507246377" />
+        <entry key="app/src/main/res/layout/fragment_add_meter_reading.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_collector_arrived.xml" value="0.16160081053698075" />
         <entry key="app/src/main/res/layout/fragment_meter_reading_collections_list.xml" value="0.20577617328519857" />
         <entry key="app/src/main/res/layout/fragment_meters_list.xml" value="0.15628166160081053" />

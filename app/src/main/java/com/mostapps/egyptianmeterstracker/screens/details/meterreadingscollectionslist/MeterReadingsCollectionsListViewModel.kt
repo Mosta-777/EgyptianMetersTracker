@@ -24,7 +24,6 @@ import com.mostapps.egyptianmeterstracker.utils.MeterTariffMachine
 import com.mostapps.egyptianmeterstracker.utils.Result
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent
-import java.util.*
 import kotlin.collections.ArrayList
 
 class MeterReadingsCollectionsListViewModel(

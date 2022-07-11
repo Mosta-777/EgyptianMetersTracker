@@ -9,6 +9,7 @@ import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.data.local.MetersDataSource
 import com.mostapps.egyptianmeterstracker.data.local.entites.*
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
+import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import com.mostapps.egyptianmeterstracker.utils.MeterTariffMachine
@@ -26,10 +27,31 @@ class CollectorArrivedViewModel(
     val currentMeterReading = MutableLiveData<String>()
 
     var meter: DatabaseMeter? = null
+    var lastMeterReading: DatabaseMeterReading? = null
 
 
     fun setSelectedMeter(meter: DatabaseMeter) {
         this.meter = meter
+        //Get The last meter reading of the meter to set some
+        //validations
+        showLoading.value = true
+        viewModelScope.launch {
+
+            when (val meterReadingsResult = dataSource.getMeterReadingsOfMeter(meter.meterId)) {
+                is Result.Success<*> -> {
+                    showLoading.value = false
+                    lastMeterReading =
+                        (meterReadingsResult.data as MeterWithMeterReadings).databaseMeterReadings.sortByNewestFirst()
+                            .firstOrNull()
+
+                }
+
+                is Result.Error -> {
+                    showLoading.value = false
+                    showSnackBar.value = meterReadingsResult.message
+                }
+            }
+        }
     }
 
     fun closeCurrentCollectionAndStartNewOne() {
@@ -209,6 +231,14 @@ class CollectorArrivedViewModel(
         if (readingsDifference < 0)
             return Result.Error(app.getString(R.string.error_reading_difference))
 
+        if (lastMeterReading?.meterReading == null)
+            return Result.Error(app.getString(R.string.error_general))
+
+        val collectorReadingLastReadingDifference =
+            Integer.parseInt(collectorMeterReading.value!!) - lastMeterReading!!.meterReading
+
+        if (collectorReadingLastReadingDifference < 0)
+            return  Result.Error(app.getString(R.string.error_difference_collector_reading))
 
         return Result.Success(true)
 

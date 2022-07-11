@@ -124,6 +124,10 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
         setupRecyclerView()
 
         binding.buttonCollectorArrived.setOnClickListener {
+
+            //Send last meter date and reading to the collector arrived fragment
+
+
             _viewModel.navigationCommand.postValue(
                 NavigationCommand.To(
                     MeterReadingsCollectionsListFragmentDirections.actionMeterReadingsCollectionsListFragmentToCollectorArrivedFragment()

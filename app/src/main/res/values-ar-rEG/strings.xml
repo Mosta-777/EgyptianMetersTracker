@@ -44,5 +44,6 @@
     <string name="please_enter_valid_readings">من فضلك ادخل قرائات عدادات سليمة</string>
     <string name="error_reading_difference">قراءة العداد الحالية يجب انت تكون اكبر من او تساوي قراءة العداد اخر مره حضر فيها المحصل</string>
     <string name="error_reading_must_not_exceed_last">يجب ان لا تقل قيمة القراءة الحالية عن قيمة اخر قراءة للعداد</string>
+    <string name="error_difference_collector_reading">يجب ان لا تقل قراءة العداد عند حضور المحصل عن قراءة هذا العداد الاخيرة</string>
 
 </resources>

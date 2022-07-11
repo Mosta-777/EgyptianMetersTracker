@@ -66,9 +66,11 @@ class CollectorArrivedFragment : BaseFragment() {
                 cal.get(Calendar.DAY_OF_MONTH)
             )
 
-            //Collector arrival date should be at maximum today and not 31 days before today
+            //Collector arrival date should be at maximum today
+            //and not before the date of the last recorded meter reading
             dateDialog.datePicker.maxDate = DateUtils.now().time
-            dateDialog.datePicker.minDate = DateUtils.now().time - TimeUnit.DAYS.toMillis(31)
+            dateDialog.datePicker.minDate =
+                (_viewModel.lastMeterReading?.readingDate?.time) ?: DateUtils.now().time
             dateDialog.show()
         }
 
