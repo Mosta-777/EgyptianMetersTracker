@@ -14,6 +14,7 @@ import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseInterface
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseDatabaseManager
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseStorageInterface
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseStorageManager
+import com.mostapps.egyptianmeterstracker.screens.details.collectorarrived.CollectorArrivedViewModel
 import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
 import com.mostapps.egyptianmeterstracker.screens.details.meterreadingscollectionslist.MeterReadingsCollectionsListViewModel
 import com.mostapps.egyptianmeterstracker.screens.home.add.meter.reading.AddMeterReadingViewModel
@@ -89,6 +90,13 @@ class MyApp : Application() {
 
             viewModel {
                 MeterDetailsViewModel(
+                    get(),
+                    get() as MetersDataSource
+                )
+            }
+
+            viewModel {
+                CollectorArrivedViewModel(
                     get(),
                     get() as MetersDataSource
                 )

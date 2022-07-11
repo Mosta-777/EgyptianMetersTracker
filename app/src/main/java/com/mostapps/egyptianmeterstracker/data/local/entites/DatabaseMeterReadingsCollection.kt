@@ -30,6 +30,15 @@ class DatabaseMeterReadingsCollectionMainDataUpdate(
 )
 
 
+@Entity
+class DatabaseMeterReadingsCollectionTerminationUpdate(
+    @ColumnInfo(name = "meterReadingsCollectionId") val meterReadingsCollectionId: String,
+    @ColumnInfo(name = "collectionEndDate") val collectionEndDate: Date,
+    @ColumnInfo(name = "isFinished") var isFinished: Boolean? = false
+)
+
+
+
 fun List<DatabaseMeterReadingsCollection>.sortByNewestFirst(): List<DatabaseMeterReadingsCollection> {
     return sortedByDescending { it.collectionStartDate }
 }

@@ -23,6 +23,7 @@ interface MetersDataSource {
         firstDatabaseMeterReading: DatabaseMeterReading,
         currentDatabaseMeterReading: DatabaseMeterReading
     )
+
     suspend fun updateMeterLastReadingDate(updatedLastReadingDate: DatabaseMeterLastReadingDateUpdate)
 
     suspend fun bulkInsertMetersData(vararg databaseMeter: DatabaseMeter)
@@ -36,6 +37,14 @@ interface MetersDataSource {
     suspend fun bulkInsertMeterReadingsCollections(vararg databaseMeterReadingsCollection: DatabaseMeterReadingsCollection)
     suspend fun getMeterReadingsCollections(): Result<List<DatabaseMeterReadingsCollection>>
     suspend fun updateCollectionMainData(collectionMainData: DatabaseMeterReadingsCollectionMainDataUpdate)
+    suspend fun updateCollectionIsFinished(
+        finishedCollectionCollectorReading: DatabaseMeterReading,
+        finishedCollectionTerminationData: DatabaseMeterReadingsCollectionMainDataUpdate,
+        newCollectionCollectorReading: DatabaseMeterReading,
+        newCollectionCurrentReading: DatabaseMeterReading,
+        newMeterReadingsCollection: DatabaseMeterReadingsCollection,
+        collectorArrivalDate: String
+    )
 
     //Meter Readings specific functions
     suspend fun saveMeterReading(meterReading: DatabaseMeterReading)

@@ -38,5 +38,7 @@
     <string name="error_taking_photo">حدث خطأ اثناء التقاط الصورة</string>
     <string name="take_meter_picture">التقاط صورة للعداد</string>
     <string name="take_meter_picture_description">التقاط صورة لهذا العداد</string>
+    <string name="new_collection_started">تم بدئ مجموعة جديدة من العدادات</string>
+    <string name="collector_has_arrived">اتي محصل النور هذا الشهر</string>
 
 </resources>

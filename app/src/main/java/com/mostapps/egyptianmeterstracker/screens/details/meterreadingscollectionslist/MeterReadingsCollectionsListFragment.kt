@@ -119,6 +119,16 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         setupRecyclerView()
+
+        binding.buttonCollectorArrived.setOnClickListener {
+            _viewModel.navigationCommand.postValue(
+                NavigationCommand.To(
+                    MeterReadingsCollectionsListFragmentDirections.actionMeterReadingsCollectionsListFragmentToCollectorArrivedFragment()
+                )
+            )
+        }
+
+
     }
 
 

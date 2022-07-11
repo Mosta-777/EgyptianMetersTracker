@@ -127,6 +127,29 @@ class MetersRepository(
         }
     }
 
+    override suspend fun updateCollectionIsFinished(
+        finishedCollectionCollectorReading: DatabaseMeterReading,
+        finishedCollectionTerminationData: DatabaseMeterReadingsCollectionMainDataUpdate,
+        newCollectionCollectorReading: DatabaseMeterReading,
+        newCollectionCurrentReading: DatabaseMeterReading,
+        newMeterReadingsCollection: DatabaseMeterReadingsCollection,
+        collectorArrivalDate: String
+    ) {
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                metersDao.updateCollectionIsFinished(
+                    collectorArrivalDate = collectorArrivalDate,
+                    finishedCollectionCollectorReading = finishedCollectionCollectorReading,
+                    finishedCollectionMainData = finishedCollectionTerminationData,
+                    newCollectionCollectorReading = newCollectionCollectorReading,
+                    newCollectionCurrentReading = newCollectionCurrentReading,
+                    newMeterCollection = newMeterReadingsCollection
+                )
+            }
+        }
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 

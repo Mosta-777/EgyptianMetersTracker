@@ -47,4 +47,6 @@
     <string name="error_taking_photo">Error capturing photo</string>
     <string name="take_meter_picture">Taking Meter Photo</string>
     <string name="take_meter_picture_description">Taking picture for this meter</string>
+    <string name="new_collection_started">New meter reading collection started</string>
+    <string name="collector_has_arrived">COLLECTOR ARRIVED THIS MONTH</string>
 </resources>

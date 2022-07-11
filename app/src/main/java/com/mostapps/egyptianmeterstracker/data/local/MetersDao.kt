@@ -5,6 +5,8 @@ import com.mostapps.egyptianmeterstracker.data.local.entites.*
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterReadingsCollectionWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadings
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
+import com.mostapps.egyptianmeterstracker.utils.DateUtils
+import java.util.*
 
 
 @Dao
@@ -70,6 +72,35 @@ interface MetersDao {
 
     @Update(entity = DatabaseMeterReadingsCollection::class)
     suspend fun updateCollectionMainData(updatedData: DatabaseMeterReadingsCollectionMainDataUpdate)
+
+    @Update(entity = DatabaseMeterReadingsCollection::class)
+    suspend fun updateCollectionTerminationData(updatedData: DatabaseMeterReadingsCollectionTerminationUpdate)
+
+    @Transaction
+    suspend fun updateCollectionIsFinished(
+        collectorArrivalDate: String,
+        finishedCollectionCollectorReading: DatabaseMeterReading,
+        finishedCollectionMainData: DatabaseMeterReadingsCollectionMainDataUpdate,
+        newCollectionCollectorReading: DatabaseMeterReading,
+        newCollectionCurrentReading: DatabaseMeterReading,
+        newMeterCollection: DatabaseMeterReadingsCollection
+    ) {
+        insertMeterReading(finishedCollectionCollectorReading)
+        updateCollectionMainData(finishedCollectionMainData)
+        updateCollectionTerminationData(
+            DatabaseMeterReadingsCollectionTerminationUpdate(
+                meterReadingsCollectionId = finishedCollectionMainData.meterReadingsCollectionId,
+                isFinished = true,
+                collectionEndDate = DateUtils.formatDate(
+                    collectorArrivalDate,
+                    DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
+                ) ?: Date()
+            )
+        )
+        insertMeterReading(newCollectionCollectorReading)
+        insertMeterReading(newCollectionCurrentReading)
+        insertMeterReadingsCollection(newMeterCollection)
+    }
 
 
     /////////////////////////////////////////////////////////////////////////////////
