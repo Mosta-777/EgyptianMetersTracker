@@ -2,6 +2,7 @@ package com.mostapps.egyptianmeterstracker
 
 
 import android.app.Application
+import androidx.annotation.StringRes
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -28,11 +29,19 @@ import org.koin.dsl.module
 
 class MyApp : Application() {
 
+    companion object {
+        lateinit var instance: MyApp private set
+    }
+
+    object Strings {
+        fun get(@StringRes stringRes: Int, vararg formatArgs: Any = emptyArray()): String {
+            return MyApp.instance.getString(stringRes, *formatArgs)
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
-
-
+        instance = this
         val myModule = module {
 
 

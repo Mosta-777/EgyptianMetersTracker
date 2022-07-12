@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="reading"
+            type="com.mostapps.egyptianmeterstracker.models.MeterReadingListItem" />
+    </data>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/reading_date"
+                android:layout_column="1"
+                android:gravity="center"
+                android:text="@{reading.readingDate}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/reading_value"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{reading.readingValue}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/reading_consumption"
+                android:layout_column="3"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="@{reading.consumptionFromLastReading}"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/reading_cost"
+                android:layout_weight="1"
+
+                android:layout_column="4"
+                android:gravity="center"
+                android:text="@{reading.priceFromLastReading}"
+                android:textSize="16sp" />
+
+
+        </TableRow>
+
+
+    </TableLayout>
+</layout>

@@ -238,7 +238,7 @@ class CollectorArrivedViewModel(
             Integer.parseInt(collectorMeterReading.value!!) - lastMeterReading!!.meterReading
 
         if (collectorReadingLastReadingDifference < 0)
-            return  Result.Error(app.getString(R.string.error_difference_collector_reading))
+            return Result.Error(app.getString(R.string.error_difference_collector_reading))
 
         return Result.Success(true)
 

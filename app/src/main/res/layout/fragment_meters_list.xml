@@ -35,7 +35,6 @@
                 android:id="@+id/no_data_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/ic_no_data"
                 android:fadeVisible="@{viewModel.showNoData.booleanValue()}"
                 android:gravity="center"
                 android:text="@string/no_meter_data"
@@ -43,7 +42,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:drawableTopCompat="@drawable/ic_no_data" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -58,6 +58,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_meter_or_meter_reading_fab"
+                android:contentDescription="@string/add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_normal"
@@ -78,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_add_meter"
                 app:fabSize="mini"
                 app:layout_constraintBottom_toTopOf="@+id/add_meter_or_meter_reading_fab"
                 app:layout_constraintEnd_toEndOf="@+id/add_meter_or_meter_reading_fab" />
@@ -98,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_add_reading"
                 app:fabSize="mini"
                 app:layout_constraintBottom_toTopOf="@+id/add_meter_fab"
                 app:layout_constraintEnd_toEndOf="@id/add_meter_fab"/>

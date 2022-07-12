@@ -54,4 +54,20 @@
     <string name="error_reading_difference">Current reading should be bigger or at least equals to the reading when the collector last arrived</string>
     <string name="error_reading_must_not_exceed_last">Current meter reading shouldn\'t be less than last meter reading</string>
     <string name="error_difference_collector_reading">Difference between reading when the collector arrived and the last meter reading should be equal to or greater than zero</string>
+    <string name="start_date">Start Date</string>
+    <string name="current_slice">Current Slice</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="total_consumption">Total Consumption</string>
+    <string name="date">DATE</string>
+    <string name="reading">READING</string>
+    <string name="consumption">CONSUMPTION</string>
+    <string name="cost">COST</string>
+    <string name="end_date">End Date</string>
+    <string name="slice_one">SLICE ONE</string>
+    <string name="slice_two">SLICE TWO</string>
+    <string name="slice_three">SLICE THREE</string>
+    <string name="slice_four">SLICE FOUR</string>
+    <string name="slice_five">SLICE FIVE</string>
+    <string name="slice_six">SLICE SIX</string>
+    <string name="slice_seven">SLICE SEVEN</string>
 </resources>

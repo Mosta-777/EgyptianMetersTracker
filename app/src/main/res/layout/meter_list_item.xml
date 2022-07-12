@@ -49,7 +49,7 @@
                 tools:text="@string/meter_name" />
 
             <TextView
-                android:id="@+id/endDate"
+                android:id="@+id/textViewEndDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"

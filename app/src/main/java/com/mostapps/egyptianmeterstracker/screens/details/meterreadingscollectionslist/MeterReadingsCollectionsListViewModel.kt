@@ -18,6 +18,7 @@ import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterRead
 import com.mostapps.egyptianmeterstracker.data.local.entites.relations.MeterWithMeterReadingsCollections
 import com.mostapps.egyptianmeterstracker.data.local.entites.sortByNewestFirst
 import com.mostapps.egyptianmeterstracker.data.remote.FirebaseStorageInterface
+import com.mostapps.egyptianmeterstracker.enums.MeterSlice
 import com.mostapps.egyptianmeterstracker.models.MeterReadingsCollectionListItem
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import com.mostapps.egyptianmeterstracker.utils.MeterTariffMachine
@@ -41,7 +42,8 @@ class MeterReadingsCollectionsListViewModel(
 
     var meterReadingCollections = emptyList<DatabaseMeterReadingsCollection>()
 
-    val metersReadingsCollectionListItems = MutableLiveData<List<MeterReadingsCollectionListItem>>()
+    val metersReadingsCollectionListItems =
+        MutableLiveData<MutableList<MeterReadingsCollectionListItem>>()
 
 
     private val firebaseAuthenticationManager: FirebaseAuthenticationManager
@@ -78,17 +80,23 @@ class MeterReadingsCollectionsListViewModel(
                     val dataList = ArrayList<MeterReadingsCollectionListItem>().apply {
                         addAll((meterReadingCollections).map { meterReadingCollection ->
                             MeterReadingsCollectionListItem(
+                                collectionId = meterReadingCollection.meterReadingsCollectionId,
                                 startDate = DateUtils.formatDate(
                                     meterReadingCollection.collectionStartDate,
                                     DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
                                 ) ?: "-",
-                                endDate = meterReadingCollection.collectionEndDate?.let {
+                                endDate = (meterReadingCollection.collectionEndDate?.let {
                                     DateUtils.formatDate(
                                         it,
                                         DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
                                     ) ?: "-"
-                                },
-                                currentMeterSlice = meterReadingCollection.collectionCurrentSlice
+                                }) ?: "-",
+                                currentMeterSlice = MeterSlice.getSliceStringFromSliceValue(
+                                    meterReadingCollection.collectionCurrentSlice
+                                ),
+                                totalConsumption = meterReadingCollection.totalConsumption.toString(),
+                                totalCost = meterReadingCollection.totalCost.toString(),
+                                nestedMeterReadingsListItems = emptyList()
                             )
                         })
                     }
@@ -105,12 +113,11 @@ class MeterReadingsCollectionsListViewModel(
     private fun invalidateShowNoData() {
     }
 
-    fun handleOnMeterCollectionClicked(position: Int) {
+    fun handleOnMeterCollectionClicked(selectedCollection: MeterReadingsCollectionListItem) {
         showLoading.value = true
-        val clickedMeterCollectionId = meterReadingCollections[position].meterReadingsCollectionId
         viewModelScope.launch {
             val result =
-                dataSource.getMeterReadingsOfMeterReadingsCollection(clickedMeterCollectionId)
+                dataSource.getMeterReadingsOfMeterReadingsCollection(selectedCollection.collectionId)
             showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {
@@ -118,7 +125,6 @@ class MeterReadingsCollectionsListViewModel(
                         (result.data as MeterReadingsCollectionWithMeterReadings).run {
                             databaseMeterReadings
                         }
-
 
                     /*val meterReadings = listOf<DatabaseMeterReading>(
                         DatabaseMeterReading(
@@ -185,13 +191,30 @@ class MeterReadingsCollectionsListViewModel(
                             parentMeterCollectionId = "1"
                         )
                     )*/
-
-
                     val machineOutput = MeterTariffMachine.processMeterReadings(
                         meterReadings,
                         meter.value?.meterType!!,
                         meter.value?.meterSubType!!
                     )
+                    val currentCollectionList = metersReadingsCollectionListItems.value
+                    currentCollectionList?.set(
+                        currentCollectionList.indexOf(selectedCollection),
+                        MeterReadingsCollectionListItem(
+                            collectionId = selectedCollection.collectionId,
+                            startDate = selectedCollection.startDate,
+                            endDate = selectedCollection.endDate,
+                            currentMeterSlice = MeterSlice.getSliceStringFromSliceValue(
+                                machineOutput.currentSlice.meterSliceValue
+                            ),
+                            totalConsumption = machineOutput.totalConsumption.toString(),
+                            totalCost = machineOutput.totalCost.toString(),
+                            nestedMeterReadingsListItems = machineOutput.meterReadingsListItems,
+                            isExpanded = true
+                        )
+                    )
+                    currentCollectionList?.let {
+                        metersReadingsCollectionListItems.postValue(it)
+                    }
                 }
                 is Result.Error ->
                     showSnackBar.value = result.message

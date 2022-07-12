@@ -8,14 +8,22 @@
         <variable
             name="item"
             type="com.mostapps.egyptianmeterstracker.models.MeterReadingsCollectionListItem" />
+
+        <variable
+            name="clickListener"
+            type="com.mostapps.egyptianmeterstracker.screens.details.meterreadingscollectionslist.CollectionsListener" />
+
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_medium"
-        android:fadeVisible="@{true}">
+        android:layout_margin="@dimen/padding_small"
+        android:elevation="8dp"
+        android:fadeVisible="@{true}"
+        android:onClick="@{() -> clickListener.onClick(item)}"
+        app:cardCornerRadius="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,29 +32,191 @@
 
 
             <TextView
-                android:id="@+id/startDate"
+                android:id="@+id/textViewStartDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@{item.startDate}"
+                android:text="@string/start_date"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_normal"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textViewStartDateValue"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Start Date" />
+                tools:text="@string/start_date" />
 
             <TextView
-                android:id="@+id/endDate"
+                android:id="@+id/textViewEndDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:text="@string/end_date"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textViewEndDateValue"
+                app:layout_constraintStart_toStartOf="@id/textViewStartDateLabel"
+                tools:text="@string/end_date" />
+
+            <TextView
+                android:id="@+id/textViewStartDateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{item.startDate}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="11/11/2022" />
+
+            <TextView
+                android:id="@+id/textViewEndDateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:text="@{item.endDate}"
-                android:textSize="@dimen/text_size_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewStartDateValue"
+                tools:text="7/12/2022" />
+
+            <TextView
+                android:id="@+id/textViewCurrentSliceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/current_slice"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textViewCurrentSliceValue"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewCurrentSliceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/black"
+                android:text="@{item.currentMeterSlice}"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEndDateValue"
+                tools:text="SLICE ONE" />
+
+            <TextView
+                android:id="@+id/textViewTotalCostLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/total_cost"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textViewTotalTextValue"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTotalTextValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.totalCost}"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:shadowColor="@color/black"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCurrentSliceValue"
+                tools:text="140.5 EGP" />
+
+            <TextView
+                android:id="@+id/textViewTotalConsumptionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/total_consumption"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textViewTotalConsumptionValue"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTotalConsumptionValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/black"
+                android:text="@{item.totalConsumption}"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTotalTextValue"
+                tools:text="120 KWH" />
+
+            <TableLayout
+                android:id="@+id/readingsTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:stretchColumns="*"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/startDate"
-                app:layout_constraintTop_toBottomOf="@id/startDate"
-                tools:text="End Date" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTotalConsumptionValue">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_column="1"
+                        android:gravity="center"
+                        android:text="@string/date"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_column="1"
+                        android:gravity="center"
+                        android:text="@string/reading"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_column="1"
+                        android:gravity="center"
+
+                        android:text="@string/consumption"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_column="1"
+                        android:gravity="center"
+                        android:text="@string/cost"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                </TableRow>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewReadings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+            </TableLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

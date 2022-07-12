@@ -16,20 +16,13 @@ import androidx.core.content.PermissionChecker.PERMISSION_DENIED
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.firebase.ui.auth.AuthUI
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.mostapps.egyptianmeterstracker.GlideApp
 import com.mostapps.egyptianmeterstracker.R
-import com.mostapps.egyptianmeterstracker.authentication.AuthenticationActivity
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
 import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMeterReadingCollectionsListBinding
-import com.mostapps.egyptianmeterstracker.models.MeterReadingsCollectionListItem
 import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
-import com.mostapps.egyptianmeterstracker.screens.home.meterslist.MetersListFragmentDirections
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
-import com.mostapps.egyptianmeterstracker.utils.setup
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -42,6 +35,8 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
     private val cameraPermissionCode = 1000;
     private val imageCaptureCode = 1001
     private var imageUri: Uri? = null
+    private lateinit var collectionsListAdapter: MeterReadingsCollectionListAdapter
+
 
 
     private lateinit var binding: FragmentMeterReadingCollectionsListBinding
@@ -140,11 +135,19 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
 
 
     private fun setupRecyclerView() {
-        val adapter =
-            MeterReadingsCollectionListAdapter { _: MeterReadingsCollectionListItem, position: Int ->
-                _viewModel.handleOnMeterCollectionClicked(position)
+        collectionsListAdapter =
+            MeterReadingsCollectionListAdapter (CollectionsListener { clickedItem ->
+                //Get meter readings of clicked collection, put it in the data list
+                //then submit the list again
+                _viewModel.handleOnMeterCollectionClicked(clickedItem)
+            })
+        binding.meterCollectionsRecyclerView.adapter = collectionsListAdapter
+        _viewModel.metersReadingsCollectionListItems.observe(viewLifecycleOwner) {
+            it?.let {
+                collectionsListAdapter.submitList(it)
+                collectionsListAdapter.notifyDataSetChanged()
             }
-        binding.meterCollectionsRecyclerView.setup(adapter)
+        }
     }
 
 

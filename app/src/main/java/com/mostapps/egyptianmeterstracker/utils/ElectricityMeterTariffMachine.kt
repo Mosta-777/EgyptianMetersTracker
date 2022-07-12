@@ -40,9 +40,9 @@ object ElectricityMeterTariffMachine {
             currentSlice = currentSlice,
             totalConsumption = totalConsumption,
             meterReadingsListItems = meterReadingListItem,
-            meterReadingsCost = meterReadingListItem.sumOf { it.priceFromLastReading },
+            meterReadingsCost = meterReadingListItem.sumOf { (it.priceFromLastReading).toDouble() },
             customerServiceFees = customerServiceFees,
-            totalCost = meterReadingListItem.sumOf { it.priceFromLastReading } + customerServiceFees
+            totalCost = meterReadingListItem.sumOf { (it.priceFromLastReading).toDouble() } + customerServiceFees
         )
     }
 
@@ -60,8 +60,12 @@ object ElectricityMeterTariffMachine {
                 readingsList.add(
                     MeterReadingListItem(
                         1,
-                        meterReadings[index].meterReading,
-                        0, 0.0
+                        meterReadings[index].meterReading.toString(),
+                        "0", "0.0",
+                        readingDate = DateUtils.formatDate(
+                            meterReadings[index].readingDate,
+                            DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
+                        ) ?: "-"
                     )
                 )
             } else {
@@ -85,9 +89,13 @@ object ElectricityMeterTariffMachine {
                 readingsList.add(
                     MeterReadingListItem(
                         index + 1,
-                        meterReadings[index].meterReading,
-                        currentConsumption,
-                        (currentPrice * 100.0).roundToInt() / 100.0
+                        meterReadings[index].meterReading.toString(),
+                        currentConsumption.toString(),
+                        ((currentPrice * 100.0).roundToInt() / 100.0).toString(),
+                        readingDate = DateUtils.formatDate(
+                            meterReadings[index].readingDate,
+                            DateUtils.DEFAULT_DATE_FORMAT_WITHOUT_TIME
+                        ) ?: "-"
                     )
                 )
             }
