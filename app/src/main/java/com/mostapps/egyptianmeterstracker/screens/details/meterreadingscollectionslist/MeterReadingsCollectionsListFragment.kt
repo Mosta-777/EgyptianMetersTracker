@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_DENIED
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.databinding.DataBindingUtil
@@ -83,7 +84,6 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
         }
 
         setHasOptionsMenu(true)
-        setDisplayHomeAsUpEnabled(true)
         setTitle(getString(R.string.meter_details))
 
 
@@ -156,13 +156,14 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
 
     private fun requestCameraPermission(): Boolean {
         var permissionGranted = false
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
-            val cameraPermissionNotGranted = checkSelfPermission(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val cameraPermissionNotGranted = ContextCompat.checkSelfPermission(
                 activity as Context,
                 Manifest.permission.CAMERA
             ) == PERMISSION_DENIED
             if (cameraPermissionNotGranted) {
                 val permission = arrayOf(Manifest.permission.CAMERA)
+
                 requestPermissions(permission, cameraPermissionCode)
             } else {
                 permissionGranted = true

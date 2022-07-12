@@ -33,6 +33,9 @@ interface MetersDao {
     @Query("DELETE from meters WHERE meterId = :meterId")
     suspend fun deleteMeter(meterId: String)
 
+    @Query("DELETE FROM meters WHERE meterId IN (:ids)")
+    suspend fun deleteMeters(ids: Array<String>)
+
     //////////////////////////////////////////////////////////////////////////////////
 
     //Meter Readings specific queries
@@ -48,6 +51,8 @@ interface MetersDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun bulkInsertMeterReading(vararg databaseMeterReadings: DatabaseMeterReading)
 
+    @Query("DELETE FROM meterReadings WHERE meterReadingId IN (:ids)")
+    suspend fun deleteMeterReadings(ids: Array<String>)
 
     //////////////////////////////////////////////////////////////////////////////////
 
@@ -69,6 +74,9 @@ interface MetersDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun bulkInsertMeterReadingsCollections(vararg meterReadingsCollections: DatabaseMeterReadingsCollection)
+
+    @Query("DELETE FROM meterReadingsCollection WHERE meterReadingsCollectionId IN (:ids)")
+    suspend fun deleteMeterReadingCollections(ids: Array<String>)
 
     @Update(entity = DatabaseMeterReadingsCollection::class)
     suspend fun updateCollectionMainData(updatedData: DatabaseMeterReadingsCollectionMainDataUpdate)

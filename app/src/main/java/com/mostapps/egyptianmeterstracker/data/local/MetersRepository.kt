@@ -287,8 +287,7 @@ class MetersRepository(
         uid: String
     ) {
         //Insert the meters data in database
-
-        bulkInsertMetersData(*(distinctiveRemoteMeters.asDatabaseMeterCollection()).toTypedArray())
+        bulkInsertMetersData(*(distinctiveRemoteMeters.asDatabaseMeter()).toTypedArray())
 
         //Download corresponding meter collections and meter readings for each meter
 
@@ -323,7 +322,7 @@ class MetersRepository(
         //stored data in the database
 
         bulkInsertMeterReadingsCollections(
-            *(downloadedCollectionsToInsert.asDatabaseMeterCollection()).toTypedArray()
+            *(downloadedCollectionsToInsert.asDatabaseMeterCollections()).toTypedArray()
         )
         bulkInsertMeterReadings(
             *(downloadedReadingsToInsert.asDatabaseMeterReading()).toTypedArray()

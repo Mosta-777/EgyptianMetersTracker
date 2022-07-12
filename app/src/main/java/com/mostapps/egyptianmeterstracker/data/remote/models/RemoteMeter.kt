@@ -15,7 +15,7 @@ data class RemoteMeter(
 )
 
 
-fun List<RemoteMeter>.asDatabaseMeterCollection(): List<DatabaseMeter> {
+fun List<RemoteMeter>.asDatabaseMeter(): List<DatabaseMeter> {
     return map {
         DatabaseMeter(
             meterId = it.meterId!!,
