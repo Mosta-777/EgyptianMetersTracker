@@ -23,6 +23,7 @@ import com.mostapps.egyptianmeterstracker.models.MeterReadingsCollectionListItem
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import com.mostapps.egyptianmeterstracker.utils.MeterTariffMachine
 import com.mostapps.egyptianmeterstracker.utils.Result
+import com.mostapps.egyptianmeterstracker.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent
 import kotlin.collections.ArrayList
@@ -67,11 +68,9 @@ class MeterReadingsCollectionsListViewModel(
     }
 
     private fun loadMeterCollections() {
-        showLoading.value = true
         viewModelScope.launch {
-            val result = dataSource.getMeterReadingsCollectionsOfMeter(meter.value!!.meterId)
-            showLoading.postValue(false)
-            when (result) {
+            when (val result =
+                dataSource.getMeterReadingsCollectionsOfMeter(meter.value!!.meterId)) {
                 is Result.Success<*> -> {
                     meterReadingCollections =
                         (result.data as MeterWithMeterReadingsCollections).run {
@@ -114,11 +113,9 @@ class MeterReadingsCollectionsListViewModel(
     }
 
     fun handleOnMeterCollectionClicked(selectedCollection: MeterReadingsCollectionListItem) {
-        showLoading.value = true
         viewModelScope.launch {
             val result =
                 dataSource.getMeterReadingsOfMeterReadingsCollection(selectedCollection.collectionId)
-            showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {
                     val meterReadings =
@@ -197,23 +194,30 @@ class MeterReadingsCollectionsListViewModel(
                         meter.value?.meterSubType!!
                     )
                     val currentCollectionList = metersReadingsCollectionListItems.value
-                    currentCollectionList?.set(
-                        currentCollectionList.indexOf(selectedCollection),
-                        MeterReadingsCollectionListItem(
-                            collectionId = selectedCollection.collectionId,
-                            startDate = selectedCollection.startDate,
-                            endDate = selectedCollection.endDate,
-                            currentMeterSlice = MeterSlice.getSliceStringFromSliceValue(
-                                machineOutput.currentSlice.meterSliceValue
-                            ),
-                            totalConsumption = machineOutput.totalConsumption.toString(),
-                            totalCost = machineOutput.totalCost.toString(),
-                            nestedMeterReadingsListItems = machineOutput.meterReadingsListItems,
-                            isExpanded = true
-                        )
-                    )
-                    currentCollectionList?.let {
-                        metersReadingsCollectionListItems.postValue(it)
+
+                    val index = currentCollectionList?.indexOf(selectedCollection)
+                    if (index != null || index != -1) {
+                        try {
+                            currentCollectionList?.set(
+                                index!!,
+                                MeterReadingsCollectionListItem(
+                                    collectionId = selectedCollection.collectionId,
+                                    startDate = selectedCollection.startDate,
+                                    endDate = selectedCollection.endDate,
+                                    currentMeterSlice = MeterSlice.getSliceStringFromSliceValue(
+                                        machineOutput.currentSlice.meterSliceValue
+                                    ),
+                                    totalConsumption = machineOutput.totalConsumption.toString(),
+                                    totalCost = machineOutput.totalCost.toString(),
+                                    nestedMeterReadingsListItems = machineOutput.meterReadingsListItems,
+                                    isExpanded = !selectedCollection.isExpanded
+                                )
+                            )
+                            currentCollectionList?.let {
+                                metersReadingsCollectionListItems.postValue(it)
+                            }
+                        } catch (e: Exception) {
+                        }
                     }
                 }
                 is Result.Error ->
@@ -226,13 +230,10 @@ class MeterReadingsCollectionsListViewModel(
 
     fun startMeterImageUpload(imageUri: Uri?) {
         if (imageUri != null) {
-            showLoading.value = true
             viewModelScope.launch {
                 authenticatedUser?.run {
                     storageManager.uploadImageURI(uid, meter.value!!.meterId, imageUri)
                 }
-                //TODO check why the progress bar doesn't show up
-                showLoading.value = false
 
             }
         }

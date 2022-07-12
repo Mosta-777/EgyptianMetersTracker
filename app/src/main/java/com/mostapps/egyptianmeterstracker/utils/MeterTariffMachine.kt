@@ -7,9 +7,6 @@ import com.mostapps.egyptianmeterstracker.models.MeterTariffMachineOutput
 object MeterTariffMachine {
 
 
-    //TODO arrange meter reading in ascending order in the database
-
-
     fun processMeterReadings(
         meterReadings: List<DatabaseMeterReading>,
         meterType: Int,

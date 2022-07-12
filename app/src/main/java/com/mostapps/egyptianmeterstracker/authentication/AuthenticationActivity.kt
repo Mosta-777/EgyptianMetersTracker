@@ -30,19 +30,19 @@ class AuthenticationActivity : BaseActivity() {
         findViewById<Button>(R.id.loginButton).setOnClickListener {
             startSigningInOrRegistering()
         }
-        findViewById<Button>(R.id.buttonArabic).setOnClickListener {
+        /*findViewById<Button>(R.id.buttonArabic).setOnClickListener {
             changeLanguage(isToEnglish = false)
         }
 
 
         findViewById<Button>(R.id.englishButton).setOnClickListener {
             changeLanguage(isToEnglish = true)
-        }
+        }*/
 
 
     }
 
-    private fun changeLanguage(isToEnglish: Boolean) {
+    /*private fun changeLanguage(isToEnglish: Boolean) {
         viewModel.changeAppLanguage(isToEnglish)
         val i = Intent(this, AuthenticationActivity::class.java)
         finish()
@@ -50,7 +50,7 @@ class AuthenticationActivity : BaseActivity() {
         startActivity(i)
         overridePendingTransition(0, 0)
     }
-
+*/
     private fun observeAuthenticationState() {
 
         viewModel.authenticationState.observe(this) { authenticationState: Result<FirebaseUser> ->

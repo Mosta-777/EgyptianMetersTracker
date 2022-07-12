@@ -16,6 +16,7 @@ import androidx.core.content.PermissionChecker.PERMISSION_DENIED
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.firebase.storage.StorageException
 import com.mostapps.egyptianmeterstracker.GlideApp
 import com.mostapps.egyptianmeterstracker.R
 import com.mostapps.egyptianmeterstracker.base.BaseFragment
@@ -23,6 +24,7 @@ import com.mostapps.egyptianmeterstracker.base.NavigationCommand
 import com.mostapps.egyptianmeterstracker.databinding.FragmentMeterReadingCollectionsListBinding
 import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
+import com.mostapps.egyptianmeterstracker.utils.setTitle
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,11 +34,10 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
 
     override val _viewModel: MeterReadingsCollectionsListViewModel by viewModel()
     private val parentViewModel: MeterDetailsViewModel by sharedViewModel()
-    private val cameraPermissionCode = 1000;
+    private val cameraPermissionCode = 1000
     private val imageCaptureCode = 1001
     private var imageUri: Uri? = null
     private lateinit var collectionsListAdapter: MeterReadingsCollectionListAdapter
-
 
 
     private lateinit var binding: FragmentMeterReadingCollectionsListBinding
@@ -66,7 +67,7 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding =
             DataBindingUtil.inflate(
                 inflater,
@@ -83,26 +84,28 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
 
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(true)
+        setTitle(getString(R.string.meter_details))
 
 
         parentViewModel.meter.observe(viewLifecycleOwner) { meter ->
             if (meter != null) {
                 _viewModel.setSelectedMeter(meter)
-                val storageReference = _viewModel.getMeterImageStorageReference()
-
-
-                //TODO handle the exception the exception must not appear
-
-                storageReference?.downloadUrl?.addOnSuccessListener {
-                    GlideApp.with(this)
-                        .load(storageReference)
-                        .error(R.drawable.no_photo)
-                        .placeholder(R.drawable.no_photo)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(binding.meterImageView)
-                }?.addOnFailureListener {
-                    //TODO Handle No Meter image yet
+                try {
+                    val storageReference = _viewModel.getMeterImageStorageReference()
+                    val downloadUrl = storageReference?.downloadUrl
+                    if (downloadUrl != null) {
+                        storageReference.downloadUrl.addOnSuccessListener {
+                            GlideApp.with(this)
+                                .load(storageReference)
+                                .error(R.drawable.no_photo)
+                                .placeholder(R.drawable.no_photo)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true)
+                                .into(binding.meterImageView)
+                        }
+                    }
+                }catch (e: Exception){
+                    _viewModel.showToast.value = getString(R.string.no_meter_photo_found)
                 }
             }
         }
@@ -136,7 +139,7 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         collectionsListAdapter =
-            MeterReadingsCollectionListAdapter (CollectionsListener { clickedItem ->
+            MeterReadingsCollectionListAdapter(CollectionsListener { clickedItem ->
                 //Get meter readings of clicked collection, put it in the data list
                 //then submit the list again
                 _viewModel.handleOnMeterCollectionClicked(clickedItem)
@@ -175,8 +178,8 @@ class MeterReadingsCollectionsListFragment : BaseFragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode === cameraPermissionCode) {
-            if (grantResults.size === 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == cameraPermissionCode) {
+            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCameraInterface()
             } else {
                 showAlert(getString(R.string.error_camera_permission_denied))

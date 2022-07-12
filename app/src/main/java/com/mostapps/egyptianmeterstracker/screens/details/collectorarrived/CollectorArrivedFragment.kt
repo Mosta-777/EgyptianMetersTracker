@@ -12,6 +12,7 @@ import com.mostapps.egyptianmeterstracker.databinding.FragmentCollectorArrivedBi
 import com.mostapps.egyptianmeterstracker.screens.details.meterdetails.MeterDetailsViewModel
 import com.mostapps.egyptianmeterstracker.utils.DateUtils
 import com.mostapps.egyptianmeterstracker.utils.setDisplayHomeAsUpEnabled
+import com.mostapps.egyptianmeterstracker.utils.setTitle
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -42,6 +43,7 @@ class CollectorArrivedFragment : BaseFragment() {
 
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(true)
+        setTitle(getString(R.string.collector_arrived))
 
 
         parentViewModel.meter.observe(viewLifecycleOwner) { meter ->

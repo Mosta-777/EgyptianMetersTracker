@@ -70,4 +70,9 @@
     <string name="slice_five">SLICE FIVE</string>
     <string name="slice_six">SLICE SIX</string>
     <string name="slice_seven">SLICE SEVEN</string>
+    <string name="meter_picture">Meter Photo</string>
+    <string name="error_must_sign_in">You must sign in to perform this action</string>
+    <string name="no_meter_photo_found">No photo found for this meter, click on the image to take one and upload it</string>
+    <string name="meter_details">Meter Details</string>
+    <string name="collector_arrived">Collector Arrived</string>
 </resources>

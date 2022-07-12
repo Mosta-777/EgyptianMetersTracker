@@ -56,9 +56,6 @@ class CreateMeterViewModel(
         if (readingsDifference < 0)
             return Result.Error(app.getString(R.string.error_reading_difference))
 
-
-        //TODO dates validations
-
         return Result.Success(true)
 
     }

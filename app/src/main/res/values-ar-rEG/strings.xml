@@ -61,6 +61,11 @@
     <string name="slice_five">الشريحة الخامسه</string>
     <string name="slice_six">الشريحة السادسة</string>
     <string name="slice_seven">الشريحة السابعه</string>
+    <string name="meter_picture">صورة العداد</string>
+    <string name="error_must_sign_in">يجب تسجيل الدخول اولا</string>
+    <string name="no_meter_photo_found">لا يوجد صورة لهذا العداد، اضغط لالتقاط صورة</string>
+    <string name="meter_details">تفاصيل العداد</string>
+    <string name="collector_arrived">حضر المحصل</string>
 
 
 </resources>

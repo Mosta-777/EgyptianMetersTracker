@@ -77,8 +77,7 @@ class MetersListFragment : BaseFragment() {
                                     uid = uid
                                 )
                             } == null) {
-                            //TODO ask them to login to continue syncing the data
-
+                            _viewModel.showToast.value = getString(R.string.error_must_sign_in)
                         }
 
 
@@ -93,8 +92,7 @@ class MetersListFragment : BaseFragment() {
                                     uid = uid
                                 )
                             } == null) {
-                            //TODO ask them to login to continue syncing the data
-
+                            _viewModel.showToast.value = getString(R.string.error_must_sign_in)
                         }
                     }
                     show()
@@ -199,8 +197,7 @@ class MetersListFragment : BaseFragment() {
                 if (_viewModel.authenticatedUser?.run {
                         _viewModel.startDataSyncing(uid)
                     } == null) {
-                    //TODO ask them to login to continue syncing the data
-
+                    _viewModel.showToast.value = getString(R.string.error_must_sign_in)
                 }
 
             }
