@@ -48,10 +48,6 @@ class MetersListFragment : BaseFragment() {
         setDisplayHomeAsUpEnabled(false)
         setTitle(getString(R.string.app_name))
 
-        binding.refreshLayout.setOnRefreshListener { _viewModel.loadMeters() }
-
-
-
         return binding.root
     }
 
@@ -144,10 +140,12 @@ class MetersListFragment : BaseFragment() {
         }
 
         binding.addMeterReadingFab.setOnClickListener {
+            isAllFabsVisible = false
             navigateToAddMeterReadingScreen()
         }
 
         binding.addMeterFab.setOnClickListener {
+            isAllFabsVisible = false
             navigateToAddMeterScreen()
         }
 
