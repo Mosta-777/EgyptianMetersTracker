@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "768438607190",
+    "firebase_url": "https://egyptian-meters-tracker-default-rtdb.firebaseio.com",
+    "project_id": "egyptian-meters-tracker",
+    "storage_bucket": "egyptian-meters-tracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768438607190:android:93df5962616e608a750af7",
+        "android_client_info": {
+          "package_name": "com.mostapps.egyptianmeterstracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768438607190-aji6moduhb8rh8q1p24d4ggulo2oom1b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mostapps.egyptianmeterstracker",
+            "certificate_hash": "dd0a19d32d9f56145465e0f038fcb4fb8a0ba602"
+          }
+        },
+        {
+          "client_id": "768438607190-i0lp0tqg7v9ljaja54f3e1qgcpocnr7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy5oIvgVJinl9GvOBzLIZ9aAXMsZcOO2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768438607190-i0lp0tqg7v9ljaja54f3e1qgcpocnr7j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
